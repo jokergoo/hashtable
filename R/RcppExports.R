@@ -2,198 +2,198 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 create_hash_table_int <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_int', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_int`, keys, values)
 }
 
 get_values_int <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_int', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_int`, map_xptr, keys_to_get)
 }
 
 set_values_int <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_int', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_int`, map_xptr, keys, values))
 }
 
 delete_pairs_int <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_int', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_int`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_int <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_int', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_int`, map_xptr)
 }
 
 get_all_keys_int <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_int', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_int`, map_xptr)
 }
 
 get_all_values_int <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_int', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_int`, map_xptr)
 }
 
 create_hash_table_double <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_double', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_double`, keys, values)
 }
 
 get_values_double <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_double', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_double`, map_xptr, keys_to_get)
 }
 
 set_values_double <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_double', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_double`, map_xptr, keys, values))
 }
 
 delete_pairs_double <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_double', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_double`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_double <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_double', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_double`, map_xptr)
 }
 
 get_all_keys_double <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_double', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_double`, map_xptr)
 }
 
 get_all_values_double <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_double', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_double`, map_xptr)
 }
 
 create_hash_table_string <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_string', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_string`, keys, values)
 }
 
 get_values_string <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_string', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_string`, map_xptr, keys_to_get)
 }
 
 set_values_string <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_string', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_string`, map_xptr, keys, values))
 }
 
 delete_pairs_string <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_string', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_string`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_string <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_string', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_string`, map_xptr)
 }
 
 get_all_keys_string <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_string', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_string`, map_xptr)
 }
 
 get_all_values_string <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_string', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_string`, map_xptr)
 }
 
 create_hash_table_bool <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_bool', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_bool`, keys, values)
 }
 
 get_values_bool <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_bool', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_bool`, map_xptr, keys_to_get)
 }
 
 set_values_bool <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_bool', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_bool`, map_xptr, keys, values))
 }
 
 delete_pairs_bool <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_bool', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_bool`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_bool <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_bool', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_bool`, map_xptr)
 }
 
 get_all_keys_bool <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_bool', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_bool`, map_xptr)
 }
 
 get_all_values_bool <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_bool', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_bool`, map_xptr)
 }
 
 create_hash_table_date <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_date', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_date`, keys, values)
 }
 
 get_values_date <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_date', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_date`, map_xptr, keys_to_get)
 }
 
 set_values_date <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_date', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_date`, map_xptr, keys, values))
 }
 
 delete_pairs_date <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_date', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_date`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_date <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_date', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_date`, map_xptr)
 }
 
 get_all_keys_date <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_date', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_date`, map_xptr)
 }
 
 get_all_values_date <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_date', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_date`, map_xptr)
 }
 
 create_hash_table_time <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_time', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_time`, keys, values)
 }
 
 get_values_time <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_time', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_time`, map_xptr, keys_to_get)
 }
 
 set_values_time <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_time', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_time`, map_xptr, keys, values))
 }
 
 delete_pairs_time <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_time', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_time`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_time <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_time', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_time`, map_xptr)
 }
 
 get_all_keys_time <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_time', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_time`, map_xptr)
 }
 
 get_all_values_time <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_time', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_time`, map_xptr)
 }
 
 create_hash_table_list <- function(keys, values) {
-    .Call('_hashtable_create_hash_table_list', PACKAGE = 'hashtable', keys, values)
+    .Call(`_hashtable_create_hash_table_list`, keys, values)
 }
 
 get_values_list <- function(map_xptr, keys_to_get) {
-    .Call('_hashtable_get_values_list', PACKAGE = 'hashtable', map_xptr, keys_to_get)
+    .Call(`_hashtable_get_values_list`, map_xptr, keys_to_get)
 }
 
 set_values_list <- function(map_xptr, keys, values) {
-    .Call('_hashtable_set_values_list', PACKAGE = 'hashtable', map_xptr, keys, values)
+    invisible(.Call(`_hashtable_set_values_list`, map_xptr, keys, values))
 }
 
 delete_pairs_list <- function(map_xptr, keys_to_delete) {
-    invisible(.Call('_hashtable_delete_pairs_list', PACKAGE = 'hashtable', map_xptr, keys_to_delete))
+    invisible(.Call(`_hashtable_delete_pairs_list`, map_xptr, keys_to_delete))
 }
 
 hash_table_size_list <- function(map_xptr) {
-    .Call('_hashtable_hash_table_size_list', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_hash_table_size_list`, map_xptr)
 }
 
 get_all_keys_list <- function(map_xptr) {
-    .Call('_hashtable_get_all_keys_list', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_keys_list`, map_xptr)
 }
 
 get_all_values_list <- function(map_xptr) {
-    .Call('_hashtable_get_all_values_list', PACKAGE = 'hashtable', map_xptr)
+    .Call(`_hashtable_get_all_values_list`, map_xptr)
 }
 
