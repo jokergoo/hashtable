@@ -1,0 +1,12 @@
+destination: docs
+
+navbar:
+  title: "hashtable"
+  left:
+    - text: "Benchmark"
+      href: articles/benchmark.html
+    - text: "Reference"
+      href: reference/index.html
+   
+template:
+  bootstrap: 5

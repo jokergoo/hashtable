@@ -6,7 +6,7 @@
 #include <string>
 
 template <typename TRcppVector, typename StringMap, typename TValue>
-Rcpp::XPtr<StringMap> create_hash_table(Rcpp::CharacterVector keys, TRcppVector values) {
+Rcpp::XPtr<StringMap> t_hash_table_create(Rcpp::CharacterVector keys, TRcppVector values) {
 
     StringMap* map_ptr = new StringMap();
 
@@ -27,7 +27,7 @@ Rcpp::XPtr<StringMap> create_hash_table(Rcpp::CharacterVector keys, TRcppVector 
 
 
 template <typename TRcppVector, typename StringMap>
-TRcppVector get_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys_to_get) {
+TRcppVector t_hash_table_get_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys_to_get) {
 
     StringMap* map_ptr = map_xptr.get();
 
@@ -36,28 +36,56 @@ TRcppVector get_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector key
     }
 
     TRcppVector results(keys_to_get.size());
-    Rcpp::CharacterVector result_names(keys_to_get.size());
+    // Rcpp::CharacterVector result_names(keys_to_get.size());
 
     for (R_xlen_t i = 0; i < keys_to_get.size(); ++i) {
         std::string key_str = Rcpp::as<std::string>(keys_to_get[i]);
-        result_names[i] = keys_to_get[i];
+        //result_names[i] = keys_to_get[i];
 
         auto it = map_ptr->find(key_str);
 
         if (it != map_ptr->end()) {
             results[i] = it->second;
         } else {
-            Rcpp::stop("Cannot find key");
+            Rcpp::stop("Cannot find the key.");
         }
     }
 
-    results.names() = result_names;
+    //results.names() = result_names;
 
     return results;
 }
 
+template <typename StringMap>
+Rcpp::LogicalVector t_hash_table_exists(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys) {
+
+    StringMap* map_ptr = map_xptr.get();
+
+    if (map_ptr == nullptr) {
+        Rcpp::stop("The provided external pointer is NULL (points to an invalid or finalized map).");
+    }
+
+    Rcpp::LogicalVector l(keys.size());
+
+    for (R_xlen_t i = 0; i < keys.size(); ++i) {
+        std::string key_str = Rcpp::as<std::string>(keys[i]);
+
+        auto it = map_ptr->find(key_str);
+
+        if (it != map_ptr->end()) {
+            l[i] = true;
+        } else {
+            l[i] = false;
+        }
+    }
+
+    return l;
+}
+
+
+
 template <typename TRcppVector, typename StringMap, typename TValue>
-void set_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys, TRcppVector values) {
+void t_hash_table_set_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys, TRcppVector values) {
 
 
     StringMap* map_ptr = map_xptr.get();
@@ -79,7 +107,7 @@ void set_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys, TRcp
 
 
 template <typename StringMap>
-void delete_pairs(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys_to_delete) {
+void t_hash_table_delete_pairs(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys_to_delete) {
     StringMap* map_ptr = map_xptr.get();
 
     if (map_ptr == nullptr) {
@@ -89,31 +117,43 @@ void delete_pairs(Rcpp::XPtr<StringMap> map_xptr, Rcpp::CharacterVector keys_to_
     for (R_xlen_t i = 0; i < keys_to_delete.size(); ++i) {
         std::string key_str = Rcpp::as<std::string>(keys_to_delete[i]);
 
-        map_ptr->erase(map_ptr->find(key_str));
+        auto it = map_ptr->find(key_str);
+        if (it != map_ptr->end()) {
+            map_ptr->erase(it);
+        }
     }
 
     return;
 }
 
 template <typename StringMap>
-void clear(Rcpp::XPtr<StringMap> map_xptr) {
-
+void t_hash_table_clear(Rcpp::XPtr<StringMap> map_xptr) {
+    StringMap& map = *map_xptr;
+    map.clear();
+    return;
 }
 
 template <typename StringMap>
-Rcpp::XPtr<StringMap> copy(Rcpp::XPtr<StringMap> map_xptr) {
-    
+Rcpp::XPtr<StringMap> t_hash_table_copy(Rcpp::XPtr<StringMap> map_xptr) {
+
+    const StringMap& source_map = *map_xptr;
+
+    StringMap* copy_map_ptr = new StringMap(source_map);
+
+    Rcpp::XPtr<StringMap> new_xptr(copy_map_ptr, true);
+
+    return new_xptr;
 }
 
 template <typename StringMap>
-int hash_table_size(Rcpp::XPtr<StringMap> map_xptr) {
+int t_hash_table_size(Rcpp::XPtr<StringMap> map_xptr) {
     StringMap* map_ptr = map_xptr.get();
     int size = map_ptr->size();
     return size;
 }
 
 template <typename StringMap>
-Rcpp::CharacterVector get_all_keys(Rcpp::XPtr<StringMap> map_xptr) {
+Rcpp::CharacterVector t_hash_table_get_all_keys(Rcpp::XPtr<StringMap> map_xptr) {
 
     StringMap* map_ptr = map_xptr.get();
 
@@ -134,7 +174,7 @@ Rcpp::CharacterVector get_all_keys(Rcpp::XPtr<StringMap> map_xptr) {
 }
 
 template <typename TRcppVector, typename StringMap>
-TRcppVector get_all_values(Rcpp::XPtr<StringMap> map_xptr) {
+TRcppVector t_hash_table_get_all_values(Rcpp::XPtr<StringMap> map_xptr) {
 
     StringMap* map_ptr = map_xptr.get();
 

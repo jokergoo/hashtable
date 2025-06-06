@@ -1,0 +1,6 @@
+vignettes/
+
+docs/
+.Rbuildignore
+_pkgdown.yml
+build_pkg_site.R

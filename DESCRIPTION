@@ -1,16 +1,15 @@
 Package: hashtable
 Type: Package
-Title: Hash table
+Title: Hash Table and Hash Set
 Version: 0.99.0
-Date: 2025-04-02
+Date: 2025-06-06
 Authors@R: person("Zuguang", "Gu", email = "z.gu@dkfz.de", role = c("aut", "cre"),
                   comment = c('ORCID'="0000-0002-7395-8709"))
 Depends: R (>= 4.0.0)
 Imports: Rcpp
 LinkingTo: Rcpp
-VignetteBuilder: knitr
-Description: Implementation of hash table.
-URL: https://github.com/jokergoo/hashtable
+Description: Implementation of hash table and hash set using std::unordered_map and std::unordered_set from Cpp.
+URL: https://github.com/jokergoo/hashtable, https://jokergoo.github.io/hashtable/
 BugReports: https://github.com/jokergoo/hashtable/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

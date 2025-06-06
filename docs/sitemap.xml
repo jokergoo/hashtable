@@ -1,0 +1,20 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/benchmark.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/readme.html</loc></url>
+<url><loc>/reference/as_hash_set.html</loc></url>
+<url><loc>/reference/as_hash_table.html</loc></url>
+<url><loc>/reference/hash_set.html</loc></url>
+<url><loc>/reference/hash_set_intersect_to_list.html</loc></url>
+<url><loc>/reference/hash_table.html</loc></url>
+<url><loc>/reference/high_level_functions_hash_set.html</loc></url>
+<url><loc>/reference/high_level_functions_hash_table.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/low_level_functions_hash_set.html</loc></url>
+<url><loc>/reference/low_level_functions_hash_table.html</loc></url>
+</urlset>
+
