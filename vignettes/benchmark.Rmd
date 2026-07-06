@@ -1,6 +1,6 @@
 ---
 title: "Benchmark"
-author: "Zuguang Gu ( z.gu@dkfz.de )"
+author: "Zuguang Gu ( guzuguang@suat-sz.edu.cn )"
 date: '`r Sys.Date()`'
 output: html_vignette
 ---

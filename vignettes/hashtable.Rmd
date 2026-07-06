@@ -1,6 +1,6 @@
 ---
 title: "Hash Table and Hash Set"
-author: "Zuguang Gu ( z.gu@dkfz.de )"
+author: "Zuguang Gu ( guzuguang@suat-sz.edu.cn )"
 date: '`r Sys.Date()`'
 output: rmarkdown::html_vignette
 vignette: >
