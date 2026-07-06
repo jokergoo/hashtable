@@ -1,5 +1,5 @@
 ---
-title: "Benchmark on Hash Tables and Hash Sets"
+title: "Benchmark"
 author: "Zuguang Gu ( z.gu@dkfz.de )"
 date: '`r Sys.Date()`'
 output: html_vignette
@@ -16,169 +16,566 @@ knitr::opts_chunk$set(
     fig.height = 6,
     fig.align = "center"
 )
+
+
 ```
 
+## Prepare
 
-The function `random_character_vector()` generates random character vectors.
+The function `unique_strings()` generates a vector of unique strings. It simply uses **digest** package
+to generate MD5 hashes of R objects.
 
 ```{r}
 library(hashtable)
-library(hash)
-library(fastmatch)
 library(microbenchmark)
-random_character_vector = function(k, nc = 8) {
-	unique(do.call(paste0, lapply(1:nc, function(i) {
-		sample(c(letters, LETTERS), k, replace = TRUE)
-	})))
+library(digest)
+unique_strings = function(k) {
+	sapply(seq_len(k), digest)
 }
+unique_strings(2)
 ```
 
-## Hash tables
-
-We first benchmark various methods for hash tables, i.e. giving keys returns corresponding values. 
-The following methods will be tested.
-
-1. If the input variable is a named vector, use names as indicies. It internally applies `pmatch()`.
-2. The same scenario as above, but we use `match()` which internally uses a hash table.
-3. The same scenario as above, but we use the **fastmatch** to replace `match()`.
-4. The same data is converted to a list of hashed environment.
-5. The data is converted to a `hash_table` object with the **hashtable** package.
-6. The data is converted to a `hash` object with the **hash** package, which internally implements hash with environment.
-
-
-First, we benchmark the performance of getting a single element. The total set size changes from 5,000 to 100,000.
+`bm()` is only for simplifying code demo in this document. 
 
 ```{r}
-k = seq(5000, 100000, by = 5000)
-t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(k))
-for(i in seq_along(k)) {
-	keys = random_character_vector(k[i])
-
-	# a named vector
-	values = seq_along(keys)
-	x1 = structure(values, names = keys)
-
-	lt = split(values, keys)
-	x3 = list2env(lt, hash = TRUE)
-
-	x4 = hash_table(keys = keys, values = values)
-
-	x5 = hash(keys = keys, values = values)
-
-	# characters as indicies internally calls pmatch()
-	t1[i] = mean(microbenchmark(foo = x1[[sample(keys, 1)]], times = 10)$time)
-	# match() returns integer indicies
-	t2[i] = mean(microbenchmark(foo = x1[[match(sample(keys, 1), keys)]], times = 10)$time)
-	# fmatch() also returns integer indicies
-	t3[i] = mean(microbenchmark(foo = x1[[fmatch(sample(keys, 1), keys)]], times = 10)$time)
-	# `[[` method for the environment object
-	t4[i] = mean(microbenchmark(foo = x3[[sample(keys, 1)]], times = 10)$time)
-	# `[[` method for the hash_table object
-	t5[i] = mean(microbenchmark(foo = x4[[sample(keys, 1)]], times = 10)$time)
-	# `[[` method for the hash object
-	t6[i] = mean(microbenchmark(foo = x5[[sample(keys, 1)]], times = 10)$time)
+bm = function(...) {
+	mean(microbenchmark(..., times = 25)$time)
 }
-matplot(k, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "l", lty = 1, col = 1:6, pch = 16, cex = 0.5, ylab = "microseconds")
-legend("topleft", lty = 1, col = 1:6, legend = c("names/pmatch", "match", "fastmatch", "list2env", "hash_table", "hash"))
 ```
 
-Next, we benchmark the performance of getting multiple elements.
-In this scenario, the "list2env" method is excluded since it only allows to get one single element at a time.
+There are the following packages implementing hash tables:
 
-For each set size `k`, we pick a fraction of `p` elements.
+- **hash**, using environment,
+- **hashmapR**, using C++ library `std::unordered_map`,
+- **r2r**, using environment.
+
+There are also other indirect hash table implementations:
+
+- `list2env()`, converting a list to an environment.
+- **fastmatch**, matching between two character vectors where a hash table is internally
+  computated and attached to one character vector.
+
+We compare the performance of creating, querying, deleting and inserting keys 
+of **hashtable** and other methods.
+
+## Create hash tables
+
+There are three implementations of hash tables in **hashtable**:
+
+- `hash_table()`, using C++ library `std::unordered_map`,
+- `hash_env_table()`, using environment,
+- `hash_fm_table()`, using **fastmatch**.
+
+
+We test hash tables with size from 10K keys to 100K keys.
+
+```{r}
+size = seq(10000L, 100000L, by = 10000L)
+```
+
+`list2env()` expects the input as a named list. `hashmapR::hashmap()` expects keys and values
+all specified as lists. `r2r::hashmap()` creates the hash table in two steps: create an empty
+object then fill key-value pairs. Note format preparation is not included in estimating runtime
+of benchmarking functions.
+
+
+```{r, echo = FALSE}
+size = c(1000, 5000, size)
+# for unknown reasons, the runtime estimates for the first two sizes 
+# are not accurate, so we add two sizes to `size` and remove them when making matplot
+matplot = function(x, y, ...) {
+	graphics::matplot(x[-(1:2)], y[-(1:2), , drop = FALSE], ...)
+}
+```
+
+```{r}
+t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_len(size[i])
+
+	t1[i] = bm(hash_table(keys = keys, values = values))
+	t2[i] = bm(hash_env_table(keys = keys, values = values))
+	t3[i] = bm(hash_fm_table(keys = keys, values = values))
+	
+	lt = split(values, keys)
+	t4[i] = bm(list2env(lt, hash = TRUE))
+	t5[i] = bm(hash::hash(keys = keys, values = values))
+
+	lt_keys = split(keys, keys)
+	lt_values = split(values, keys)
+	t6[i] = bm({h = hashmapR::hashmap(); h$set(lt_keys, lt_values, vectorize = TRUE)})
+	t7[i] = bm({h = r2r::hashmap(); h[keys] = values})
+}
+matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Create hash tables")
+legend("topleft", lty = 1, col = 1:7, 
+	legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
+```
+
+`hash_env_table()` is basically implemented with `list2env()` internally. However, `hash_env_table()`
+is more flexible where it allows the input as an atomic vector then the vector is internally
+converted to a list then sent to `list2env()`. If we explicitely prepare a list as input,
+the performance is basically the same between `list2env()` and `hash_env_table()`.
+
+
+```{r}
+t2 = t3 = t4 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_len(size[i])
+
+	t2[i] = bm(hash_env_table(keys = keys, values = values))
+	lt = split(values, keys)
+	t3[i] = bm(hash_env_table(keys = keys, values = lt))
+	t4[i] = bm(list2env(lt, hash = TRUE))
+}
+matplot(size, cbind(t2, t3, t4)/1000, type = "o", 
+	lty = 1, col = 2:4, pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Hash tables using environment")
+legend("topleft", lty = 1, col = 2:4, 
+	legend = c("hash_env_table, vector", "hash_env_table, list", "list2env"))
+```
+
+## Query
+
+Query a single key. Except **hashmapR**, all hash table objects created by various methods
+support `[[` index to get a single value.
+
+```{r}
+t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_along(keys)
+
+	h1 = hash_table(keys = keys, values = values)
+	h2 = hash_env_table(keys = keys, values = values)
+	h3 = hash_fm_table(keys = keys, values = values)
+	
+	lt = split(values, keys)
+	h4 = list2env(lt, hash = TRUE)
+
+	h5 = hash::hash(keys = keys, values = values)
+	
+	h6 = hashmapR::hashmap()
+	h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+
+	h7 = r2r::hashmap()
+	h7[keys] = values
+
+	t1[i] = bm(h1[[sample(keys, 1)]])
+	t2[i] = bm(h2[[sample(keys, 1)]])
+	t3[i] = bm(h3[[sample(keys, 1)]])
+	t4[i] = bm(h4[[sample(keys, 1)]])
+	t5[i] = bm(h5[[sample(keys, 1)]])
+	t6[i] = bm(h6$get(sample(keys, 1)))
+	t7[i] = bm(h7[[sample(keys, 1)]])
+}
+matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Query a single key")
+legend("topleft", lty = 1, col = 1:7, 
+	legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
+```
+
+All hash-functions have similar performance. The small difference of runtime
+is due to their specific implementations, e.g., **hashtable** implements functions using S4, so 
+it needs a little bit more steps on method dispatch.
+
+Query multiple keys. We use `mget()` to get multiple values from an environment. Many
+methods support `[` index to get multiple values.
 
 ```{r, fig.width = 10, fig.height = 10}
-k = seq(1000, 20000, by = 1000)
 par(mfrow = c(2, 2))
-for(p in c(0.05, 0.1, 0.2, 0.5)) {
-	t1 = t2 = t4 = t5 = numeric(length(k))
-	for(i in seq_along(k)) {
-		keys = random_character_vector(k[i])
-
+for(p in c(0.01, 0.1, 0.25, 0.5)) {
+	t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+	for(i in seq_along(size)) {
+		keys = unique_strings(size[i])
 		values = seq_along(keys)
-		x1 = structure(values, names = keys)
 
-		x4 = hash_table(keys = keys, values = values)
+		h1 = hash_table(keys = keys, values = values)
+		h2 = hash_env_table(keys = keys, values = values)
+		h3 = hash_fm_table(keys = keys, values = values)
+		
+		lt = split(values, keys)
+		h4 = list2env(lt, hash = TRUE)
 
-		x5 = hash(keys = keys, values = values)
+		h5 = hash::hash(keys = keys, values = values)
+		
+		h6 = hashmapR::hashmap()
+		h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
 
-		k2 = round(p*k[i])
-		t1[i] = mean(microbenchmark(foo = x1[sample(keys, k2)], times = 10)$time)
-		t2[i] = mean(microbenchmark(foo = x1[match(sample(keys, k2), keys)], times = 10)$time)
-		t3[i] = mean(microbenchmark(foo = x1[fmatch(sample(keys, k2), keys)], times = 10)$time)
-		t5[i] = mean(microbenchmark(foo = x4[sample(keys, k2)], times = 10)$time)
-		t6[i] = mean(microbenchmark(foo = x5[sample(keys, k2)], times = 10)$time)
+		h7 = r2r::hashmap()
+		h7[keys] = values
+
+		t1[i] = bm(h1[sample(keys, round(p*size[i]))])
+		t2[i] = bm(h2[sample(keys, round(p*size[i]))])
+		t3[i] = bm(h3[sample(keys, round(p*size[i]))])
+		t4[i] = bm(mget(sample(keys, round(p*size[i])), h4))
+		t5[i] = bm(h5[sample(keys, round(p*size[i]))])
+		t6[i] = bm(h6$get(sample(keys, round(p*size[i]))))
+		t7[i] = bm(h7[sample(keys, round(p*size[i]))])
 	}
-	matplot(k, cbind(t1, t2, t4, t5, t6)/1000, type = "o", lty = 1, col = c(1, 2, 4, 5, 6), pch = 16, cex = 0.5, main = paste0("p = ", p), ylab = "microseconds", xlab = "size of the set")
-	legend("topleft", lty = 1, col = c(1, 2, 4, 5, 6), legend = c("names/pmatch", "match", "fastmatch", "hash_table", "hash"))
+	matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+		lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+		xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
+	legend("topleft", lty = 1, col = 1:7, 
+		legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
 }
 ```
 
-In general, when only getting one single elements, `list2env()`, **hash** and **hashtable** performs better while `pmatch()` and `match()` have
-very bad performance. And when getting multiple elements, **hash** has a significantly bad performance, while `fastmatch()` has the best performance.
-The performance of `pmatch()` and `match()` is almost identical and it gets better when the number of elements to retrieve increases.
+**r2r** and **hash** performs badly when querying multiple keys. Remove `r2r`
+  and `hash()` and remake the last plot:
+
+```{r}
+matplot(size, cbind(t1, t2, t3, t4, t6)/1000, type = "o", 
+	lty = 1, col = c(1:4, 6), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
+legend("topleft", lty = 1, col = c(1:4, 6), 
+	legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hashmapR"))
+```
+
+**hashmapR** and `hash_fm_table()` have the best performance.
+
+## Insertion
+
+Except **hashmapR**, all hash table objects created by various methods
+support `[[<-` to set a single value. Note `hash_fm_table()` is not incluced
+because it does not allow to insert new keys.
+
+```{r}
+t1 = t2 = t4 = t5 = t6 = t7 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_along(keys)
+
+	h1 = hash_table(keys = keys, values = values)
+	h2 = hash_env_table(keys = keys, values = values)
+	
+	lt = split(values, keys)
+	h4 = list2env(lt, hash = TRUE)
+
+	h5 = hash::hash(keys = keys, values = values)
+	
+	h6 = hashmapR::hashmap()
+	h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+
+	h7 = r2r::hashmap()
+	h7[keys] = values
+	
+	t1[i] = bm(h1[[digest(rnorm(1))]] <- 1L)
+	t2[i] = bm(h2[[digest(rnorm(1))]] <- 1L)
+	t4[i] = bm(h4[[digest(rnorm(1))]] <- 1L)
+	t5[i] = bm(h5[[digest(rnorm(1))]] <- 1L)
+	t6[i] = bm(h6$set(digest(rnorm(1)), 1L))
+	t7[i] = bm(h7[[digest(rnorm(1))]] <- 1L)
+}
+matplot(size, cbind(t1, t2, t4, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = c(1:2, 4:7), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Insert a single key")
+legend("topleft", lty = 1, col = c(1:2, 4:7), 
+	legend = c("hash_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
+```
+
+## Deletion
+
+Difference methods have different interfaces to delete key-value pairs. `hash_fm_table()` is not incluced
+because it does not allow to delete keys.
+
+```{r}
+t1 = t2 = t4 = t5 = t6 = t7 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_along(keys)
+
+	h1 = hash_table(keys = keys, values = values)
+	h2 = hash_env_table(keys = keys, values = values)
+	
+	lt = split(values, keys)
+	h4 = list2env(lt, hash = TRUE)
+
+	h5 = hash::hash(keys = keys, values = values)
+	
+	h6 = hashmapR::hashmap()
+	h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+
+	h7 = r2r::hashmap()
+	h7[keys] = values
+	
+	t1[i] = bm(hash_delete(h1, sample(keys, 1)))
+	t2[i] = bm(hash_delete(h2, sample(keys, 1)))
+	t4[i] = bm(rm(list = sample(keys, 1), h4))
+	t5[i] = bm(hash::delete(sample(keys, 1), h5))
+	t6[i] = bm(h6$remove(sample(keys, 1)))
+	t7[i] = bm(r2r::delete(h7, sample(keys, 1)))
+}
+matplot(size, cbind(t1, t2, t4, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = c(1:2, 4:7), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Delete a single key")
+legend("left", lty = 1, col = c(1:2, 4:7), 
+	legend = c("hash_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
+```
+
+`list2env()` performs obviously bad.
+
+## Compare to match-family functions
+
+People may think named vectors (including lists) behave like hashes.
+
+```{r}
+vec = c("foo" = 1, "bar" = 2)
+vec
+vec[["foo"]]
+
+lt = list("foo" = 1, "bar" = "text")
+lt$foo
+```
+
+Actually they are not. Names are just normal character vectors, but attached to the object as an attributes.
+
+```{r}
+attributes(vec)
+attributes(lt)
+```
+
+So using names as indices basically does matching in the "names" attributes.
+
+There are following match-family functions:
+
+- `pmatch()`, used in `names()`, `$`, `[[`, `[`,
+- `match()`, used in `%in%`, `intersect()`, `unique()`, `duplicated()`,
+- `fastmatch::fastmatch()`, a faster version of `match()`, synonyms functions are `fmatch()` and `%fin%`,
+- `data.table::chmatch()`, also a faster version of `match()`, synonyms functions are `chmatch()` and `%chin%`.
+
+`pmatch()` means partial matching. It matches elements if substrings can be uniquely mapped.
+
+In **hashtable**, the function `hash_fm_table()` is internally implemented with `fastmatch::fastmatch()`, 
+but providing a more convenient interface.
+
+```{r}
+library(fastmatch)
+library(data.table)
+t1 = t2 = t3 = t4 = t5 = t6 = t7 = t8 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
+	values = seq_along(keys)
+
+	x = structure(values, names = keys)
+
+	h1 = hash_table(keys = keys, values = values)
+	h2 = hash_env_table(keys = keys, values = values)
+	h3 = hash_fm_table(keys = keys, values = values)
+
+	t1[i] = bm(h1[[sample(keys, 1)]])
+	t2[i] = bm(h2[[sample(keys, 1)]])
+	t3[i] = bm(h3[[sample(keys, 1)]])
+
+	h4 = hashmapR::hashmap()
+    h4$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+    t4[i] = bm(h4$get(sample(keys, 1)))
+
+	t5[i] = bm(x[[sample(keys, 1)]])
+	t6[i] = bm(x[[match(sample(keys, 1), keys)]])
+	t7[i] = bm(x[[fmatch(sample(keys, 1), keys)]])
+	t8[i] = bm(x[[chmatch(sample(keys, 1), keys)]])
+}
+matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7, t8)/1000, type = "o", 
+	lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Query a single key, match-family")
+legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
+	legend = c("hash_table", "hash_env_table", "hash_fm_table", "hashmapR", "pmatch/names", "match", "fmatch", "chmatch"))
+```
+
+We can see hash-family functions have time complexity of $O(1)$, `pmatch()`, `match()` and `chmatch()` have $O(n)$.
+
+Next query multiple keys with match-family functions.
+
+```{r, fig.width = 10, fig.height = 10}
+par(mfrow = c(2, 2))
+for(p in c(0.01, 0.1, 0.25, 0.5)) {
+	t1 = t2 = t3 = t4 = t5 = t6 = t7 = t8 = numeric(length(size))
+	for(i in seq_along(size)) {
+		keys = unique_strings(size[i])
+		values = seq_along(keys)
+
+		x = structure(values, names = keys)
+
+		h1 = hash_table(keys = keys, values = values)
+		h2 = hash_env_table(keys = keys, values = values)
+		h3 = hash_fm_table(keys = keys, values = values)
+
+		t1[i] = bm(h1[sample(keys, round(p*size[i]))])
+		t2[i] = bm(h2[sample(keys, round(p*size[i]))])
+		t3[i] = bm(h3[sample(keys, round(p*size[i]))])
+
+		h4 = hashmapR::hashmap()
+	    h4$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+	    t4[i] = bm(h4$get(sample(keys, round(p*size[i]))))
+			
+		t5[i] = bm(x[sample(keys, round(p*size[i]))])
+		t6[i] = bm(x[match(sample(keys, round(p*size[i])), keys)])
+		t7[i] = bm(x[fmatch(sample(keys, round(p*size[i])), keys)])
+		t8[i] = bm(x[chmatch(sample(keys, round(p*size[i])), keys)])
+	}
+	matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7, t8)/1000, type = "o", 
+		lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+		xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
+	legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
+		legend = c("hash_table", "hash_env_table", "hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+}
+```
+
+We can see when the proportion of keys to query increases, the performance of match-family functions improves.
+We remake the last plot removing `hash_table()` and `hash_env_table()`.
+
+```{r}
+matplot(size, cbind(t3, t4, t5, t6, t7, t8)/1000, type = "o", 
+	lty = 1, col = c(3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
+legend("topleft", lty = 1, col = c(3, 6, 4, 5, 7, 8), 
+	legend = c("hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+```
+
+`fmatch()` and `hash_fm_table()` have the best performance.
 
 
 ## Hash set
 
-Hash set is basically very similar as hash table. The only difference is for hash table, there are values associated with keys, while
-for hash set, there are only keys.
+Hash set is basically very similar as hash table. The only difference is for
+hash table, there are values associated with keys, while for hash set, there
+are only keys.
 
-We use a real world example with 20K genes and a list of 15K gene sets, as overlapping gene sets to genes is a common
-task in Bioinformatics.
-
-```{r}
-load("test.Rdata") # gs and pc_genes
-length(pc_genes)
-length(gs)
-```
-
-First, we test the performance of getting a single element in the global gene list. The size of the global gene list changes from 1,000 to 20,000.
-We test `match()`, `fmatch()`, hash table and the hash set. Note `match()` is used for other match functions such as `intersect()` and `%in%` in R.
+We first test querying a single key, which is to test whether the key exists in the hash set.
 
 ```{r}
-k = seq(1000, 20000, by = 1000)
-for(i in seq_along(k)) {
-	keys = sample(pc_genes, k[i])
+t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+for(i in seq_along(size)) {
+	keys = unique_strings(size[i])
 
 	h1 = hash_set(keys)
-	h2 = hash_table(keys, seq_along(keys))
+	h2 = hash_env_set(keys)
+	h3 = hash_fm_set(keys)
+	h4 = r2r::hashset(keys)
 
-	t1[i] = mean(microbenchmark(foo = match(sample(keys, 1), keys), times = 10)$time)
-	t2[i] = mean(microbenchmark(foo = fmatch(sample(keys, 1), keys), times = 10)$time)
-	t3[i] = mean(microbenchmark(foo = hash_set_exists(h1, sample(keys, 1)), times = 10)$time)
-	t4[i] = mean(microbenchmark(foo = hash_table_exists(h2, sample(keys, 1)), times = 10)$time)
+	t1[i] = bm(h1[[sample(keys, 1)]])
+	t2[i] = bm(h2[[sample(keys, 1)]])
+	t3[i] = bm(h3[[sample(keys, 1)]])
+	t4[i] = bm(h4[[sample(keys, 1)]])
+
+	t5[i] = bm(match(sample(keys, 1), keys))
+	t6[i] = bm(fmatch(sample(keys, 1), keys))
+	t7[i] = bm(chmatch(sample(keys, 1), keys))
 }
-matplot(k, cbind(t1, t2, t3, t4)/1000, type = "o", lty = 1, col = 1:4, pch = 16, cex = 0.5, ylab = "microseconds", xlab = "size of the set")
-legend("topleft", lty = 1, col = 1:4, legend = c("match", "fastmatch", "hash_set", "hash_table"))
+matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Query a single key")
+legend("topleft", lty = 1, col = 1:7, 
+	legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
 ```
 
-Next, we benchmark the performance of overlapping gene sets to the global gene list.
+`match()` and `chmatch()` are not hash-functions. We remove them and remake last plot.
 
-```{r, fig.width = 10, fig.height = 5}
-t1 = t2 = t3 = t4 = t5 = numeric(length(k))
-for(i in seq_along(k)) {
-	keys = sample(pc_genes, k[i])
-
-	h1 = hash_set(keys)
-	h2 = hash_table(keys, seq_along(keys))
-
-	# %in% is basically the same as match()
-	t1[i] = microbenchmark(foo = lapply(gs, function(x) x[x %in% keys]), times = 1)$time
-	# %fin$ is basically the same as fmatch()
-	t2[i] = microbenchmark(foo = lapply(gs, function(x) x[x %fin% keys]), times = 1)$time
-	t3[i] = microbenchmark(foo = lapply(gs, function(x) x[hash_set_exists(h1, x)]), times = 1)$time
-	t4[i] = microbenchmark(foo = lapply(gs, function(x) x[hash_table_exists(h2, x)]), times = 1)$time
-}
-par(mfrow = c(1, 2))
-matplot(k, cbind(t1, t2, t3, t4)/1e6, type = "o", lty = 1, col = 1:5, pch = 16, cex = 0.5, ylab = "miliseconds", xlab = "size of the set")
-legend("topleft", lty = 1, col = 1:4, legend = c("match", "fastmatch", "hash_set", "hash_table"))
-
-# we remove the line for `match()`
-matplot(k, cbind(t2, t3, t4)/1e6, type = "o", lty = 1, col = 2:4, pch = 16, cex = 0.5, ylab = "miliseconds", xlab = "size of the set", ylim = c(0, max(t4)/1e6*1.05))
-legend("topleft", lty = 1, col = 2:4, legend = c("fastmatch", "hash_set", "hash_table"))
+```{r}
+matplot(size, cbind(t1, t2, t3, t4, t6)/1000, type = "o", 
+	lty = 1, col = c(1:4, 6), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = "Query a single key")
+legend("topleft", lty = 1, col = c(1:4, 6), 
+	legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "fastmatch"))
 ```
 
+Next query multiple keys.
 
-We can see for matching single element from the set, `hash_set()` and `hash_table()` have the best performance. When matching
-to multiple elements from the set, `match()` has the worst performance compared to others. `fmatch()`/`%fin%` is the most efficient.
+```{r, fig.width = 10, fig.height = 10}
+par(mfrow = c(2, 2))
+for(p in c(0.01, 0.1, 0.25, 0.5)) {
+	t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+	for(i in seq_along(size)) {
+		keys = unique_strings(size[i])
+
+		h1 = hash_set(keys)
+		h2 = hash_env_set(keys)
+		h3 = hash_fm_set(keys)
+		h4 = r2r::hashset(keys)
+
+		t1[i] = bm(h1[sample(keys, round(p*size[i]))])
+		t2[i] = bm(h2[sample(keys, round(p*size[i]))])
+		t3[i] = bm(h3[sample(keys, round(p*size[i]))])
+		t4[i] = bm(h4[sample(keys, round(p*size[i]))])
+
+		t5[i] = bm(match(sample(keys, round(p*size[i])), keys))
+		t6[i] = bm(fmatch(sample(keys, round(p*size[i])), keys))
+		t7[i] = bm(chmatch(sample(keys, round(p*size[i])), keys))
+	}
+	matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+		lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+		xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
+	legend("topleft", lty = 1, col = 1:7, 
+		legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
+}
+```
+
+Remove `r2r`, `hash_env_set()` and `hash_set()` and remake the last plot.
+
+```{r}
+matplot(size, cbind(t3, t5, t6, t7)/1000, type = "o", 
+	lty = 1, col = c(3, 5, 6, 7), pch = 16, cex = 0.5, 
+	xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
+legend("topleft", lty = 1, col = c(3, 5, 6, 7), 
+	legend = c("hash_fm_set", "match", "fastmatch", "chmatch"))
+```
+
+As expected, `fmatch()` and `hash_fm_table()` have the best performance.
+
+## Compare hash tables and hash sets
+
+In **hashtable**, hash tables and hash sets are implements similarly in the three implementations.
+
+```{r}
+t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
+for(i in seq_along(size)) {
+    keys = unique_strings(size[i])
+    values = seq_len(size[i])
+
+    h1 = hash_table(keys = keys, values = values)
+    h2 = hash_env_table(keys = keys, values = values)
+    h3 = hash_fm_table(keys = keys, values = values)
+
+    h11 = hash_set(keys = keys)
+    h21 = hash_env_set(keys = keys)
+    h31 = hash_fm_set(keys = keys)
+    
+    p = 0.1
+    t1[i] = bm(h1[sample(keys, round(p*size[i]))])
+    t2[i] = bm(h2[sample(keys, round(p*size[i]))])
+    t3[i] = bm(h3[sample(keys, round(p*size[i]))])
+    t4[i] = bm(h11[sample(keys, round(p*size[i]))])
+    t5[i] = bm(h21[sample(keys, round(p*size[i]))])
+    t6[i] = bm(h31[sample(keys, round(p*size[i]))])
+}
+matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+    lty = c(1:2, 1:2, 1:2), col = c(1:3, 1:3), pch = 16, cex = 0.5, 
+    xlab = "size", ylab = "microseconds", main = "Query multiple keys")
+legend("topleft", lty = c(1:2, 1:2, 1:2), col = c(1:3, 1:3), 
+    legend = c("hash_table", "hash_env_table", "hash_fm_table", "hash_set", "hash_env_set", "hash_fm_set"))
+```
+
+## Summarize
+
+For creating hash tables, use **hashtable**. `list2env()` is also fast, but
+you need to convert the values into a list in advance.
+
+For querying single keys, all hash-functions are fast, but the runtime 
+of `pmatch()`, `match()` and `chmatch()` increases linearly to the size of the data.
+
+For querying multiple keys, `hash_fm_set()` and `fmatch()` is fast. If hash
+tables are changable, then `chmatch()` and **hashmapR** can be considered as replacement.
+
+For inserting new keys, all hash-functions are similar.
+
+For deleting keys, `list2env()` (which uses `rm()`) is relatively slow, other functions are similar.
+
+
+```{r}
+sessionInfo()
+```

@@ -2,25 +2,80 @@
 % Please edit documentation in R/hash_table.R
 \name{hash_table}
 \alias{hash_table}
-\alias{hash_table_empty}
-\title{Hash table}
+\alias{hash_values,hash_unordered_map-method}
+\alias{hash_exists,hash_unordered_map-method}
+\alias{hash_insert,hash_unordered_map-method}
+\alias{hash_delete,hash_unordered_map-method}
+\alias{hash_size,hash_unordered_map-method}
+\alias{length.hash_unordered_map}
+\alias{hash_keys,hash_unordered_map-method}
+\alias{hash_copy,hash_unordered_map-method}
+\alias{[[.hash_unordered_map}
+\alias{[.hash_unordered_map}
+\alias{$.hash_unordered_map}
+\alias{[[<-.hash_unordered_map}
+\alias{[<-.hash_unordered_map}
+\alias{$<-.hash_unordered_map}
+\alias{show,hash_unordered_map-method}
+\alias{as.hash_table}
+\alias{as.hash_table.default}
+\alias{as.vector.hash_unordered_map}
+\alias{as.list.hash_unordered_map}
+\title{Hash table implemented by std::unordered_map}
 \usage{
 hash_table(keys, values)
 
-hash_table_empty(cl)
+\S4method{hash_values}{hash_unordered_map}(h, keys = NULL)
+
+\S4method{hash_exists}{hash_unordered_map}(h, keys)
+
+\S4method{hash_insert}{hash_unordered_map}(h, keys, values)
+
+\S4method{hash_delete}{hash_unordered_map}(h, keys)
+
+\S4method{hash_size}{hash_unordered_map}(h)
+
+\method{length}{hash_unordered_map}(x)
+
+\S4method{hash_keys}{hash_unordered_map}(h)
+
+\S4method{hash_copy}{hash_unordered_map}(h)
+
+\method{[[}{hash_unordered_map}(x, i)
+
+\method{[}{hash_unordered_map}(x, i)
+
+\method{$}{hash_unordered_map}(x, name)
+
+\method{[[}{hash_unordered_map}(x, i) <- value
+
+\method{[}{hash_unordered_map}(x, i) <- value
+
+\method{$}{hash_unordered_map}(x, name) <- value
+
+\S4method{show}{hash_unordered_map}(object)
+
+as.hash_table(x)
+
+\method{as.hash_table}{default}(x)
+
+\method{as.vector}{hash_unordered_map}(x, mode = "any")
+
+\method{as.list}{hash_unordered_map}(x, ...)
 }
 \arguments{
-\item{keys}{Keys as a character vector.}
+\item{keys}{A character vector. Keys should have no duplicates.}
 
-\item{values}{Values. It supports vectors in the following classes: integer, logical, numeric, character, Date, POSIXct and list (i.e. a list of R objects).}
+\item{values}{An atomic vector or a list.}
 
-\item{cl}{One of "integer", "logical", "numeric", "character", "Date", "POSIXct" and "Robj".}
-}
-\value{
-A \code{hash_table} object.
+\item{h, x, object}{A \code{hash_unordered_map} object returned by \code{hash_table()}.}
+
+\item{i, name, value}{Keys and values.}
+
+\item{mode, ...}{Please ignore.}
 }
 \description{
-Hash table
+Hash table implemented by std::unordered_map
 }
 \examples{
 hash_table(c("a", "b"), 1:2L)
@@ -31,12 +86,18 @@ hash_table(c("a", "b"), as.Date(c("2025-01-01", "2025-02-01")))
 hash_table(c("a", "b"), as.POSIXct(c("2025-01-01 00:00:01", "2025-02-01 00:00:01")))
 hash_table(c("a", "b"), list(1:10, letters))
 
-# a nested hash table
-h = hash_table_empty("Robj")
-h$a = hash_table_empty("Robj")
-h$a$b = hash_table("c", 1L)
-h$a$b$c
-hash_table_empty("integer")
-hash_table_empty("character")
-hash_table_empty("Robj")
+h = hash_table(letters, 1:26)
+hash_keys(h)
+hash_values(h)
+hash_exists(h, c("a", "b", "foo"))
+hash_delete(h, letters[1:20]); h
+hash_insert(h, "foo", 100L) 
+
+h = hash_table(letters, 1:26)
+h$a
+h[["a"]]
+h[c("a", "b")]
+
+as.vector(h)
+as.list(h)
 }

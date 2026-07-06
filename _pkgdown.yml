@@ -3,6 +3,8 @@ destination: docs
 navbar:
   title: "hashtable"
   left:
+    - text: "Introduction"
+      href: articles/hashtable.html
     - text: "Benchmark"
       href: articles/benchmark.html
     - text: "Reference"

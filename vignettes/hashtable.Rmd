@@ -1,0 +1,225 @@
+---
+title: "Hash Table and Hash Set"
+author: "Zuguang Gu ( z.gu@dkfz.de )"
+date: '`r Sys.Date()`'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hash Table and Hash Set}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The **hashtable** packages provides three implementations of hash tables and hash maps:
+
+1. using `std::unordered_map` and `std::unordered_set` from C++, in functions `hash_table()` and `hash_set()`,
+2. using environment in R, in functions `hash_env_table()` and `hash_env_set()`,
+3. using the **fastmatch** package, in functions `hash_fm_table()` and `hash_fm_set()`.
+
+They share the same user interface.
+
+
+## Hash table
+
+Three ways to create hash tables:
+
+```{r}
+library(hashtable)
+h1 = hash_table(letters, 1:26)
+h2 = hash_env_table(letters, 1:26)
+h3 = hash_fm_table(letters, 1:26)
+h1
+h2
+h3
+```
+
+The user interfaces for the three methods are the same. We only demonstrate using `h1`.
+
+Get all keys:
+
+```{r}
+hash_keys(h1)
+```
+
+Get all values:
+
+```{r}
+hash_values(h1)
+```
+
+Get a subset of values by specifying keys:
+
+```{r}
+hash_values(h1, c("a", "b", "c"))
+```
+
+Get a single value using `$`, `[[` or `[`:
+
+```{r}
+h1$a
+h1[["a"]]
+h1[c("a", "b")]
+```
+
+Test whether keys are in the hash table:
+
+```{r}
+hash_exists(h1, c("a", "b", "foo"))
+```
+
+Delete key-value pairs:
+
+```{r}
+hash_delete(h1, c("a", "b"))
+hash_exists(h1, c("a", "b"))
+```
+
+Insert new key-value pairs, or modify key-value pairs if they already exist:
+
+```{r}
+hash_insert(h1, "c", 100L); h1$c
+hash_insert(h1, "c", -1L); h1$c
+hash_insert(h1, "foo", 0L); h1$foo
+```
+
+
+Insert or modify key-value pairs using `$<-`, `[[<-` or `[<-`:
+
+```{r}
+h1$a = 20L; h1$a
+h1[["bar"]] = -100L; h1$bar
+h1[c("c", "d", "e")] = c(-1L, -2L, -3L); h1[c("c", "d", "e")]
+```
+
+In previous examples, values are atomic vectors. It is basically the same if values are more general list.
+
+```{r}
+h1 = hash_table(c("a", "b"), list(1L, "text"))
+h1
+h1$c = 3.14
+h1$d = lm(1~1) # an lm object
+h1
+```
+
+Convert between hash table and named vector or list:
+
+```{r}
+h1 = hash_table(c("a", "b"), 1:2)
+as.vector(h1)
+
+h1 = hash_table(c("a", "b"), list(1L, "text"))
+as.vector(h1)
+
+vec = structure(1:2, names = c("a", "b"))
+as.hash_table(vec)
+
+lt = structure(list(1L, "text"), names = c("a", "b"))
+as.hash_table(lt)
+```
+
+## Hash set
+
+Hash sets are hash tables with no value associated. There are also three ways to create hash sets.
+
+
+```{r}
+h1 = hash_set(letters)
+h2 = hash_env_set(letters)
+h3 = hash_fm_set(letters)
+h1
+```
+
+Get all keys:
+
+```{r}
+hash_keys(h1)
+```
+
+Hash set has no value associated, so calling `hash_value()` throws an error.
+
+```{r, error = TRUE}
+hash_values(h1)
+```
+
+Test whether keys are in the hash set:
+
+
+```{r}
+hash_exists(h1, c("a", "foo"))
+```
+
+Add new keys:
+
+```{r}
+hash_insert(h1, "foo")
+hash_exists(h1, "foo")
+```
+
+Delete keys:
+
+```{r}
+hash_delete(h1, "foo")
+hash_exists(h1, "foo")
+```
+
+Hash sets are basically used to test whether keys exist, so we let `$`, `[[` and `[` to return
+`TRUE` or `FALSE` to represent whether keys exist.
+
+```{r}
+h1$a
+h1[["a"]]
+h1$foo
+h1[c("a", "b", "foo")]
+```
+
+If assigning `TRUE`, new keys are added to the hash set (if they do not exist), and if assigning `FALSE`,
+corresponding keys are deleted.
+
+```{r}
+h1$a = FALSE
+hash_exists(h1, "a")
+h1$foo = TRUE
+hash_exists(h1, "foo")
+```
+
+Convert between vectors (where elements are unique) and hash sets:
+
+```{r}
+as.vector(h1)
+as.hash_set(letters)
+```
+
+## hash_fm_table and hash_fm_set
+
+Although sharing the same user interface, the hash table created by `hash_fm_table()` allows
+to modify the values if corresponding keys already exist.
+
+```{r, error = TRUE}
+h = hash_fm_table(letters, 1:26)
+h$a = 100L
+```
+
+But it does not allow to delete or create 
+key-value pairs. 
+
+```{r, error = TRUE}
+h$foo = 1L  # insert new key foo
+hash_delete(h, "a")
+```
+
+The hash set created by `hash_fm_set()` does not allow to delete or create keys.
+
+```{r, error = TRUE}
+h = hash_fm_set(letters)
+h$a = FALSE
+h$foo = TRUE
+```
+
+## Benchmark
+
+See https://jokergoo.github.io/hashtable/articles/benchmark.html.
+
+## Session info
+
+```{r}
+sessionInfo()
+```

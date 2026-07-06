@@ -2,27 +2,83 @@
 % Please edit documentation in R/hash_set.R
 \name{hash_set}
 \alias{hash_set}
-\alias{hash_set_empty}
-\title{Hash set}
+\alias{hash_exists,hash_unordered_set-method}
+\alias{hash_insert,hash_unordered_set-method}
+\alias{hash_delete,hash_unordered_set-method}
+\alias{hash_size,hash_unordered_set-method}
+\alias{hash_copy,hash_unordered_set-method}
+\alias{hash_keys,hash_unordered_set-method}
+\alias{hash_values,hash_unordered_set-method}
+\alias{[[.hash_unordered_set}
+\alias{[.hash_unordered_set}
+\alias{$.hash_unordered_set}
+\alias{[[<-.hash_unordered_set}
+\alias{[<-.hash_unordered_set}
+\alias{$<-.hash_unordered_set}
+\alias{length.hash_unordered_set}
+\alias{show,hash_unordered_set-method}
+\alias{as.hash_set}
+\alias{as.hash_set.default}
+\alias{as.vector.hash_unordered_set}
+\title{Hash set implemented by std::unordered_set}
 \usage{
 hash_set(keys)
 
-hash_set_empty(cl)
+\S4method{hash_exists}{hash_unordered_set}(h, keys)
+
+\S4method{hash_insert}{hash_unordered_set}(h, keys)
+
+\S4method{hash_delete}{hash_unordered_set}(h, keys)
+
+\S4method{hash_size}{hash_unordered_set}(h)
+
+\S4method{hash_copy}{hash_unordered_set}(h)
+
+\S4method{hash_keys}{hash_unordered_set}(h)
+
+\S4method{hash_values}{hash_unordered_set}(h, keys = NULL)
+
+\method{[[}{hash_unordered_set}(x, i)
+
+\method{[}{hash_unordered_set}(x, i)
+
+\method{$}{hash_unordered_set}(x, name)
+
+\method{[[}{hash_unordered_set}(x, i) <- value
+
+\method{[}{hash_unordered_set}(x, i) <- value
+
+\method{$}{hash_unordered_set}(x, name) <- value
+
+\method{length}{hash_unordered_set}(x)
+
+\S4method{show}{hash_unordered_set}(object)
+
+as.hash_set(x)
+
+\method{as.hash_set}{default}(x)
+
+\method{as.vector}{hash_unordered_set}(x, mode = "any")
 }
 \arguments{
-\item{keys}{An integer vector or a character vector where all elements are unique.}
+\item{keys}{Normally a character vector, but \code{hash_set()} also allows to use an integer vector as keys.}
 
-\item{cl}{One of "integer" and "character".}
-}
-\value{
-A \code{hash_set} object.
+\item{h, x, object}{A \code{hash_unordered_set} object returned by \code{hash_set()}.}
+
+\item{i, name, value}{Keys and values.}
+
+\item{mode}{Please ignore.}
 }
 \description{
-Hash set
+Hash set implemented by std::unordered_set
 }
 \examples{
-hash_set(letters)
-hash_set(1:10)
-hash_set_empty("integer")
-hash_set_empty("character")
+h = hash_set(letters)
+hash_exists(h, c("a", "b", "foo"))
+hash_insert(h, "foo")
+hash_delete(h, "foo")
+h$a
+h$foo
+
+as.hash_set(letters)
 }

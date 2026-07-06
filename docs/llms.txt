@@ -1,0 +1,164 @@
+# Hash Table and Hash Set
+
+The **hashtable** packages provides three implementations of hash tables
+and hash maps:
+
+1.  using `std::unordered_map` and `std::unordered_set` from C++, in
+    functions [`hash_table()`](reference/hash_table.md) and
+    [`hash_set()`](reference/hash_set.md),
+2.  using environment in R, in functions
+    [`hash_env_table()`](reference/hash_env.md) and
+    [`hash_env_set()`](reference/hash_env.md),
+3.  using the **fastmatch** package, in functions
+    [`hash_fm_table()`](reference/hash_fm.md) and
+    [`hash_fm_set()`](reference/hash_fm.md).
+
+They share the same user interface.
+
+## Install
+
+``` r
+
+library(devtools)
+install_github("jokergoo/hashtable")
+```
+
+## Usage
+
+### Hash table
+
+    library(hashtable)
+    h1 = hash_table(letters, 1:26)
+    h2 = hash_env_table(letters, 1:26)
+    h3 = hash_fm_table(letters, 1:26)
+    h1
+    ## A hash table [hash_unordered_map] with 26 key-value (integer) pairs
+    ##   v => 22
+    ##   u => 21
+    ##   z => 26
+    ##   ......
+    ##   b => 2
+    ##   w => 23
+    ##   a => 1
+
+### Hash set
+
+    h1 = hash_set(letters)
+    h2 = hash_env_set(letters)
+    h3 = hash_fm_set(letters)
+    h1
+    ## A hash set [hash_unordered_set] with 26 keys (character)
+
+## Benchmark
+
+See <https://jokergoo.github.io/hashtable/articles/benchmark.html>.
+
+## License
+
+MIT @ Zuguang Gu
+
+# Package index
+
+## All functions
+
+- [`generic`](generic.md) [`hash_copy`](generic.md)
+  [`hash_delete`](generic.md) [`hash_exists`](generic.md)
+  [`hash_insert`](generic.md) [`hash_keys`](generic.md)
+  [`hash_size`](generic.md) [`hash_values`](generic.md) : Generic
+  functions
+- [`hash_env_table()`](hash_env.md) [`hash_env_set()`](hash_env.md)
+  [`hash_exists(`*`<hash_env>`*`)`](hash_env.md)
+  [`hash_delete(`*`<hash_env>`*`)`](hash_env.md)
+  [`hash_insert(`*`<hash_env_table>`*`)`](hash_env.md)
+  [`hash_insert(`*`<hash_env_set>`*`)`](hash_env.md)
+  [`hash_size(`*`<hash_env>`*`)`](hash_env.md)
+  [`length(`*`<hash_env>`*`)`](hash_env.md)
+  [`hash_keys(`*`<hash_env>`*`)`](hash_env.md)
+  [`hash_values(`*`<hash_env_table>`*`)`](hash_env.md)
+  [`hash_values(`*`<hash_env_set>`*`)`](hash_env.md)
+  [`hash_copy(`*`<hash_env>`*`)`](hash_env.md)
+  [`` `[[`( ``*`<hash_env>`*`)`](hash_env.md)
+  [`` `[[<-`( ``*`<hash_env_table>`*`)`](hash_env.md)
+  [`` `[`( ``*`<hash_env>`*`)`](hash_env.md)
+  [`` `[<-`( ``*`<hash_env_table>`*`)`](hash_env.md)
+  [`` `$`( ``*`<hash_env>`*`)`](hash_env.md)
+  [`` `$<-`( ``*`<hash_env_table>`*`)`](hash_env.md)
+  [`` `[[<-`( ``*`<hash_env_set>`*`)`](hash_env.md)
+  [`` `[<-`( ``*`<hash_env_set>`*`)`](hash_env.md)
+  [`` `$<-`( ``*`<hash_env_set>`*`)`](hash_env.md)
+  [`as.hash_env()`](hash_env.md)
+  [`as.vector(`*`<hash_env_set>`*`)`](hash_env.md)
+  [`as.vector(`*`<hash_env_table>`*`)`](hash_env.md)
+  [`as.list(`*`<hash_env_table>`*`)`](hash_env.md)
+  [`show(`*`<hash_env_table>`*`)`](hash_env.md)
+  [`show(`*`<hash_env_set>`*`)`](hash_env.md) : Hash table and hash set
+  implemented by environment
+- [`hash_fm_table()`](hash_fm.md) [`hash_fm_set()`](hash_fm.md)
+  [`hash_exists(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`hash_delete(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`hash_size(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`length(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`hash_keys(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`hash_values(`*`<hash_fm_table>`*`)`](hash_fm.md)
+  [`hash_values(`*`<hash_fm_set>`*`)`](hash_fm.md)
+  [`hash_insert(`*`<hash_fm_table>`*`)`](hash_fm.md)
+  [`hash_insert(`*`<hash_fm_set>`*`)`](hash_fm.md)
+  [`hash_copy(`*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `[[`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `[[<-`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `[`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `[<-`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `$`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`` `$<-`( ``*`<hash_fm>`*`)`](hash_fm.md)
+  [`as.hash_fm()`](hash_fm.md)
+  [`as.vector(`*`<hash_fm_set>`*`)`](hash_fm.md)
+  [`as.vector(`*`<hash_fm_table>`*`)`](hash_fm.md)
+  [`show(`*`<hash_fm_table>`*`)`](hash_fm.md)
+  [`show(`*`<hash_fm_set>`*`)`](hash_fm.md) : Hash table and hash set
+  implemented by fastmatch
+- [`hash_set()`](hash_set.md)
+  [`hash_exists(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_insert(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_delete(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_size(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_copy(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_keys(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`hash_values(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `[[`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `[`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `$`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `[[<-`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `[<-`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`` `$<-`( ``*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`length(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`show(`*`<hash_unordered_set>`*`)`](hash_set.md)
+  [`as.hash_set()`](hash_set.md)
+  [`as.vector(`*`<hash_unordered_set>`*`)`](hash_set.md) : Hash set
+  implemented by std::unordered_set
+- [`hash_table()`](hash_table.md)
+  [`hash_values(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_exists(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_insert(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_delete(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_size(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`length(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_keys(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`hash_copy(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `[[`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `[`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `$`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `[[<-`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `[<-`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`` `$<-`( ``*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`show(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`as.hash_table()`](hash_table.md)
+  [`as.vector(`*`<hash_unordered_map>`*`)`](hash_table.md)
+  [`as.list(`*`<hash_unordered_map>`*`)`](hash_table.md) : Hash table
+  implemented by std::unordered_map
+
+# Articles
+
+### All vignettes
+
+- [Benchmark](benchmark.md):
+- [Hash Table and Hash Set](hashtable.md):

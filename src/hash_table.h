@@ -47,7 +47,7 @@ TRcppVector t_hash_table_get_values(Rcpp::XPtr<StringMap> map_xptr, Rcpp::Charac
         if (it != map_ptr->end()) {
             results[i] = it->second;
         } else {
-            Rcpp::stop("Cannot find the key.");
+            Rcpp::stop("Cannot find the key: %s.", key_str);
         }
     }
 

@@ -24,8 +24,12 @@ test_that("Test integer values", {
 	expect_equal(h$a, FALSE)
 
 	h[c("b", "c", "d")] = FALSE
-	expect_equal(length(h), 21)
+	expect_equal(length(h), 22)
 	expect_equal(h[c("b", "c", "d")], c(FALSE, FALSE, FALSE))
+
+	h$z = NULL
+	expect_equal(length(h), 21)
+	expect_equal(h$z, FALSE)
 
 	expect_error(h$a <- 1)
 	h$a = TRUE
@@ -33,24 +37,24 @@ test_that("Test integer values", {
 
 
 	h = hash_set(letters)
-	expect_equal(hash_set_keys(h), letters)
-	expect_true(hash_set_exists(h, "a"))
+	expect_true(setequal(hash_keys(h), letters))
+	expect_true(hash_exists(h, "a"))
 
-	hash_set_insert(h, "aa")
-	expect_true(hash_set_exists(h, "aa"))
+	hash_insert(h, "aa")
+	expect_true(hash_exists(h, "aa"))
 
-	hash_set_delete(h, "aa")
-	expect_false(hash_set_exists(h, "aa"))
+	hash_delete(h, "aa")
+	expect_false(hash_exists(h, "aa"))
 
 	h = hash_set(letters)
-	h2 = hash_set_copy(h)
-	hash_set_clear(h)
-	expect_equal(length(h), 0)
-	expect_equal(length(h2), 26)
+	h2 = hash_copy(h)
+	expect_equal(length(h2), length(h))
+	expect_true(setequal(hash_keys(h), hash_keys(h2)))
+
 })
 
-test_that("Test delete keys that do not exist", {
-	h = hash_set("a")
-	h$b = FALSE
+test_that("Test as functions", {
+	h = as.hash_set(letters)
+	expect_true(setequal(hash_keys(h), letters))
+	expect_true(setequal(as.vector(h), letters))
 })
-
