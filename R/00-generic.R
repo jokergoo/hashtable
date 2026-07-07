@@ -28,6 +28,5 @@ setGeneric('hash_copy', function(h) standardGeneric('hash_copy'))
 #' - `hash_delete(h, keys)`: deletes keys.
 #' - `hash_copy(h)`: makes a copy of the hash table or hash set.
 #' 
-#' They can be used on the hash object created by [`hash_table()`], [`hash_set()`], [`hash_env_table()`],
-#' [`hash_env_set()`], [`hash_fm_table()`] and [`hash_fm_set()`].
+#' They can be used on the hash object created by [`hash_table()`], [`hash_set()`], [`hash_fm_table()`] and [`hash_fm_set()`].
 NULL

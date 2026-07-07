@@ -94,5 +94,5 @@ h$foo
 #> [1] FALSE
 
 as.hash_set(letters)
-#> A hash set [hash_unordered_set] with 26 keys (character)
+#> A hash set [hash_unordered_set] with 26 keys
 ```

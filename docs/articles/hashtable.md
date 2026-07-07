@@ -1,15 +1,12 @@
 # Hash Table and Hash Set
 
-The **hashtable** packages provides three implementations of hash tables
+The **hashtable** packages provides two implementations of hash tables
 and hash maps:
 
 1.  using `std::unordered_map` and `std::unordered_set` from C++, in
     functions [`hash_table()`](../reference/hash_table.md) and
     [`hash_set()`](../reference/hash_set.md),
-2.  using environment in R, in functions
-    [`hash_env_table()`](../reference/hash_env.md) and
-    [`hash_env_set()`](../reference/hash_env.md),
-3.  using the **fastmatch** package, in functions
+2.  using the **fastmatch** package, in functions
     [`hash_fm_table()`](../reference/hash_fm.md) and
     [`hash_fm_set()`](../reference/hash_fm.md).
 
@@ -23,37 +20,22 @@ Three ways to create hash tables:
 
 library(hashtable)
 h1 = hash_table(letters, 1:26)
-h2 = hash_env_table(letters, 1:26)
-h3 = hash_fm_table(letters, 1:26)
+h2 = hash_fm_table(letters, 1:26)
 h1
 ```
 
     ## A hash table [hash_unordered_map] with 26 key-value (integer) pairs
-    ##   v => 22
-    ##   u => 21
     ##   z => 26
+    ##   y => 25
+    ##   w => 23
     ##   ......
     ##   b => 2
-    ##   w => 23
+    ##   g => 7
     ##   a => 1
 
 ``` r
 
 h2
-```
-
-    ## A hash table [hash_env_table] with 26 key-value (integer) pairs
-    ##   i => 9
-    ##   j => 10
-    ##   k => 11
-    ##   ......
-    ##   f => 6
-    ##   g => 7
-    ##   h => 8
-
-``` r
-
-h3
 ```
 
     ## A hash table [hash_fm_table] with 26 key-value (integer) pairs
@@ -65,7 +47,7 @@ h3
     ##   y => 25
     ##   z => 26
 
-The user interfaces for the three methods are the same. We only
+The user interfaces for the two methods are the same. We only
 demonstrate using `h1`.
 
 Get all keys:
@@ -75,8 +57,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "v" "u" "z" "t" "s" "r" "q" "p" "n" "m" "o" "l" "x" "k" "j" "h" "y" "g" "f"
-    ## [20] "d" "e" "c" "i" "b" "w" "a"
+    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
+    ## [20] "f" "e" "d" "c" "b" "g" "a"
 
 Get all values:
 
@@ -85,7 +67,7 @@ Get all values:
 hash_values(h1)
 ```
 
-    ##  [1] 22 21 26 20 19 18 17 16 14 13 15 12 24 11 10  8 25  7  6  4  5  3  9  2 23
+    ##  [1] 26 25 23 21 20 18 17 16 14 24 19 13 12 11 10 15  9 22  8  6  5  4  3  2  7
     ## [26]  1
 
 Get a subset of values by specifying keys:
@@ -208,8 +190,8 @@ h1
 
     ## A hash table [hash_unordered_map] with 4 key-value (list) pairs
     ##   d => complex value (lm)
-    ##   b => character [1] text
     ##   c => numeric [1] 3.14
+    ##   b => character [1] text
     ##   a => integer [1] 1
 
 Convert between hash table and named vector or list:
@@ -263,12 +245,11 @@ ways to create hash sets.
 ``` r
 
 h1 = hash_set(letters)
-h2 = hash_env_set(letters)
-h3 = hash_fm_set(letters)
+h2 = hash_fm_set(letters)
 h1
 ```
 
-    ## A hash set [hash_unordered_set] with 26 keys (character)
+    ## A hash set [hash_unordered_set] with 26 keys
 
 Get all keys:
 
@@ -277,8 +258,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "v" "u" "z" "t" "s" "r" "q" "p" "n" "m" "o" "l" "x" "k" "j" "h" "y" "g" "f"
-    ## [20] "d" "e" "c" "i" "b" "w" "a"
+    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
+    ## [20] "f" "e" "d" "c" "b" "g" "a"
 
 Hash set has no value associated, so calling `hash_value()` throws an
 error.
@@ -378,16 +359,16 @@ Convert between vectors (where elements are unique) and hash sets:
 as.vector(h1)
 ```
 
-    ##  [1] "v"   "u"   "z"   "t"   "s"   "r"   "q"   "p"   "n"   "m"   "o"   "l"  
-    ## [13] "x"   "k"   "j"   "h"   "foo" "y"   "g"   "f"   "d"   "e"   "c"   "i"  
-    ## [25] "b"   "w"
+    ##  [1] "z"   "y"   "w"   "u"   "t"   "r"   "q"   "foo" "p"   "n"   "x"   "s"  
+    ## [13] "m"   "l"   "k"   "j"   "o"   "i"   "v"   "h"   "f"   "e"   "d"   "c"  
+    ## [25] "b"   "g"
 
 ``` r
 
 as.hash_set(letters)
 ```
 
-    ## A hash set [hash_unordered_set] with 26 keys (character)
+    ## A hash set [hash_unordered_set] with 26 keys
 
 ## hash_fm_table and hash_fm_set
 

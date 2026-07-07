@@ -28,7 +28,7 @@ setClass("hash_fm_table", contains = "hash_fm")
 #' h$a
 #' try(h$a <- 2L)
 #' 
-#' h = hash_env_set(letters)
+#' h = hash_fm_set(letters)
 #' hash_exists(h, "a")
 hash_fm_table = function(keys, values) {
 	

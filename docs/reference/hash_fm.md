@@ -117,7 +117,7 @@ h$a
 #> [1] 1
 try(h$a <- 2L)
 
-h = hash_env_set(letters)
+h = hash_fm_set(letters)
 hash_exists(h, "a")
 #> [1] TRUE
 ```

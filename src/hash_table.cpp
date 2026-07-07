@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include <unordered_map>
 
-#include "hash_table.h"
+#include "hash.h"
 
 //========= IntegerVector
 

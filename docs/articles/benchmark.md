@@ -45,11 +45,10 @@ keys of **hashtable** and other methods.
 
 ## Create hash tables
 
-There are three implementations of hash tables in **hashtable**:
+There are two implementations of hash tables in **hashtable**:
 
 - [`hash_table()`](../reference/hash_table.md), using C++ library
   `std::unordered_map`,
-- [`hash_env_table()`](../reference/hash_env.md), using environment,
 - [`hash_fm_table()`](../reference/hash_fm.md), using **fastmatch**.
 
 We test hash tables with size from 10K keys to 100K keys.
@@ -70,63 +69,34 @@ benchmarking functions.
 
 ``` r
 
-t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_len(size[i])
 
     t1[i] = bm(hash_table(keys = keys, values = values))
-    t2[i] = bm(hash_env_table(keys = keys, values = values))
-    t3[i] = bm(hash_fm_table(keys = keys, values = values))
+    t2[i] = bm(hash_fm_table(keys = keys, values = values))
     
     lt = split(values, keys)
-    t4[i] = bm(list2env(lt, hash = TRUE))
-    t5[i] = bm(hash::hash(keys = keys, values = values))
+    parent_env = emptyenv()
+    t3[i] = bm(list2env(lt, hash = TRUE, parent = parent_env))
+    t4[i] = bm(hash::hash(keys = keys, values = values))
 
     lt_keys = split(keys, keys)
     lt_values = split(values, keys)
-    t6[i] = bm({h = hashmapR::hashmap(); h$set(lt_keys, lt_values, vectorize = TRUE)})
-    t7[i] = bm({h = r2r::hashmap(); h[keys] = values})
+    t5[i] = bm({h = hashmapR::hashmap(); h$set(lt_keys, lt_values, vectorize = TRUE)})
+    t6[i] = bm({h = r2r::hashmap(); h[keys] = values})
 }
-matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = 1:6, pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Create hash tables")
-legend("topleft", lty = 1, col = 1:7, 
-    legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
+legend("topleft", lty = 1, col = 1:6, 
+    legend = c("hash_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
 ```
 
 ![](benchmark_files/figure-html/unnamed-chunk-6-1.png)
 
-[`hash_env_table()`](../reference/hash_env.md) is basically implemented
-with [`list2env()`](https://rdrr.io/r/base/list2env.html) internally.
-However, [`hash_env_table()`](../reference/hash_env.md) is more flexible
-where it allows the input as an atomic vector then the vector is
-internally converted to a list then sent to
-[`list2env()`](https://rdrr.io/r/base/list2env.html). If we explicitely
-prepare a list as input, the performance is basically the same between
-[`list2env()`](https://rdrr.io/r/base/list2env.html) and
-[`hash_env_table()`](../reference/hash_env.md).
-
-``` r
-
-t2 = t3 = t4 = numeric(length(size))
-for(i in seq_along(size)) {
-    keys = unique_strings(size[i])
-    values = seq_len(size[i])
-
-    t2[i] = bm(hash_env_table(keys = keys, values = values))
-    lt = split(values, keys)
-    t3[i] = bm(hash_env_table(keys = keys, values = lt))
-    t4[i] = bm(list2env(lt, hash = TRUE))
-}
-matplot(size, cbind(t2, t3, t4)/1000, type = "o", 
-    lty = 1, col = 2:4, pch = 16, cex = 0.5, 
-    xlab = "size", ylab = "microseconds", main = "Hash tables using environment")
-legend("topleft", lty = 1, col = 2:4, 
-    legend = c("hash_env_table, vector", "hash_env_table, list", "list2env"))
-```
-
-![](benchmark_files/figure-html/unnamed-chunk-7-1.png)
+Obviously, **hashtable** is the fastest to create hash tables.
 
 ## Query
 
@@ -135,42 +105,40 @@ by various methods support `[[` index to get a single value.
 
 ``` r
 
-t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_along(keys)
 
     h1 = hash_table(keys = keys, values = values)
-    h2 = hash_env_table(keys = keys, values = values)
-    h3 = hash_fm_table(keys = keys, values = values)
+    h2 = hash_fm_table(keys = keys, values = values)
     
     lt = split(values, keys)
-    h4 = list2env(lt, hash = TRUE)
+    h3 = list2env(lt, hash = TRUE, parent = emptyenv())
 
-    h5 = hash::hash(keys = keys, values = values)
+    h4 = hash::hash(keys = keys, values = values)
     
-    h6 = hashmapR::hashmap()
-    h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+    h5 = hashmapR::hashmap()
+    h5$set(split(keys, keys), split(values, keys), vectorize = TRUE)
 
-    h7 = r2r::hashmap()
-    h7[keys] = values
+    h6 = r2r::hashmap()
+    h6[keys] = values
 
     t1[i] = bm(h1[[sample(keys, 1)]])
     t2[i] = bm(h2[[sample(keys, 1)]])
     t3[i] = bm(h3[[sample(keys, 1)]])
     t4[i] = bm(h4[[sample(keys, 1)]])
-    t5[i] = bm(h5[[sample(keys, 1)]])
-    t6[i] = bm(h6$get(sample(keys, 1)))
-    t7[i] = bm(h7[[sample(keys, 1)]])
+    t5[i] = bm(h5$get(sample(keys, 1)))
+    t6[i] = bm(h6[[sample(keys, 1)]])
 }
-matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = 1:6, pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query a single key")
-legend("topleft", lty = 1, col = 1:7, 
-    legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
+legend("topleft", lty = 1, col = 1:6, 
+    legend = c("hash_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-8-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-7-1.png)
 
 All hash-functions have similar performance. The small difference of
 runtime is due to their specific implementations, e.g., **hashtable**
@@ -185,60 +153,57 @@ index to get multiple values.
 
 par(mfrow = c(2, 2))
 for(p in c(0.01, 0.1, 0.25, 0.5)) {
-    t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+    t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
     for(i in seq_along(size)) {
         keys = unique_strings(size[i])
         values = seq_along(keys)
 
         h1 = hash_table(keys = keys, values = values)
-        h2 = hash_env_table(keys = keys, values = values)
-        h3 = hash_fm_table(keys = keys, values = values)
+        h2 = hash_fm_table(keys = keys, values = values)
         
         lt = split(values, keys)
-        h4 = list2env(lt, hash = TRUE)
+        h3 = list2env(lt, hash = TRUE, parent = emptyenv())
 
-        h5 = hash::hash(keys = keys, values = values)
+        h4 = hash::hash(keys = keys, values = values)
         
-        h6 = hashmapR::hashmap()
-        h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+        h5 = hashmapR::hashmap()
+        h5$set(split(keys, keys), split(values, keys), vectorize = TRUE)
 
-        h7 = r2r::hashmap()
-        h7[keys] = values
+        h6 = r2r::hashmap()
+        h6[keys] = values
 
         t1[i] = bm(h1[sample(keys, round(p*size[i]))])
         t2[i] = bm(h2[sample(keys, round(p*size[i]))])
-        t3[i] = bm(h3[sample(keys, round(p*size[i]))])
-        t4[i] = bm(mget(sample(keys, round(p*size[i])), h4))
-        t5[i] = bm(h5[sample(keys, round(p*size[i]))])
-        t6[i] = bm(h6$get(sample(keys, round(p*size[i]))))
-        t7[i] = bm(h7[sample(keys, round(p*size[i]))])
+        t3[i] = bm(mget(sample(keys, round(p*size[i])), h3))
+        t4[i] = bm(h4[sample(keys, round(p*size[i]))])
+        t5[i] = bm(h5$get(sample(keys, round(p*size[i]))))
+        t6[i] = bm(h6[sample(keys, round(p*size[i]))])
     }
-    matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-        lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+    matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+        lty = 1, col = 1:6, pch = 16, cex = 0.5, 
         xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-    legend("topleft", lty = 1, col = 1:7, 
-        legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
+    legend("topleft", lty = 1, col = 1:6, 
+        legend = c("hash_table", "hash_fm_table", "list2env", "hash", "hashmapR", "r2r"))
 }
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-9-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-8-1.png)
 
 **r2r** and **hash** performs badly when querying multiple keys. Remove
-`r2r` and `hash()` and remake the last plot:
+`r2r`, `hash()` also
+[`list2env()`](https://rdrr.io/r/base/list2env.html) and remake the last
+plot:
 
 ``` r
 
-matplot(size, cbind(t1, t2, t3, t4, t6)/1000, type = "o", 
-    lty = 1, col = c(1:4, 6), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t5)/1000, type = "o", 
+    lty = 1, col = c(1:2, 5), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-legend("topleft", lty = 1, col = c(1:4, 6), 
-    legend = c("hash_table", "hash_env_table", "hash_fm_table", "list2env", "hashmapR"))
+legend("topleft", lty = 1, col = c(1:2, 5), 
+    legend = c("hash_table", "hash_fm_table", "hashmapR"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-10-1.png)
-
-**hashmapR** and [`hash_fm_table()`](../reference/hash_fm.md) have the
-best performance.
+![](benchmark_files/figure-html/unnamed-chunk-9-1.png)
 
 ## Insertion
 
@@ -249,40 +214,38 @@ does not allow to insert new keys.
 
 ``` r
 
-t1 = t2 = t4 = t5 = t6 = t7 = numeric(length(size))
+t1 = t3 = t4 = t5 = t6 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_along(keys)
 
     h1 = hash_table(keys = keys, values = values)
-    h2 = hash_env_table(keys = keys, values = values)
     
     lt = split(values, keys)
-    h4 = list2env(lt, hash = TRUE)
+    h3 = list2env(lt, hash = TRUE, parent = emptyenv())
 
-    h5 = hash::hash(keys = keys, values = values)
+    h4 = hash::hash(keys = keys, values = values)
     
-    h6 = hashmapR::hashmap()
-    h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+    h5 = hashmapR::hashmap()
+    h5$set(split(keys, keys), split(values, keys), vectorize = TRUE)
 
-    h7 = r2r::hashmap()
-    h7[keys] = values
+    h6 = r2r::hashmap()
+    h6[keys] = values
     
     t1[i] = bm(h1[[digest(rnorm(1))]] <- 1L)
-    t2[i] = bm(h2[[digest(rnorm(1))]] <- 1L)
+    t3[i] = bm(h3[[digest(rnorm(1))]] <- 1L)
     t4[i] = bm(h4[[digest(rnorm(1))]] <- 1L)
-    t5[i] = bm(h5[[digest(rnorm(1))]] <- 1L)
-    t6[i] = bm(h6$set(digest(rnorm(1)), 1L))
-    t7[i] = bm(h7[[digest(rnorm(1))]] <- 1L)
+    t5[i] = bm(h5$set(digest(rnorm(1)), 1L))
+    t6[i] = bm(h6[[digest(rnorm(1))]] <- 1L)
 }
-matplot(size, cbind(t1, t2, t4, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = c(1:2, 4:7), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t3, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = c(1, 3:6), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Insert a single key")
-legend("topleft", lty = 1, col = c(1:2, 4:7), 
-    legend = c("hash_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
+legend("topleft", lty = 1, col = c(1, 3:6), 
+    legend = c("hash_table", "list2env", "hash", "hashmapR", "r2r"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-11-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-10-1.png)
 
 ## Deletion
 
@@ -292,40 +255,38 @@ does not allow to delete keys.
 
 ``` r
 
-t1 = t2 = t4 = t5 = t6 = t7 = numeric(length(size))
+t1 = t3 = t4 = t5 = t6 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_along(keys)
 
     h1 = hash_table(keys = keys, values = values)
-    h2 = hash_env_table(keys = keys, values = values)
     
     lt = split(values, keys)
-    h4 = list2env(lt, hash = TRUE)
+    h3 = list2env(lt, hash = TRUE, parent = emptyenv())
 
-    h5 = hash::hash(keys = keys, values = values)
+    h4 = hash::hash(keys = keys, values = values)
     
-    h6 = hashmapR::hashmap()
-    h6$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+    h5 = hashmapR::hashmap()
+    h5$set(split(keys, keys), split(values, keys), vectorize = TRUE)
 
-    h7 = r2r::hashmap()
-    h7[keys] = values
+    h6 = r2r::hashmap()
+    h6[keys] = values
     
     t1[i] = bm(hash_delete(h1, sample(keys, 1)))
-    t2[i] = bm(hash_delete(h2, sample(keys, 1)))
-    t4[i] = bm(rm(list = sample(keys, 1), h4))
-    t5[i] = bm(hash::delete(sample(keys, 1), h5))
-    t6[i] = bm(h6$remove(sample(keys, 1)))
-    t7[i] = bm(r2r::delete(h7, sample(keys, 1)))
+    t3[i] = bm(rm(list = sample(keys, 1), h3))
+    t4[i] = bm(hash::delete(sample(keys, 1), h4))
+    t5[i] = bm(h5$remove(sample(keys, 1)))
+    t6[i] = bm(r2r::delete(h6, sample(keys, 1)))
 }
-matplot(size, cbind(t1, t2, t4, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = c(1:2, 4:7), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t3, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = c(1, 3:6), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Delete a single key")
-legend("left", lty = 1, col = c(1:2, 4:7), 
-    legend = c("hash_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
+legend("left", lty = 1, col = c(1, 3:6), 
+    legend = c("hash_table", "list2env", "hash", "hashmapR", "r2r"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-12-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-11-1.png)
 
 [`list2env()`](https://rdrr.io/r/base/list2env.html) performs obviously
 bad.
@@ -412,7 +373,7 @@ but providing a more convenient interface.
 
 library(fastmatch)
 library(data.table)
-t1 = t2 = t3 = t4 = t5 = t6 = t7 = t8 = numeric(length(size))
+t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_along(keys)
@@ -420,30 +381,28 @@ for(i in seq_along(size)) {
     x = structure(values, names = keys)
 
     h1 = hash_table(keys = keys, values = values)
-    h2 = hash_env_table(keys = keys, values = values)
-    h3 = hash_fm_table(keys = keys, values = values)
+    h2 = hash_fm_table(keys = keys, values = values)
 
     t1[i] = bm(h1[[sample(keys, 1)]])
     t2[i] = bm(h2[[sample(keys, 1)]])
-    t3[i] = bm(h3[[sample(keys, 1)]])
 
-    h4 = hashmapR::hashmap()
-    h4$set(split(keys, keys), split(values, keys), vectorize = TRUE)
-    t4[i] = bm(h4$get(sample(keys, 1)))
+    h3 = hashmapR::hashmap()
+    h3$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+    t3[i] = bm(h3$get(sample(keys, 1)))
 
-    t5[i] = bm(x[[sample(keys, 1)]])
-    t6[i] = bm(x[[match(sample(keys, 1), keys)]])
-    t7[i] = bm(x[[fmatch(sample(keys, 1), keys)]])
-    t8[i] = bm(x[[chmatch(sample(keys, 1), keys)]])
+    t4[i] = bm(x[[sample(keys, 1)]])
+    t5[i] = bm(x[[match(sample(keys, 1), keys)]])
+    t6[i] = bm(x[[fmatch(sample(keys, 1), keys)]])
+    t7[i] = bm(x[[chmatch(sample(keys, 1), keys)]])
 }
-matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7, t8)/1000, type = "o", 
-    lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+    lty = 1, col = c(1:2, 5, 3, 4, 6, 7), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query a single key, match-family")
-legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-    legend = c("hash_table", "hash_env_table", "hash_fm_table", "hashmapR", "pmatch/names", "match", "fmatch", "chmatch"))
+legend("topleft", lty = 1, col = c(1:2, 5, 3, 4, 6, 7), 
+    legend = c("hash_table", "hash_fm_table", "hashmapR", "pmatch/names", "match", "fmatch", "chmatch"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-15-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-14-1.png)
 
 We can see hash-family functions have time complexity of $`O(1)`$,
 [`pmatch()`](https://rdrr.io/r/base/pmatch.html),
@@ -457,7 +416,7 @@ Next query multiple keys with match-family functions.
 
 par(mfrow = c(2, 2))
 for(p in c(0.01, 0.1, 0.25, 0.5)) {
-    t1 = t2 = t3 = t4 = t5 = t6 = t7 = t8 = numeric(length(size))
+    t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
     for(i in seq_along(size)) {
         keys = unique_strings(size[i])
         values = seq_along(keys)
@@ -465,50 +424,29 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
         x = structure(values, names = keys)
 
         h1 = hash_table(keys = keys, values = values)
-        h2 = hash_env_table(keys = keys, values = values)
-        h3 = hash_fm_table(keys = keys, values = values)
+        h2 = hash_fm_table(keys = keys, values = values)
 
         t1[i] = bm(h1[sample(keys, round(p*size[i]))])
         t2[i] = bm(h2[sample(keys, round(p*size[i]))])
-        t3[i] = bm(h3[sample(keys, round(p*size[i]))])
 
-        h4 = hashmapR::hashmap()
-        h4$set(split(keys, keys), split(values, keys), vectorize = TRUE)
-        t4[i] = bm(h4$get(sample(keys, round(p*size[i]))))
+        h3 = hashmapR::hashmap()
+        h3$set(split(keys, keys), split(values, keys), vectorize = TRUE)
+        t3[i] = bm(h3$get(sample(keys, round(p*size[i]))))
             
-        t5[i] = bm(x[sample(keys, round(p*size[i]))])
-        t6[i] = bm(x[match(sample(keys, round(p*size[i])), keys)])
-        t7[i] = bm(x[fmatch(sample(keys, round(p*size[i])), keys)])
-        t8[i] = bm(x[chmatch(sample(keys, round(p*size[i])), keys)])
+        t4[i] = bm(x[sample(keys, round(p*size[i]))])
+        t5[i] = bm(x[match(sample(keys, round(p*size[i])), keys)])
+        t6[i] = bm(x[fmatch(sample(keys, round(p*size[i])), keys)])
+        t7[i] = bm(x[chmatch(sample(keys, round(p*size[i])), keys)])
     }
-    matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7, t8)/1000, type = "o", 
-        lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+    matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
+        lty = 1, col = c(1:2, 5, 3, 4, 6, 7), pch = 16, cex = 0.5, 
         xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
-    legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-        legend = c("hash_table", "hash_env_table", "hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+    legend("topleft", lty = 1, col = c(1:2, 5, 3, 4, 6, 7), 
+        legend = c("hash_table", "hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
 }
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-16-1.png)
-
-We can see when the proportion of keys to query increases, the
-performance of match-family functions improves. We remake the last plot
-removing [`hash_table()`](../reference/hash_table.md) and
-[`hash_env_table()`](../reference/hash_env.md).
-
-``` r
-
-matplot(size, cbind(t3, t4, t5, t6, t7, t8)/1000, type = "o", 
-    lty = 1, col = c(3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
-    xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
-legend("topleft", lty = 1, col = c(3, 6, 4, 5, 7, 8), 
-    legend = c("hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
-```
-
-![](benchmark_files/figure-html/unnamed-chunk-17-1.png)
-
-[`fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html) and
-[`hash_fm_table()`](../reference/hash_fm.md) have the best performance.
+![](benchmark_files/figure-html/unnamed-chunk-15-1.png)
 
 ## Hash set
 
@@ -521,47 +459,45 @@ exists in the hash set.
 
 ``` r
 
-t1 = t2 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
+t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
 
     h1 = hash_set(keys)
-    h2 = hash_env_set(keys)
-    h3 = hash_fm_set(keys)
-    h4 = r2r::hashset(keys)
+    h2 = hash_fm_set(keys)
+    h3 = r2r::hashset(keys)
 
     t1[i] = bm(h1[[sample(keys, 1)]])
     t2[i] = bm(h2[[sample(keys, 1)]])
     t3[i] = bm(h3[[sample(keys, 1)]])
-    t4[i] = bm(h4[[sample(keys, 1)]])
 
-    t5[i] = bm(match(sample(keys, 1), keys))
-    t6[i] = bm(fmatch(sample(keys, 1), keys))
-    t7[i] = bm(chmatch(sample(keys, 1), keys))
+    t4[i] = bm(match(sample(keys, 1), keys))
+    t5[i] = bm(fmatch(sample(keys, 1), keys))
+    t6[i] = bm(chmatch(sample(keys, 1), keys))
 }
-matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = c(1:2, 6, 3:5), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query a single key")
-legend("topleft", lty = 1, col = 1:7, 
-    legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
+legend("topleft", lty = 1, col = c(1:2, 6, 3:5), 
+    legend = c("hash_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-18-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-16-1.png)
 
 [`match()`](https://rdrr.io/r/base/match.html) and
 [`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) are not
-hash-functions. We remove them and remake last plot.
+hash-functions. We remove them and remake the last plot.
 
 ``` r
 
-matplot(size, cbind(t1, t2, t3, t4, t6)/1000, type = "o", 
-    lty = 1, col = c(1:4, 6), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t5)/1000, type = "o", 
+    lty = 1, col = c(1:2, 6, 4), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query a single key")
-legend("topleft", lty = 1, col = c(1:4, 6), 
-    legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "fastmatch"))
+legend("topleft", lty = 1, col = c(1:2, 6, 4), 
+    legend = c("hash_set", "hash_fm_set", "r2r", "fastmatch"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-19-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-17-1.png)
 
 Next query multiple keys.
 
@@ -574,46 +510,40 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
         keys = unique_strings(size[i])
 
         h1 = hash_set(keys)
-        h2 = hash_env_set(keys)
-        h3 = hash_fm_set(keys)
-        h4 = r2r::hashset(keys)
+        h2 = hash_fm_set(keys)
+        h3 = r2r::hashset(keys)
 
         t1[i] = bm(h1[sample(keys, round(p*size[i]))])
         t2[i] = bm(h2[sample(keys, round(p*size[i]))])
         t3[i] = bm(h3[sample(keys, round(p*size[i]))])
-        t4[i] = bm(h4[sample(keys, round(p*size[i]))])
 
-        t5[i] = bm(match(sample(keys, round(p*size[i])), keys))
-        t6[i] = bm(fmatch(sample(keys, round(p*size[i])), keys))
-        t7[i] = bm(chmatch(sample(keys, round(p*size[i])), keys))
+        t4[i] = bm(match(sample(keys, round(p*size[i])), keys))
+        t5[i] = bm(fmatch(sample(keys, round(p*size[i])), keys))
+        t6[i] = bm(chmatch(sample(keys, round(p*size[i])), keys))
     }
-    matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-        lty = 1, col = 1:7, pch = 16, cex = 0.5, 
+    matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
+        lty = 1, col = c(1:2, 6, 3:5), pch = 16, cex = 0.5, 
         xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-    legend("topleft", lty = 1, col = 1:7, 
-        legend = c("hash_set", "hash_env_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
+    legend("topleft", lty = 1, col = c(1:2, 6, 3:5), 
+        legend = c("hash_set", "hash_fm_set", "r2r", "match", "fastmatch", "chmatch"))
 }
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-20-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-18-1.png)
 
-Remove `r2r`, [`hash_env_set()`](../reference/hash_env.md) and
-[`hash_set()`](../reference/hash_set.md) and remake the last plot.
+Obviously `r2r` has very bad performance when querying multiple keys.
+Remove `r2r` and remake the last plot.
 
 ``` r
 
-matplot(size, cbind(t3, t5, t6, t7)/1000, type = "o", 
-    lty = 1, col = c(3, 5, 6, 7), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t4, t5, t6)/1000, type = "o", 
+    lty = 1, col = c(1:5), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-legend("topleft", lty = 1, col = c(3, 5, 6, 7), 
-    legend = c("hash_fm_set", "match", "fastmatch", "chmatch"))
+legend("topleft", lty = 1, col = c(1:5), 
+    legend = c("hash_set", "hash_fm_set", "match", "fastmatch", "chmatch"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-21-1.png)
-
-As expected, [`fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html)
-and [`hash_fm_table()`](../reference/hash_fm.md) have the best
-performance.
+![](benchmark_files/figure-html/unnamed-chunk-19-1.png)
 
 ## Compare hash tables and hash sets
 
@@ -622,41 +552,35 @@ the three implementations.
 
 ``` r
 
-t1 = t2 = t3 = t4 = t5 = t6 = numeric(length(size))
+t1 = t2 = t3 = t4 = numeric(length(size))
 for(i in seq_along(size)) {
     keys = unique_strings(size[i])
     values = seq_len(size[i])
 
     h1 = hash_table(keys = keys, values = values)
-    h2 = hash_env_table(keys = keys, values = values)
-    h3 = hash_fm_table(keys = keys, values = values)
+    h2 = hash_fm_table(keys = keys, values = values)
 
-    h11 = hash_set(keys = keys)
-    h21 = hash_env_set(keys = keys)
-    h31 = hash_fm_set(keys = keys)
+    h3 = hash_set(keys = keys)
+    h4 = hash_fm_set(keys = keys)
     
     p = 0.1
     t1[i] = bm(h1[sample(keys, round(p*size[i]))])
     t2[i] = bm(h2[sample(keys, round(p*size[i]))])
     t3[i] = bm(h3[sample(keys, round(p*size[i]))])
-    t4[i] = bm(h11[sample(keys, round(p*size[i]))])
-    t5[i] = bm(h21[sample(keys, round(p*size[i]))])
-    t6[i] = bm(h31[sample(keys, round(p*size[i]))])
+    t4[i] = bm(h4[sample(keys, round(p*size[i]))])
 }
-matplot(size, cbind(t1, t2, t3, t4, t5, t6)/1000, type = "o", 
-    lty = c(1:2, 1:2, 1:2), col = c(1:3, 1:3), pch = 16, cex = 0.5, 
+matplot(size, cbind(t1, t2, t3, t4)/1000, type = "o", 
+    lty = c(1, 1, 2, 2), col = c(1, 2, 1, 2), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query multiple keys")
-legend("topleft", lty = c(1:2, 1:2, 1:2), col = c(1:3, 1:3), 
-    legend = c("hash_table", "hash_env_table", "hash_fm_table", "hash_set", "hash_env_set", "hash_fm_set"))
+legend("topleft", lty = c(1, 1, 2, 2), col = c(1, 2, 1, 2), 
+    legend = c("hash_table", "hash_fm_table", "hash_set", "hash_fm_set"))
 ```
 
-![](benchmark_files/figure-html/unnamed-chunk-22-1.png)
+![](benchmark_files/figure-html/unnamed-chunk-20-1.png)
 
 ## Summarize
 
-For creating hash tables, use **hashtable**.
-[`list2env()`](https://rdrr.io/r/base/list2env.html) is also fast, but
-you need to convert the values into a list in advance.
+For creating hash tables, **hashtable** is fast.
 
 For querying single keys, all hash-functions are fast, but the runtime
 of [`pmatch()`](https://rdrr.io/r/base/pmatch.html),
@@ -665,10 +589,10 @@ of [`pmatch()`](https://rdrr.io/r/base/pmatch.html),
 linearly to the size of the data.
 
 For querying multiple keys, [`hash_fm_set()`](../reference/hash_fm.md)
-and [`fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html) is fast.
-If hash tables are changable, then
-[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) and
-**hashmapR** can be considered as replacement.
+and [`fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html) is the
+fastest. If hash tables are changable, then
+[`hash_table()`](../reference/hash_table.md) and **hashmapR** can be
+considered as replacement.
 
 For inserting new keys, all hash-functions are similar.
 

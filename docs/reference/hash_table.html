@@ -157,21 +157,21 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">h</span> <span class="op">=</span> <span class="fu">hash_table</span><span class="op">(</span><span class="va">letters</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generic.html">hash_keys</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "v" "u" "z" "t" "s" "r" "q" "p" "n" "m" "o" "l" "x" "k" "j" "h" "y" "g" "f"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "d" "e" "c" "i" "b" "w" "a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "y" "w" "v" "x" "u" "t" "s" "r" "p" "q" "o" "n" "m" "z" "l" "k" "i" "h" "g"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "f" "e" "j" "d" "c" "b" "a"</span>
 <span class="r-in"><span><span class="fu"><a href="generic.html">hash_values</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 22 21 26 20 19 18 17 16 14 13 15 12 24 11 10  8 25  7  6  4  5  3  9  2 23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 25 23 22 24 21 20 19 18 16 17 15 14 13 26 12 11  9  8  7  6  5 10  4  3  2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [26]  1</span>
 <span class="r-in"><span><span class="fu"><a href="generic.html">hash_exists</a></span><span class="op">(</span><span class="va">h</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"foo"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE</span>
 <span class="r-in"><span><span class="fu"><a href="generic.html">hash_delete</a></span><span class="op">(</span><span class="va">h</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span><span class="op">)</span>; <span class="va">h</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A hash table [hash_unordered_map] with 6 key-value (integer) pairs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   v =&gt; 22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   u =&gt; 21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   z =&gt; 26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x =&gt; 24</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   y =&gt; 25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   w =&gt; 23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   v =&gt; 22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   x =&gt; 24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   u =&gt; 21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   z =&gt; 26</span>
 <span class="r-in"><span><span class="fu"><a href="generic.html">hash_insert</a></span><span class="op">(</span><span class="va">h</span>, <span class="st">"foo"</span>, <span class="fl">100L</span><span class="op">)</span> </span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">h</span> <span class="op">=</span> <span class="fu">hash_table</span><span class="op">(</span><span class="va">letters</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span></span>
@@ -183,17 +183,23 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  v  u  z  t  s  r  q  p  n  m  o  l  x  k  j  h  y  g  f  d  e  c  i  b  w  a </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 21 26 20 19 18 17 16 14 13 15 12 24 11 10  8 25  7  6  4  5  3  9  2 23  1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  y  w  v  x  u  t  s  r  p  q  o  n  m  z  l  k  i  h  g  f  e  j  d  c  b  a </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 23 22 24 21 20 19 18 16 17 15 14 13 26 12 11  9  8  7  6  5 10  4  3  2  1 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $w</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $v</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $t</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 20</span>
@@ -204,11 +210,14 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $r</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $q</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $o</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
@@ -216,26 +225,20 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $m</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $o</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $l</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $k</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $j</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
@@ -243,23 +246,20 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $f</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $j</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $w</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>

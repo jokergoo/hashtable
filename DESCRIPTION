@@ -10,7 +10,7 @@ Imports: methods, Rcpp, fastmatch
 LinkingTo: Rcpp
 Suggests: knitr, rmarkdown
 Description: Implementation of hash table and hash set using std::unordered_map, std::unordered_set,
-    environment and fastmatch.
+    and fastmatch.
 URL: https://github.com/jokergoo/hashtable, https://jokergoo.github.io/hashtable/
 VignetteBuilder: knitr
 BugReports: https://github.com/jokergoo/hashtable/issues

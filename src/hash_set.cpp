@@ -3,7 +3,7 @@
 #include <Rcpp.h>
 #include <unordered_set>
 
-#include "hash_set.h"
+#include "hash.h"
 
 // [[Rcpp::export]]
 Rcpp::XPtr<CharSXPSet> cpp_hash_set_create(Rcpp::CharacterVector keys) {

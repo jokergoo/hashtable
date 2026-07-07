@@ -25,6 +25,5 @@ There are the following generic functions:
 \item \code{hash_copy(h)}: makes a copy of the hash table or hash set.
 }
 
-They can be used on the hash object created by \code{\link[=hash_table]{hash_table()}}, \code{\link[=hash_set]{hash_set()}}, \code{\link[=hash_env_table]{hash_env_table()}},
-\code{\link[=hash_env_set]{hash_env_set()}}, \code{\link[=hash_fm_table]{hash_fm_table()}} and \code{\link[=hash_fm_set]{hash_fm_set()}}.
+They can be used on the hash object created by \code{\link[=hash_table]{hash_table()}}, \code{\link[=hash_set]{hash_set()}}, \code{\link[=hash_fm_table]{hash_fm_table()}} and \code{\link[=hash_fm_set]{hash_fm_set()}}.
 }

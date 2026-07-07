@@ -5,6 +5,7 @@
 
 #include <Rcpp.h>
 #include <unordered_map>
+#include <unordered_set>
 
 #ifdef Rf_hash
     struct CHARSXPHash {
@@ -33,6 +34,8 @@ using CharSXPBoolMap = std::unordered_map<SEXP, bool, CHARSXPHash, CHARSXPEqual>
 using CharSXPDateMap = std::unordered_map<SEXP, Rcpp::Date, CHARSXPHash, CHARSXPEqual>;
 using CharSXPPOSIXctMap = std::unordered_map<SEXP, time_t, CHARSXPHash, CHARSXPEqual>;
 using CharSXPListMap = std::unordered_map<SEXP, SEXP, CHARSXPHash, CHARSXPEqual>;
+
+using CharSXPSet = std::unordered_set<SEXP, CHARSXPHash, CHARSXPEqual>;
 
 
 template <typename CharSXPTMap, typename TRcppVector>

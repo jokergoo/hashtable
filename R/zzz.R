@@ -12,14 +12,10 @@ load_ns <- function() {
     lines = readLines("src/RcppExports.cpp")
     i = which(lines == "#include <Rcpp.h>")
 
-    if(any(lines == '#include "hash_table.h"') && any(lines == '#include "hash_set.h"')) {
+    if(any(lines == '#include "hash.h"')) {
 
-    } else if(any(lines == '#include "hash_table.h"')) {
-        lines = c(lines[1:i], '#include "hash_set.h"', lines[(i+1):length(lines)])
-    } else if(any(lines == '#include "hash_set.h"')) {
-        lines = c(lines[1:i], '#include "hash_table.h"', lines[(i+1):length(lines)])
     } else {
-        lines = c(lines[1:i], '#include "hash_table.h"', '#include "hash_set.h"', lines[(i+1):length(lines)])
+        lines = c(lines[1:i], '#include "hash.h"', lines[(i+1):length(lines)])
     }
 
     writeLines(lines, "src/RcppExports.cpp")

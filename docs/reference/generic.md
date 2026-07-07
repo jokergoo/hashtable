@@ -23,5 +23,4 @@ There are the following generic functions:
 
 They can be used on the hash object created by
 [`hash_table()`](hash_table.md), [`hash_set()`](hash_set.md),
-[`hash_env_table()`](hash_env.md), [`hash_env_set()`](hash_env.md),
 [`hash_fm_table()`](hash_fm.md) and [`hash_fm_set()`](hash_fm.md).

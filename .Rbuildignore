@@ -6,3 +6,5 @@ _pkgdown.yml
 build_pkg_site.R
 .DS_Store
 readme.md
+
+R/zzz.R
