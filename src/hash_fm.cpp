@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 
 // [[Rcpp::export]]
-void update_vector_elements(SEXP x, Rcpp::IntegerVector ind, SEXP values) {
+void cpp_update_vector_elements(SEXP x, Rcpp::IntegerVector ind, SEXP values) {
     int n = ind.size();
     int type = TYPEOF(x);
     

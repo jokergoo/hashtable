@@ -66,13 +66,13 @@ hash_table = function(keys, values) {
 	h@value_class = cl
 	h@is_atomic = is.atomic(values)
 	h@ptr = switch(cl, 
-		"integer"   = hash_table_create_int(keys, values),
-		"logical"   = hash_table_create_bool(keys, values),
-		"numeric"   = hash_table_create_double(keys, values),
-		"character" = hash_table_create_string(keys, values),
-		"Date"      = hash_table_create_date(keys, values),
-		"POSIXct"   = hash_table_create_time(keys, values),
-		"list"      = hash_table_create_list(keys, values),
+		"integer"   = cpp_hash_table_create_int(keys, values),
+		"logical"   = cpp_hash_table_create_bool(keys, values),
+		"numeric"   = cpp_hash_table_create_double(keys, values),
+		"character" = cpp_hash_table_create_string(keys, values),
+		"Date"      = cpp_hash_table_create_date(keys, values),
+		"POSIXct"   = cpp_hash_table_create_time(keys, values),
+		"list"      = cpp_hash_table_create_list(keys, values),
 		stop("Data type of `values` ('", cl, "') is not supported.")
 	)
 
@@ -87,23 +87,23 @@ setMethod("hash_values", signature = "hash_unordered_map",
 	cl = h@value_class
 	if(is.null(keys)) {
 		switch(cl, 
-			"integer"   = hash_table_get_all_values_int(h@ptr),
-			"logical"   = hash_table_get_all_values_bool(h@ptr),
-			"numeric"   = hash_table_get_all_values_double(h@ptr),
-			"character" = hash_table_get_all_values_string(h@ptr),
-			"Date"      = hash_table_get_all_values_date(h@ptr),
-			"POSIXct"   = hash_table_get_all_values_time(h@ptr),
-			"list"      = hash_table_get_all_values_list(h@ptr)
+			"integer"   = cpp_hash_table_all_values_int(h@ptr),
+			"logical"   = cpp_hash_table_all_values_bool(h@ptr),
+			"numeric"   = cpp_hash_table_all_values_double(h@ptr),
+			"character" = cpp_hash_table_all_values_string(h@ptr),
+			"Date"      = cpp_hash_table_all_values_date(h@ptr),
+			"POSIXct"   = cpp_hash_table_all_values_time(h@ptr),
+			"list"      = cpp_hash_table_all_values_list(h@ptr)
 		)
 	} else {
 		switch(cl, 
-			"integer"   = hash_table_get_values_int(h@ptr, keys),
-			"logical"   = hash_table_get_values_bool(h@ptr, keys),
-			"numeric"   = hash_table_get_values_double(h@ptr, keys),
-			"character" = hash_table_get_values_string(h@ptr, keys),
-			"Date"      = hash_table_get_values_date(h@ptr, keys),
-			"POSIXct"   = hash_table_get_values_time(h@ptr, keys),
-			"list"      = hash_table_get_values_list(h@ptr, keys)
+			"integer"   = cpp_hash_table_values_int(h@ptr, keys),
+			"logical"   = cpp_hash_table_values_bool(h@ptr, keys),
+			"numeric"   = cpp_hash_table_values_double(h@ptr, keys),
+			"character" = cpp_hash_table_values_string(h@ptr, keys),
+			"Date"      = cpp_hash_table_values_date(h@ptr, keys),
+			"POSIXct"   = cpp_hash_table_values_time(h@ptr, keys),
+			"list"      = cpp_hash_table_values_list(h@ptr, keys)
 		)
 	}
 })
@@ -114,13 +114,13 @@ setMethod("hash_exists", signature = "hash_unordered_map",
 	definition = function(h, keys) {
 	cl = h@value_class
 	switch(cl, 
-		"integer"   = hash_table_exists_int(h@ptr, keys),
-		"logical"   = hash_table_exists_bool(h@ptr, keys),
-		"numeric"   = hash_table_exists_double(h@ptr, keys),
-		"character" = hash_table_exists_string(h@ptr, keys),
-		"Date"      = hash_table_exists_date(h@ptr, keys),
-		"POSIXct"   = hash_table_exists_time(h@ptr, keys),
-		"list"      = hash_table_exists_list(h@ptr, keys)
+		"integer"   = cpp_hash_table_exists_int(h@ptr, keys),
+		"logical"   = cpp_hash_table_exists_bool(h@ptr, keys),
+		"numeric"   = cpp_hash_table_exists_double(h@ptr, keys),
+		"character" = cpp_hash_table_exists_string(h@ptr, keys),
+		"Date"      = cpp_hash_table_exists_date(h@ptr, keys),
+		"POSIXct"   = cpp_hash_table_exists_time(h@ptr, keys),
+		"list"      = cpp_hash_table_exists_list(h@ptr, keys)
 	)
 })
 
@@ -135,13 +135,13 @@ setMethod("hash_insert", signature = "hash_unordered_map",
 	}
 
 	switch(cl, 
-		"integer"   = hash_table_set_values_int(h@ptr, keys, values),
-		"logical"   = hash_table_set_values_bool(h@ptr, keys, values),
-		"numeric"   = hash_table_set_values_double(h@ptr, keys, values),
-		"character" = hash_table_set_values_string(h@ptr, keys, values),
-		"Date"      = hash_table_set_values_date(h@ptr, keys, values),
-		"POSIXct"   = hash_table_set_values_time(h@ptr, keys, values),
-		"list"      = hash_table_set_values_list(h@ptr, keys, values)
+		"integer"   = cpp_hash_table_insert_int(h@ptr, keys, values),
+		"logical"   = cpp_hash_table_insert_bool(h@ptr, keys, values),
+		"numeric"   = cpp_hash_table_insert_double(h@ptr, keys, values),
+		"character" = cpp_hash_table_insert_string(h@ptr, keys, values),
+		"Date"      = cpp_hash_table_insert_date(h@ptr, keys, values),
+		"POSIXct"   = cpp_hash_table_insert_time(h@ptr, keys, values),
+		"list"      = cpp_hash_table_insert_list(h@ptr, keys, values)
 	)
 	invisible(h)
 })
@@ -152,13 +152,13 @@ setMethod("hash_delete", signature = "hash_unordered_map",
 	definition = function(h, keys) {
 	cl = h@value_class
 	switch(cl, 
-		"integer"   = hash_table_delete_pairs_int(h@ptr, keys),
-		"logical"   = hash_table_delete_pairs_bool(h@ptr, keys),
-		"numeric"   = hash_table_delete_pairs_double(h@ptr, keys),
-		"character" = hash_table_delete_pairs_string(h@ptr, keys),
-		"Date"      = hash_table_delete_pairs_date(h@ptr, keys),
-		"POSIXct"   = hash_table_delete_pairs_time(h@ptr, keys),
-		"list"      = hash_table_delete_pairs_list(h@ptr, keys)
+		"integer"   = cpp_hash_table_delete_int(h@ptr, keys),
+		"logical"   = cpp_hash_table_delete_bool(h@ptr, keys),
+		"numeric"   = cpp_hash_table_delete_double(h@ptr, keys),
+		"character" = cpp_hash_table_delete_string(h@ptr, keys),
+		"Date"      = cpp_hash_table_delete_date(h@ptr, keys),
+		"POSIXct"   = cpp_hash_table_delete_time(h@ptr, keys),
+		"list"      = cpp_hash_table_delete_list(h@ptr, keys)
 	)
 })
 
@@ -168,13 +168,13 @@ setMethod("hash_size", signature = "hash_unordered_map",
 	definition = function(h) {
 	cl = h@value_class
 	switch(cl, 
-		"integer"   = hash_table_size_int(h@ptr),
-		"logical"   = hash_table_size_bool(h@ptr),
-		"numeric"   = hash_table_size_double(h@ptr),
-		"character" = hash_table_size_string(h@ptr),
-		"Date"      = hash_table_size_date(h@ptr),
-		"POSIXct"   = hash_table_size_time(h@ptr),
-		"list"      = hash_table_size_list(h@ptr)
+		"integer"   = cpp_hash_table_size_int(h@ptr),
+		"logical"   = cpp_hash_table_size_bool(h@ptr),
+		"numeric"   = cpp_hash_table_size_double(h@ptr),
+		"character" = cpp_hash_table_size_string(h@ptr),
+		"Date"      = cpp_hash_table_size_date(h@ptr),
+		"POSIXct"   = cpp_hash_table_size_time(h@ptr),
+		"list"      = cpp_hash_table_size_list(h@ptr)
 	)
 })
 
@@ -191,13 +191,13 @@ setMethod("hash_keys", signature = "hash_unordered_map",
 	definition = function(h) {
 	cl = h@value_class
 	switch(cl, 
-		"integer"   = hash_table_get_all_keys_int(h@ptr),
-		"logical"   = hash_table_get_all_keys_bool(h@ptr),
-		"numeric"   = hash_table_get_all_keys_double(h@ptr),
-		"character" = hash_table_get_all_keys_string(h@ptr),
-		"Date"      = hash_table_get_all_keys_date(h@ptr),
-		"POSIXct"   = hash_table_get_all_keys_time(h@ptr),
-		"list"      = hash_table_get_all_keys_list(h@ptr)
+		"integer"   = cpp_hash_table_all_keys_int(h@ptr),
+		"logical"   = cpp_hash_table_all_keys_bool(h@ptr),
+		"numeric"   = cpp_hash_table_all_keys_double(h@ptr),
+		"character" = cpp_hash_table_all_keys_string(h@ptr),
+		"Date"      = cpp_hash_table_all_keys_date(h@ptr),
+		"POSIXct"   = cpp_hash_table_all_keys_time(h@ptr),
+		"list"      = cpp_hash_table_all_keys_list(h@ptr)
 	)
 })
 
@@ -210,13 +210,13 @@ setMethod("hash_copy", signature = "hash_unordered_map",
 	h2@value_class = cl
 	h2@is_atomic = h@is_atomic
 	h2@ptr = switch(cl, 
-		"integer"   = hash_table_copy_int(h@ptr),
-		"logical"   = hash_table_copy_bool(h@ptr),
-		"numeric"   = hash_table_copy_double(h@ptr),
-		"character" = hash_table_copy_string(h@ptr),
-		"Date"      = hash_table_copy_date(h@ptr),
-		"POSIXct"   = hash_table_copy_time(h@ptr),
-		"list"      = hash_table_copy_list(h@ptr)
+		"integer"   = cpp_hash_table_copy_int(h@ptr),
+		"logical"   = cpp_hash_table_copy_bool(h@ptr),
+		"numeric"   = cpp_hash_table_copy_double(h@ptr),
+		"character" = cpp_hash_table_copy_string(h@ptr),
+		"Date"      = cpp_hash_table_copy_date(h@ptr),
+		"POSIXct"   = cpp_hash_table_copy_time(h@ptr),
+		"list"      = cpp_hash_table_copy_list(h@ptr)
 	)
 	h2
 })

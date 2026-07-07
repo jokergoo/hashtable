@@ -150,13 +150,13 @@ setMethod("hash_insert", signature = "hash_fm_table",
 	definition = function(h, keys, values) {
 
 	if(is.integer(keys)) {
-		update_vector_elements(h@values, keys, values);
+		cpp_update_vector_elements(h@values, keys, values);
 	} else {
 		ind = fmatch(keys, h@table)
 		if(any(is.na(ind))) {
 			stop("hash_fm_table is not allowed to insert new keys.")
 		}
-		update_vector_elements(h@values, ind, values);
+		cpp_update_vector_elements(h@values, ind, values);
 	}
 	invisible(h)
 })

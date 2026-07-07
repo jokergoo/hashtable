@@ -483,5 +483,5 @@ test_that("Test as.vector/as.list", {
 
 test_that("Test delete keys that do not exist", {
 	h = hash_table("a", 1)
-	expect_success(hash_delete(h, "b"))
+	expect_error(hash_delete(h, "b"))
 })

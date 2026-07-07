@@ -1,13 +1,12 @@
 
 setClass("hash_unordered_set",
-	slots = c(ptr = "ANY",
-		      value_class = "character"))
+	slots = c(ptr = "ANY"))
 
 
 #' Hash set implemented by std::unordered_set
 #' 
 #' @export
-#' @param keys Normally a character vector, but `hash_set()` also allows to use an integer vector as keys.
+#' @param keys Normally a character vector.
 #' @rdname hash_set
 #' @examples
 #' h = hash_set(letters)
@@ -22,17 +21,17 @@ hash_set = function(keys) {
 	if(is.null(keys)) {
 		stop("`keys` cannot be NULL.")
 	}
-	if(any(duplicated(keys))) {
-		stop("Keys should not be duplicated.")
+	if(!is.character(keys)) {
+		stop("`keys` should be a character vector.")
 	}
+
 	h = new("hash_unordered_set")
-	cl = class(keys)[1]
-	h@ptr = switch(cl, 
-		"integer"   = hash_set_create_int(keys),
-		"character" = hash_set_create_string(keys),
-		stop("Data type of `keys` ('", cl, "') is not supported.")
-	)
-	h@value_class = cl
+	if(missing(keys)) {
+		h@ptr = cpp_hash_set_create(character(0))
+	} else {
+		h@ptr = cpp_hash_set_create(keys)
+	}
+	
 	h
 }
 
@@ -41,72 +40,36 @@ hash_set = function(keys) {
 #' @param h,x,object A `hash_unordered_set` object returned by `hash_set()`.
 setMethod("hash_exists", signature = "hash_unordered_set",
 	definition = function(h, keys) {
-	cl = h@value_class
-	switch(cl, 
-		"integer"   = hash_set_exists_int(h@ptr, keys),
-		"character" = hash_set_exists_string(h@ptr, keys),
-		stop("Wrong data type.")
-	)
+	cpp_hash_set_exists(h@ptr, keys)
 })
 
 #' @export
 #' @rdname hash_set
 setMethod("hash_insert", signature = "hash_unordered_set",
 	definition = function(h, keys) {
-	cl = h@value_class
-
-	clv = class(keys)[1]
-	if(clv != cl) {
-		stop("Data type of `keys` (", clv, ") is not compatible with the hash set (", cl, ").")
-	}
-
-	switch(cl, 
-		"integer"   = hash_set_insert_int(h@ptr, keys),
-		"character" = hash_set_insert_string(h@ptr, keys)
-	)
-
-	invisible(h)
+	cpp_hash_set_insert(h@ptr, keys)
 })
 
 #' @export
 #' @rdname hash_set
 setMethod("hash_delete", signature = "hash_unordered_set",
 	definition = function(h, keys) {
-	cl = h@value_class
-	switch(cl, 
-		"integer"   = hash_set_delete_int(h@ptr, keys),
-		"character" = hash_set_delete_string(h@ptr, keys),
-		stop("Wrong data type.")
-	)
-	invisible(h)
+	cpp_hash_set_delete(h@ptr, keys)
 })
 
 #' @export
 #' @rdname hash_set
 setMethod("hash_size", signature = "hash_unordered_set",
 	definition = function(h) {
-	cl = h@value_class
-	switch(cl, 
-		"integer"   = hash_set_size_int(h@ptr),
-		"character" = hash_set_size_string(h@ptr),
-		stop("Wrong data type.")
-	)
+	cpp_hash_set_size(h@ptr)
 })
 
 #' @export
 #' @rdname hash_set
 setMethod("hash_copy", signature = "hash_unordered_set",
 	definition = function(h) {
-	cl = h@value_class
 	h2 = new("hash_unordered_set")
-	h2@value_class = cl
-
-	h2@ptr = switch(cl, 
-		"integer"   = hash_set_copy_int(h@ptr),
-		"character" = hash_set_copy_string(h@ptr),
-		stop("Wrong data type.")
-	)
-
+	h2@ptr = cpp_hash_set_copy(h@ptr)
 	h2
 })
 
@@ -114,12 +77,7 @@ setMethod("hash_copy", signature = "hash_unordered_set",
 #' @rdname hash_set
 setMethod("hash_keys", signature = "hash_unordered_set",
 	definition = function(h) {
-	cl = h@value_class
-	switch(cl, 
-		"integer"   = hash_set_get_all_keys_int(h@ptr),
-		"character" = hash_set_get_all_keys_string(h@ptr),
-		stop("Wrong data type.")
-	)
+	cpp_hash_set_all_keys(h@ptr)
 })
 
 #' @export
@@ -149,7 +107,7 @@ setMethod("hash_values", signature = "hash_unordered_set",
 #' @rdname hash_set
 #' @export
 "$.hash_unordered_set" = function(x, name) {
-	x[[name]]
+	hash_exists(x, name)
 }
 
 #' @rdname hash_set
@@ -217,8 +175,7 @@ length.hash_unordered_set = function(x) {
 setMethod("show", signature = "hash_unordered_set",
 	definition = function(object) {
 	n = hash_size(object)
-	cl_name = object@value_class
-	cat("A hash set [hash_unordered_set] with ", n, " key", ifelse(n > 1, "s", ""), " (", cl_name, ")\n", sep = "")
+	cat("A hash set [hash_unordered_set] with ", n, " key", ifelse(n > 1, "s", ""), "\n", sep = "")
 })
 
 #' @rdname hash_set

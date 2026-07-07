@@ -2,6 +2,8 @@
 // Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #include <Rcpp.h>
+#include "hash_table.h"
+#include "hash_set.h"
 
 using namespace Rcpp;
 
@@ -10,1377 +12,1395 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// hash_env_hash_set_create
-Environment hash_env_hash_set_create(CharacterVector keys);
-RcppExport SEXP _hashtable_hash_env_hash_set_create(SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_env_hash_set_create(keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_env_copy
-Environment hash_env_copy(Environment env);
-RcppExport SEXP _hashtable_hash_env_copy(SEXP envSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_env_copy(env));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_exists
-LogicalVector internal_hash_env_exists(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_exists(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_exists(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_delete
-LogicalVector internal_hash_env_delete(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_delete(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_delete(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_size
-int internal_hash_env_size(Environment env);
-RcppExport SEXP _hashtable_internal_hash_env_size(SEXP envSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_size(env));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_logical
-LogicalVector internal_hash_env_values_logical(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_logical(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_logical(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_integer
-IntegerVector internal_hash_env_values_integer(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_integer(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_integer(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_character
-CharacterVector internal_hash_env_values_character(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_character(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_character(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_numeric
-NumericVector internal_hash_env_values_numeric(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_numeric(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_numeric(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_date
-DateVector internal_hash_env_values_date(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_date(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_date(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_values_time
-DatetimeVector internal_hash_env_values_time(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_values_time(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_values_time(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_logical
-Environment internal_hash_env_set_values_logical(Environment env, CharacterVector keys, LogicalVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_logical(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< LogicalVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_logical(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_integer
-Environment internal_hash_env_set_values_integer(Environment env, CharacterVector keys, IntegerVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_integer(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_integer(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_character
-Environment internal_hash_env_set_values_character(Environment env, CharacterVector keys, CharacterVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_character(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_character(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_numeric
-Environment internal_hash_env_set_values_numeric(Environment env, CharacterVector keys, NumericVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_numeric(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_numeric(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_date
-Environment internal_hash_env_set_values_date(Environment env, CharacterVector keys, DateVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_date(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< DateVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_date(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_time
-Environment internal_hash_env_set_values_time(Environment env, CharacterVector keys, DatetimeVector values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_time(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< DatetimeVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_time(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_list
-Environment internal_hash_env_set_values_list(Environment env, CharacterVector keys, List values);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_list(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< List >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_list(env, keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// internal_hash_env_set_values_null
-Environment internal_hash_env_set_values_null(Environment env, CharacterVector keys);
-RcppExport SEXP _hashtable_internal_hash_env_set_values_null(SEXP envSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_hash_env_set_values_null(env, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_create_int
-Rcpp::XPtr<std::unordered_set<int>> hash_set_create_int(Rcpp::IntegerVector keys);
-RcppExport SEXP _hashtable_hash_set_create_int(SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_create_int(keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_insert_int
-void hash_set_insert_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr, Rcpp::IntegerVector keys);
-RcppExport SEXP _hashtable_hash_set_insert_int(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type keys(keysSEXP);
-    hash_set_insert_int(map_xptr, keys);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_exists_int
-Rcpp::LogicalVector hash_set_exists_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr, Rcpp::IntegerVector keys);
-RcppExport SEXP _hashtable_hash_set_exists_int(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_exists_int(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_intersect_to_list_int
-Rcpp::List hash_set_intersect_to_list_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr, Rcpp::List lt);
-RcppExport SEXP _hashtable_hash_set_intersect_to_list_int(SEXP map_xptrSEXP, SEXP ltSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type lt(ltSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_intersect_to_list_int(map_xptr, lt));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_intersect_to_list_int_n
-Rcpp::IntegerVector hash_set_intersect_to_list_int_n(Rcpp::XPtr<std::unordered_set<int>> map_xptr, Rcpp::List lt);
-RcppExport SEXP _hashtable_hash_set_intersect_to_list_int_n(SEXP map_xptrSEXP, SEXP ltSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type lt(ltSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_intersect_to_list_int_n(map_xptr, lt));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_delete_int
-void hash_set_delete_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr, Rcpp::IntegerVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_set_delete_int(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_set_delete_int(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_clear_int
-void hash_set_clear_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_clear_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    hash_set_clear_int(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_copy_int
-Rcpp::XPtr<std::unordered_set<int>> hash_set_copy_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_copy_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_copy_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_size_int
-int hash_set_size_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_size_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_size_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_get_all_keys_int
-Rcpp::IntegerVector hash_set_get_all_keys_int(Rcpp::XPtr<std::unordered_set<int>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_get_all_keys_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_get_all_keys_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_create_string
-Rcpp::XPtr<std::unordered_set<std::string>> hash_set_create_string(Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_set_create_string(SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_create_string(keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_insert_string
-void hash_set_insert_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_set_insert_string(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    hash_set_insert_string(map_xptr, keys);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_exists_string
-Rcpp::LogicalVector hash_set_exists_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_set_exists_string(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_exists_string(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_intersect_to_list_string
-Rcpp::List hash_set_intersect_to_list_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr, Rcpp::List lt);
-RcppExport SEXP _hashtable_hash_set_intersect_to_list_string(SEXP map_xptrSEXP, SEXP ltSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type lt(ltSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_intersect_to_list_string(map_xptr, lt));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_intersect_to_list_string_n
-Rcpp::IntegerVector hash_set_intersect_to_list_string_n(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr, Rcpp::List lt);
-RcppExport SEXP _hashtable_hash_set_intersect_to_list_string_n(SEXP map_xptrSEXP, SEXP ltSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type lt(ltSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_intersect_to_list_string_n(map_xptr, lt));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_delete_string
-void hash_set_delete_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_set_delete_string(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_set_delete_string(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_clear_string
-void hash_set_clear_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_clear_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    hash_set_clear_string(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_set_copy_string
-Rcpp::XPtr<std::unordered_set<std::string>> hash_set_copy_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_copy_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_copy_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_size_string
-int hash_set_size_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_size_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_size_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_set_get_all_keys_string
-Rcpp::CharacterVector hash_set_get_all_keys_string(Rcpp::XPtr<std::unordered_set<std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_set_get_all_keys_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_set<std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_set_get_all_keys_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_int
-Rcpp::XPtr<std::unordered_map<std::string, int>> hash_table_create_int(Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
-RcppExport SEXP _hashtable_hash_table_create_int(SEXP keysSEXP, SEXP valuesSEXP) {
+// cpp_hash_env_table_create_int
+Rcpp::Environment cpp_hash_env_table_create_int(Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_int(SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_int(keys, values));
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_int(keys, values));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_get_values_int
-Rcpp::IntegerVector hash_table_get_values_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_int(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
+// cpp_hash_env_table_create_double
+Rcpp::Environment cpp_hash_env_table_create_double(Rcpp::CharacterVector keys, Rcpp::NumericVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_double(SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_int(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_int
-Rcpp::LogicalVector hash_table_exists_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_int(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_int(map_xptr, keys));
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_double(keys, values));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_set_values_int
-void hash_table_set_values_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr, Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_int(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+// cpp_hash_env_table_create_bool
+Rcpp::Environment cpp_hash_env_table_create_bool(Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_bool(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_bool(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_create_string
+Rcpp::Environment cpp_hash_env_table_create_string(Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_string(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_string(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_create_date
+Rcpp::Environment cpp_hash_env_table_create_date(Rcpp::CharacterVector keys, Rcpp::DateVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_date(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DateVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_date(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_create_datetime
+Rcpp::Environment cpp_hash_env_table_create_datetime(Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_datetime(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DatetimeVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_datetime(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_create_list
+Rcpp::Environment cpp_hash_env_table_create_list(Rcpp::CharacterVector keys, Rcpp::List values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_create_list(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_create_list(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_set_create
+Rcpp::Environment cpp_hash_env_set_create(Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_set_create(SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_set_create(keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_insert_int
+void cpp_hash_env_table_insert_int(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_int(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type values(valuesSEXP);
-    hash_table_set_values_int(map_xptr, keys, values);
+    cpp_hash_env_table_insert_int(env, keys, values);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_int
-void hash_table_delete_pairs_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_int(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
+// cpp_hash_env_table_insert_double
+void cpp_hash_env_table_insert_double(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::NumericVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_double(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_int(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_int
-int hash_table_size_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_int
-Rcpp::CharacterVector hash_table_get_all_keys_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_int
-Rcpp::IntegerVector hash_table_get_all_values_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_int
-void hash_table_clear_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_int(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_int
-Rcpp::XPtr<std::unordered_map<std::string, int>> hash_table_copy_int(Rcpp::XPtr<std::unordered_map<std::string, int>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_int(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, int>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_int(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_double
-Rcpp::XPtr<std::unordered_map<std::string, double>> hash_table_create_double(Rcpp::CharacterVector keys, Rcpp::NumericVector values);
-RcppExport SEXP _hashtable_hash_table_create_double(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_double(keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_values_double
-Rcpp::NumericVector hash_table_get_values_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_double(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_double(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_double
-Rcpp::LogicalVector hash_table_exists_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_double(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_double(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_set_values_double
-void hash_table_set_values_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr, Rcpp::CharacterVector keys, Rcpp::NumericVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_double(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
-    hash_table_set_values_double(map_xptr, keys, values);
+    cpp_hash_env_table_insert_double(env, keys, values);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_double
-void hash_table_delete_pairs_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_double(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
+// cpp_hash_env_table_insert_bool
+void cpp_hash_env_table_insert_bool(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_bool(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_double(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_double
-int hash_table_size_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_double(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_double(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_double
-Rcpp::CharacterVector hash_table_get_all_keys_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_double(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_double(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_double
-Rcpp::NumericVector hash_table_get_all_values_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_double(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_double(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_double
-void hash_table_clear_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_double(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_double(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_double
-Rcpp::XPtr<std::unordered_map<std::string, double>> hash_table_copy_double(Rcpp::XPtr<std::unordered_map<std::string, double>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_double(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, double>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_double(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_string
-Rcpp::XPtr<std::unordered_map<std::string, std::string>> hash_table_create_string(Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
-RcppExport SEXP _hashtable_hash_table_create_string(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_string(keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_values_string
-Rcpp::CharacterVector hash_table_get_values_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_string(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_string(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_string
-Rcpp::LogicalVector hash_table_exists_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_string(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_string(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_set_values_string
-void hash_table_set_values_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr, Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_string(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
-    hash_table_set_values_string(map_xptr, keys, values);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_delete_pairs_string
-void hash_table_delete_pairs_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_string(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_string(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_string
-int hash_table_size_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_string
-Rcpp::CharacterVector hash_table_get_all_keys_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_string
-Rcpp::CharacterVector hash_table_get_all_values_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_string
-void hash_table_clear_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_string(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_string
-Rcpp::XPtr<std::unordered_map<std::string, std::string>> hash_table_copy_string(Rcpp::XPtr<std::unordered_map<std::string, std::string>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_string(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, std::string>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_string(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_bool
-Rcpp::XPtr<std::unordered_map<std::string, bool>> hash_table_create_bool(Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
-RcppExport SEXP _hashtable_hash_table_create_bool(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_bool(keys, values));
-    return rcpp_result_gen;
+    cpp_hash_env_table_insert_bool(env, keys, values);
+    return R_NilValue;
 END_RCPP
 }
-// hash_table_get_values_bool
-Rcpp::LogicalVector hash_table_get_values_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_bool(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
+// cpp_hash_env_table_insert_string
+void cpp_hash_env_table_insert_string(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_string(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_bool(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_bool
-Rcpp::LogicalVector hash_table_exists_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_bool(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_bool(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_set_values_bool
-void hash_table_set_values_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr, Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_bool(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type values(valuesSEXP);
-    hash_table_set_values_bool(map_xptr, keys, values);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
+    cpp_hash_env_table_insert_string(env, keys, values);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_bool
-void hash_table_delete_pairs_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_bool(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
+// cpp_hash_env_table_insert_date
+void cpp_hash_env_table_insert_date(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::DateVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_date(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_bool(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_bool
-int hash_table_size_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_bool(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_bool(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_bool
-Rcpp::CharacterVector hash_table_get_all_keys_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_bool(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_bool(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_bool
-Rcpp::LogicalVector hash_table_get_all_values_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_bool(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_bool(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_bool
-void hash_table_clear_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_bool(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_bool(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_bool
-Rcpp::XPtr<std::unordered_map<std::string, bool>> hash_table_copy_bool(Rcpp::XPtr<std::unordered_map<std::string, bool>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_bool(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, bool>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_bool(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_date
-Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> hash_table_create_date(Rcpp::CharacterVector keys, Rcpp::DateVector values);
-RcppExport SEXP _hashtable_hash_table_create_date(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::DateVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_date(keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_values_date
-Rcpp::DateVector hash_table_get_values_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_date(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_date(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_date
-Rcpp::LogicalVector hash_table_exists_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_date(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_date(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_set_values_date
-void hash_table_set_values_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr, Rcpp::CharacterVector keys, Rcpp::DateVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_date(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DateVector >::type values(valuesSEXP);
-    hash_table_set_values_date(map_xptr, keys, values);
+    cpp_hash_env_table_insert_date(env, keys, values);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_date
-void hash_table_delete_pairs_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_date(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
+// cpp_hash_env_table_insert_datetime
+void cpp_hash_env_table_insert_datetime(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_datetime(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_date(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_date
-int hash_table_size_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_date(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_date(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_date
-Rcpp::CharacterVector hash_table_get_all_keys_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_date(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_date(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_date
-Rcpp::DateVector hash_table_get_all_values_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_date(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_date(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_date
-void hash_table_clear_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_date(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_date(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_date
-Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> hash_table_copy_date(Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_date(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, Rcpp::Date>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_date(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_time
-Rcpp::XPtr<std::unordered_map<std::string, time_t>> hash_table_create_time(Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
-RcppExport SEXP _hashtable_hash_table_create_time(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::DatetimeVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_time(keys, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_values_time
-Rcpp::DatetimeVector hash_table_get_values_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_time(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_time(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_time
-Rcpp::LogicalVector hash_table_exists_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_time(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_time(map_xptr, keys));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_set_values_time
-void hash_table_set_values_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr, Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
-RcppExport SEXP _hashtable_hash_table_set_values_time(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DatetimeVector >::type values(valuesSEXP);
-    hash_table_set_values_time(map_xptr, keys, values);
+    cpp_hash_env_table_insert_datetime(env, keys, values);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_time
-void hash_table_delete_pairs_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_time(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
+// cpp_hash_env_table_insert_list
+void cpp_hash_env_table_insert_list(Rcpp::Environment env, Rcpp::CharacterVector keys, Rcpp::List values);
+RcppExport SEXP _hashtable_cpp_hash_env_table_insert_list(SEXP envSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_time(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_time
-int hash_table_size_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_time(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_time(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_keys_time
-Rcpp::CharacterVector hash_table_get_all_keys_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_time(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_time(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_get_all_values_time
-Rcpp::DatetimeVector hash_table_get_all_values_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_time(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_time(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_clear_time
-void hash_table_clear_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_time(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_time(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_time
-Rcpp::XPtr<std::unordered_map<std::string, time_t>> hash_table_copy_time(Rcpp::XPtr<std::unordered_map<std::string, time_t>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_time(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, time_t>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_time(map_xptr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_create_list
-Rcpp::XPtr<std::unordered_map<std::string, SEXP>> hash_table_create_list(Rcpp::CharacterVector keys, Rcpp::List values);
-RcppExport SEXP _hashtable_hash_table_create_list(SEXP keysSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_create_list(keys, values));
-    return rcpp_result_gen;
+    cpp_hash_env_table_insert_list(env, keys, values);
+    return R_NilValue;
 END_RCPP
 }
-// hash_table_get_values_list
-Rcpp::List hash_table_get_values_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr, Rcpp::CharacterVector keys_to_get);
-RcppExport SEXP _hashtable_hash_table_get_values_list(SEXP map_xptrSEXP, SEXP keys_to_getSEXP) {
+// cpp_hash_env_exists
+Rcpp::LogicalVector cpp_hash_env_exists(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_exists(SEXP envSEXP, SEXP keysSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_get(keys_to_getSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_values_list(map_xptr, keys_to_get));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hash_table_exists_list
-Rcpp::LogicalVector hash_table_exists_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr, Rcpp::CharacterVector keys);
-RcppExport SEXP _hashtable_hash_table_exists_list(SEXP map_xptrSEXP, SEXP keysSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_exists_list(map_xptr, keys));
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_exists(env, keys));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_set_values_list
-void hash_table_set_values_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr, Rcpp::CharacterVector keys, Rcpp::List values);
-RcppExport SEXP _hashtable_hash_table_set_values_list(SEXP map_xptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+// cpp_hash_env_size
+int cpp_hash_env_size(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_size(SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_size(env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_clear
+void cpp_hash_env_clear(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_clear(SEXP envSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    cpp_hash_env_clear(env);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_env_delete
+void cpp_hash_env_delete(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_delete(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type values(valuesSEXP);
-    hash_table_set_values_list(map_xptr, keys, values);
+    cpp_hash_env_delete(env, keys);
     return R_NilValue;
 END_RCPP
 }
-// hash_table_delete_pairs_list
-void hash_table_delete_pairs_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr, Rcpp::CharacterVector keys_to_delete);
-RcppExport SEXP _hashtable_hash_table_delete_pairs_list(SEXP map_xptrSEXP, SEXP keys_to_deleteSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys_to_delete(keys_to_deleteSEXP);
-    hash_table_delete_pairs_list(map_xptr, keys_to_delete);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_size_list
-int hash_table_size_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_size_list(SEXP map_xptrSEXP) {
+// cpp_hash_env_copy
+Environment cpp_hash_env_copy(Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_copy(SEXP envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_size_list(map_xptr));
+    Rcpp::traits::input_parameter< Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_copy(env));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_get_all_keys_list
-Rcpp::CharacterVector hash_table_get_all_keys_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_keys_list(SEXP map_xptrSEXP) {
+// cpp_hash_env_keys
+Rcpp::CharacterVector cpp_hash_env_keys(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_keys(SEXP envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_keys_list(map_xptr));
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_keys(env));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_get_all_values_list
-Rcpp::List hash_table_get_all_values_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_get_all_values_list(SEXP map_xptrSEXP) {
+// cpp_hash_env_table_all_values_int
+Rcpp::IntegerVector cpp_hash_env_table_all_values_int(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_table_all_values_int(SEXP envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_get_all_values_list(map_xptr));
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_all_values_int(env));
     return rcpp_result_gen;
 END_RCPP
 }
-// hash_table_clear_list
-void hash_table_clear_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_clear_list(SEXP map_xptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    hash_table_clear_list(map_xptr);
-    return R_NilValue;
-END_RCPP
-}
-// hash_table_copy_list
-Rcpp::XPtr<std::unordered_map<std::string, SEXP>> hash_table_copy_list(Rcpp::XPtr<std::unordered_map<std::string, SEXP>> map_xptr);
-RcppExport SEXP _hashtable_hash_table_copy_list(SEXP map_xptrSEXP) {
+// cpp_hash_env_table_all_values_double
+Rcpp::NumericVector cpp_hash_env_table_all_values_double(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_table_all_values_double(SEXP envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<std::unordered_map<std::string, SEXP>> >::type map_xptr(map_xptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(hash_table_copy_list(map_xptr));
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_all_values_double(env));
     return rcpp_result_gen;
 END_RCPP
 }
-// update_vector_elements
-void update_vector_elements(SEXP x, Rcpp::IntegerVector ind, SEXP values);
-RcppExport SEXP _hashtable_update_vector_elements(SEXP xSEXP, SEXP indSEXP, SEXP valuesSEXP) {
+// cpp_hash_env_table_all_values_string
+Rcpp::CharacterVector cpp_hash_env_table_all_values_string(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_table_all_values_string(SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_all_values_string(env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_all_values_bool
+Rcpp::LogicalVector cpp_hash_env_table_all_values_bool(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_table_all_values_bool(SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_all_values_bool(env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_all_values_list
+Rcpp::List cpp_hash_env_table_all_values_list(Rcpp::Environment env);
+RcppExport SEXP _hashtable_cpp_hash_env_table_all_values_list(SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_all_values_list(env));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_int
+Rcpp::IntegerVector cpp_hash_env_table_values_int(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_int(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_int(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_double
+Rcpp::NumericVector cpp_hash_env_table_values_double(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_double(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_double(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_string
+Rcpp::CharacterVector cpp_hash_env_table_values_string(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_string(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_string(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_bool
+Rcpp::LogicalVector cpp_hash_env_table_values_bool(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_bool(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_bool(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_date
+Rcpp::DateVector cpp_hash_env_table_values_date(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_date(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_date(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_time
+Rcpp::DatetimeVector cpp_hash_env_table_values_time(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_time(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_time(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_env_table_values_list
+Rcpp::List cpp_hash_env_table_values_list(Rcpp::Environment env, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_env_table_values_list(SEXP envSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::Environment >::type env(envSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_env_table_values_list(env, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_update_vector_elements
+void cpp_update_vector_elements(SEXP x, Rcpp::IntegerVector ind, SEXP values);
+RcppExport SEXP _hashtable_cpp_update_vector_elements(SEXP xSEXP, SEXP indSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type ind(indSEXP);
     Rcpp::traits::input_parameter< SEXP >::type values(valuesSEXP);
-    update_vector_elements(x, ind, values);
+    cpp_update_vector_elements(x, ind, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_set_create
+Rcpp::XPtr<CharSXPSet> cpp_hash_set_create(Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_set_create(SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_set_create(keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_set_exists
+Rcpp::LogicalVector cpp_hash_set_exists(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_set_exists(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_set_exists(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_set_insert
+void cpp_hash_set_insert(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_set_insert(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_set_insert(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_set_size
+int cpp_hash_set_size(Rcpp::XPtr<CharSXPSet> ptr);
+RcppExport SEXP _hashtable_cpp_hash_set_size(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_set_size(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_set_copy
+Rcpp::XPtr<CharSXPSet> cpp_hash_set_copy(Rcpp::XPtr<CharSXPSet> ptr);
+RcppExport SEXP _hashtable_cpp_hash_set_copy(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_set_copy(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_set_all_keys
+Rcpp::CharacterVector cpp_hash_set_all_keys(Rcpp::XPtr<CharSXPSet> ptr);
+RcppExport SEXP _hashtable_cpp_hash_set_all_keys(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_set_all_keys(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_set_clear
+void cpp_hash_set_clear(Rcpp::XPtr<CharSXPSet> ptr);
+RcppExport SEXP _hashtable_cpp_hash_set_clear(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    cpp_hash_set_clear(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_set_delete
+void cpp_hash_set_delete(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_set_delete(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPSet> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_set_delete(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_int
+Rcpp::XPtr<CharSXPIntMap> cpp_hash_table_create_int(Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_int(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_int(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_int
+Rcpp::LogicalVector cpp_hash_table_exists_int(Rcpp::XPtr<CharSXPIntMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_int(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_int(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_int
+Rcpp::IntegerVector cpp_hash_table_values_int(Rcpp::XPtr<CharSXPIntMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_int(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_int(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_int
+void cpp_hash_table_insert_int(Rcpp::XPtr<CharSXPIntMap> ptr, Rcpp::CharacterVector keys, Rcpp::IntegerVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_int(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_int(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_int
+int cpp_hash_table_size_int(Rcpp::XPtr<CharSXPIntMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_int(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_int(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_int
+Rcpp::XPtr<CharSXPIntMap> cpp_hash_table_copy_int(Rcpp::XPtr<CharSXPIntMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_int(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_int(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_int
+Rcpp::CharacterVector cpp_hash_table_all_keys_int(Rcpp::XPtr<CharSXPIntMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_int(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_int(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_int
+Rcpp::IntegerVector cpp_hash_table_all_values_int(Rcpp::XPtr<CharSXPIntMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_int(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_int(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_int
+void cpp_hash_table_clear_int(Rcpp::XPtr<CharSXPIntMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_int(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_int(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_int
+void cpp_hash_table_delete_int(Rcpp::XPtr<CharSXPIntMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_int(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPIntMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_int(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_double
+Rcpp::XPtr<CharSXPDoubleMap> cpp_hash_table_create_double(Rcpp::CharacterVector keys, Rcpp::NumericVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_double(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_double(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_double
+Rcpp::LogicalVector cpp_hash_table_exists_double(Rcpp::XPtr<CharSXPDoubleMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_double(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_double(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_double
+Rcpp::NumericVector cpp_hash_table_values_double(Rcpp::XPtr<CharSXPDoubleMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_double(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_double(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_double
+void cpp_hash_table_insert_double(Rcpp::XPtr<CharSXPDoubleMap> ptr, Rcpp::CharacterVector keys, Rcpp::NumericVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_double(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_double(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_double
+int cpp_hash_table_size_double(Rcpp::XPtr<CharSXPDoubleMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_double(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_double(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_double
+Rcpp::XPtr<CharSXPDoubleMap> cpp_hash_table_copy_double(Rcpp::XPtr<CharSXPDoubleMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_double(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_double(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_double
+Rcpp::CharacterVector cpp_hash_table_all_keys_double(Rcpp::XPtr<CharSXPDoubleMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_double(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_double(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_double
+Rcpp::NumericVector cpp_hash_table_all_values_double(Rcpp::XPtr<CharSXPDoubleMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_double(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_double(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_double
+void cpp_hash_table_clear_double(Rcpp::XPtr<CharSXPDoubleMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_double(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_double(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_double
+void cpp_hash_table_delete_double(Rcpp::XPtr<CharSXPDoubleMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_double(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDoubleMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_double(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_string
+Rcpp::XPtr<CharSXPStringMap> cpp_hash_table_create_string(Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_string(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_string(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_string
+Rcpp::LogicalVector cpp_hash_table_exists_string(Rcpp::XPtr<CharSXPStringMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_string(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_string(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_string
+Rcpp::CharacterVector cpp_hash_table_values_string(Rcpp::XPtr<CharSXPStringMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_string(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_string(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_string
+void cpp_hash_table_insert_string(Rcpp::XPtr<CharSXPStringMap> ptr, Rcpp::CharacterVector keys, Rcpp::CharacterVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_string(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_string(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_string
+int cpp_hash_table_size_string(Rcpp::XPtr<CharSXPStringMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_string(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_string(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_string
+Rcpp::XPtr<CharSXPStringMap> cpp_hash_table_copy_string(Rcpp::XPtr<CharSXPStringMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_string(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_string(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_string
+Rcpp::CharacterVector cpp_hash_table_all_keys_string(Rcpp::XPtr<CharSXPStringMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_string(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_string(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_string
+Rcpp::CharacterVector cpp_hash_table_all_values_string(Rcpp::XPtr<CharSXPStringMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_string(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_string(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_string
+void cpp_hash_table_clear_string(Rcpp::XPtr<CharSXPStringMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_string(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_string(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_string
+void cpp_hash_table_delete_string(Rcpp::XPtr<CharSXPStringMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_string(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPStringMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_string(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_bool
+Rcpp::XPtr<CharSXPBoolMap> cpp_hash_table_create_bool(Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_bool(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_bool(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_bool
+Rcpp::LogicalVector cpp_hash_table_exists_bool(Rcpp::XPtr<CharSXPBoolMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_bool(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_bool(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_bool
+Rcpp::LogicalVector cpp_hash_table_values_bool(Rcpp::XPtr<CharSXPBoolMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_bool(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_bool(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_bool
+void cpp_hash_table_insert_bool(Rcpp::XPtr<CharSXPBoolMap> ptr, Rcpp::CharacterVector keys, Rcpp::LogicalVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_bool(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_bool(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_bool
+int cpp_hash_table_size_bool(Rcpp::XPtr<CharSXPBoolMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_bool(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_bool(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_bool
+Rcpp::XPtr<CharSXPBoolMap> cpp_hash_table_copy_bool(Rcpp::XPtr<CharSXPBoolMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_bool(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_bool(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_bool
+Rcpp::CharacterVector cpp_hash_table_all_keys_bool(Rcpp::XPtr<CharSXPBoolMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_bool(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_bool(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_bool
+Rcpp::LogicalVector cpp_hash_table_all_values_bool(Rcpp::XPtr<CharSXPBoolMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_bool(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_bool(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_bool
+void cpp_hash_table_clear_bool(Rcpp::XPtr<CharSXPBoolMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_bool(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_bool(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_bool
+void cpp_hash_table_delete_bool(Rcpp::XPtr<CharSXPBoolMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_bool(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPBoolMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_bool(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_date
+Rcpp::XPtr<CharSXPDateMap> cpp_hash_table_create_date(Rcpp::CharacterVector keys, Rcpp::DateVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_date(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DateVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_date(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_date
+Rcpp::LogicalVector cpp_hash_table_exists_date(Rcpp::XPtr<CharSXPDateMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_date(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_date(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_date
+Rcpp::DateVector cpp_hash_table_values_date(Rcpp::XPtr<CharSXPDateMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_date(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_date(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_date
+void cpp_hash_table_insert_date(Rcpp::XPtr<CharSXPDateMap> ptr, Rcpp::CharacterVector keys, Rcpp::DateVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_date(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DateVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_date(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_date
+int cpp_hash_table_size_date(Rcpp::XPtr<CharSXPDateMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_date(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_date(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_date
+Rcpp::XPtr<CharSXPDateMap> cpp_hash_table_copy_date(Rcpp::XPtr<CharSXPDateMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_date(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_date(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_date
+Rcpp::CharacterVector cpp_hash_table_all_keys_date(Rcpp::XPtr<CharSXPDateMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_date(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_date(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_date
+Rcpp::DateVector cpp_hash_table_all_values_date(Rcpp::XPtr<CharSXPDateMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_date(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_date(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_date
+void cpp_hash_table_clear_date(Rcpp::XPtr<CharSXPDateMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_date(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_date(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_date
+void cpp_hash_table_delete_date(Rcpp::XPtr<CharSXPDateMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_date(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPDateMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_date(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_time
+Rcpp::XPtr<CharSXPPOSIXctMap> cpp_hash_table_create_time(Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_time(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DatetimeVector >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_time(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_time
+Rcpp::LogicalVector cpp_hash_table_exists_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_time(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_time(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_time
+Rcpp::DatetimeVector cpp_hash_table_values_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_time(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_time(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_time
+void cpp_hash_table_insert_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr, Rcpp::CharacterVector keys, Rcpp::DatetimeVector values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_time(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DatetimeVector >::type values(valuesSEXP);
+    cpp_hash_table_insert_time(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_time
+int cpp_hash_table_size_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_time(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_time(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_time
+Rcpp::XPtr<CharSXPPOSIXctMap> cpp_hash_table_copy_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_time(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_time(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_time
+Rcpp::CharacterVector cpp_hash_table_all_keys_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_time(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_time(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_time
+Rcpp::DatetimeVector cpp_hash_table_all_values_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_time(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_time(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_time
+void cpp_hash_table_clear_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_time(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_time(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_time
+void cpp_hash_table_delete_time(Rcpp::XPtr<CharSXPPOSIXctMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_time(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPPOSIXctMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_time(ptr, keys);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_create_list
+Rcpp::XPtr<CharSXPListMap> cpp_hash_table_create_list(Rcpp::CharacterVector keys, Rcpp::List values);
+RcppExport SEXP _hashtable_cpp_hash_table_create_list(SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_create_list(keys, values));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_exists_list
+Rcpp::LogicalVector cpp_hash_table_exists_list(Rcpp::XPtr<CharSXPListMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_exists_list(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_exists_list(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_values_list
+Rcpp::List cpp_hash_table_values_list(Rcpp::XPtr<CharSXPListMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_values_list(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_values_list(ptr, keys));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_insert_list
+void cpp_hash_table_insert_list(Rcpp::XPtr<CharSXPListMap> ptr, Rcpp::CharacterVector keys, Rcpp::List values);
+RcppExport SEXP _hashtable_cpp_hash_table_insert_list(SEXP ptrSEXP, SEXP keysSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type values(valuesSEXP);
+    cpp_hash_table_insert_list(ptr, keys, values);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_size_list
+int cpp_hash_table_size_list(Rcpp::XPtr<CharSXPListMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_size_list(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_size_list(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_copy_list
+Rcpp::XPtr<CharSXPListMap> cpp_hash_table_copy_list(Rcpp::XPtr<CharSXPListMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_copy_list(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_copy_list(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_keys_list
+Rcpp::CharacterVector cpp_hash_table_all_keys_list(Rcpp::XPtr<CharSXPListMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_keys_list(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_keys_list(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_all_values_list
+Rcpp::List cpp_hash_table_all_values_list(Rcpp::XPtr<CharSXPListMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_all_values_list(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_hash_table_all_values_list(ptr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_hash_table_clear_list
+void cpp_hash_table_clear_list(Rcpp::XPtr<CharSXPListMap> ptr);
+RcppExport SEXP _hashtable_cpp_hash_table_clear_list(SEXP ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    cpp_hash_table_clear_list(ptr);
+    return R_NilValue;
+END_RCPP
+}
+// cpp_hash_table_delete_list
+void cpp_hash_table_delete_list(Rcpp::XPtr<CharSXPListMap> ptr, Rcpp::CharacterVector keys);
+RcppExport SEXP _hashtable_cpp_hash_table_delete_list(SEXP ptrSEXP, SEXP keysSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CharSXPListMap> >::type ptr(ptrSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    cpp_hash_table_delete_list(ptr, keys);
     return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_hashtable_hash_env_hash_set_create", (DL_FUNC) &_hashtable_hash_env_hash_set_create, 1},
-    {"_hashtable_hash_env_copy", (DL_FUNC) &_hashtable_hash_env_copy, 1},
-    {"_hashtable_internal_hash_env_exists", (DL_FUNC) &_hashtable_internal_hash_env_exists, 2},
-    {"_hashtable_internal_hash_env_delete", (DL_FUNC) &_hashtable_internal_hash_env_delete, 2},
-    {"_hashtable_internal_hash_env_size", (DL_FUNC) &_hashtable_internal_hash_env_size, 1},
-    {"_hashtable_internal_hash_env_values_logical", (DL_FUNC) &_hashtable_internal_hash_env_values_logical, 2},
-    {"_hashtable_internal_hash_env_values_integer", (DL_FUNC) &_hashtable_internal_hash_env_values_integer, 2},
-    {"_hashtable_internal_hash_env_values_character", (DL_FUNC) &_hashtable_internal_hash_env_values_character, 2},
-    {"_hashtable_internal_hash_env_values_numeric", (DL_FUNC) &_hashtable_internal_hash_env_values_numeric, 2},
-    {"_hashtable_internal_hash_env_values_date", (DL_FUNC) &_hashtable_internal_hash_env_values_date, 2},
-    {"_hashtable_internal_hash_env_values_time", (DL_FUNC) &_hashtable_internal_hash_env_values_time, 2},
-    {"_hashtable_internal_hash_env_set_values_logical", (DL_FUNC) &_hashtable_internal_hash_env_set_values_logical, 3},
-    {"_hashtable_internal_hash_env_set_values_integer", (DL_FUNC) &_hashtable_internal_hash_env_set_values_integer, 3},
-    {"_hashtable_internal_hash_env_set_values_character", (DL_FUNC) &_hashtable_internal_hash_env_set_values_character, 3},
-    {"_hashtable_internal_hash_env_set_values_numeric", (DL_FUNC) &_hashtable_internal_hash_env_set_values_numeric, 3},
-    {"_hashtable_internal_hash_env_set_values_date", (DL_FUNC) &_hashtable_internal_hash_env_set_values_date, 3},
-    {"_hashtable_internal_hash_env_set_values_time", (DL_FUNC) &_hashtable_internal_hash_env_set_values_time, 3},
-    {"_hashtable_internal_hash_env_set_values_list", (DL_FUNC) &_hashtable_internal_hash_env_set_values_list, 3},
-    {"_hashtable_internal_hash_env_set_values_null", (DL_FUNC) &_hashtable_internal_hash_env_set_values_null, 2},
-    {"_hashtable_hash_set_create_int", (DL_FUNC) &_hashtable_hash_set_create_int, 1},
-    {"_hashtable_hash_set_insert_int", (DL_FUNC) &_hashtable_hash_set_insert_int, 2},
-    {"_hashtable_hash_set_exists_int", (DL_FUNC) &_hashtable_hash_set_exists_int, 2},
-    {"_hashtable_hash_set_intersect_to_list_int", (DL_FUNC) &_hashtable_hash_set_intersect_to_list_int, 2},
-    {"_hashtable_hash_set_intersect_to_list_int_n", (DL_FUNC) &_hashtable_hash_set_intersect_to_list_int_n, 2},
-    {"_hashtable_hash_set_delete_int", (DL_FUNC) &_hashtable_hash_set_delete_int, 2},
-    {"_hashtable_hash_set_clear_int", (DL_FUNC) &_hashtable_hash_set_clear_int, 1},
-    {"_hashtable_hash_set_copy_int", (DL_FUNC) &_hashtable_hash_set_copy_int, 1},
-    {"_hashtable_hash_set_size_int", (DL_FUNC) &_hashtable_hash_set_size_int, 1},
-    {"_hashtable_hash_set_get_all_keys_int", (DL_FUNC) &_hashtable_hash_set_get_all_keys_int, 1},
-    {"_hashtable_hash_set_create_string", (DL_FUNC) &_hashtable_hash_set_create_string, 1},
-    {"_hashtable_hash_set_insert_string", (DL_FUNC) &_hashtable_hash_set_insert_string, 2},
-    {"_hashtable_hash_set_exists_string", (DL_FUNC) &_hashtable_hash_set_exists_string, 2},
-    {"_hashtable_hash_set_intersect_to_list_string", (DL_FUNC) &_hashtable_hash_set_intersect_to_list_string, 2},
-    {"_hashtable_hash_set_intersect_to_list_string_n", (DL_FUNC) &_hashtable_hash_set_intersect_to_list_string_n, 2},
-    {"_hashtable_hash_set_delete_string", (DL_FUNC) &_hashtable_hash_set_delete_string, 2},
-    {"_hashtable_hash_set_clear_string", (DL_FUNC) &_hashtable_hash_set_clear_string, 1},
-    {"_hashtable_hash_set_copy_string", (DL_FUNC) &_hashtable_hash_set_copy_string, 1},
-    {"_hashtable_hash_set_size_string", (DL_FUNC) &_hashtable_hash_set_size_string, 1},
-    {"_hashtable_hash_set_get_all_keys_string", (DL_FUNC) &_hashtable_hash_set_get_all_keys_string, 1},
-    {"_hashtable_hash_table_create_int", (DL_FUNC) &_hashtable_hash_table_create_int, 2},
-    {"_hashtable_hash_table_get_values_int", (DL_FUNC) &_hashtable_hash_table_get_values_int, 2},
-    {"_hashtable_hash_table_exists_int", (DL_FUNC) &_hashtable_hash_table_exists_int, 2},
-    {"_hashtable_hash_table_set_values_int", (DL_FUNC) &_hashtable_hash_table_set_values_int, 3},
-    {"_hashtable_hash_table_delete_pairs_int", (DL_FUNC) &_hashtable_hash_table_delete_pairs_int, 2},
-    {"_hashtable_hash_table_size_int", (DL_FUNC) &_hashtable_hash_table_size_int, 1},
-    {"_hashtable_hash_table_get_all_keys_int", (DL_FUNC) &_hashtable_hash_table_get_all_keys_int, 1},
-    {"_hashtable_hash_table_get_all_values_int", (DL_FUNC) &_hashtable_hash_table_get_all_values_int, 1},
-    {"_hashtable_hash_table_clear_int", (DL_FUNC) &_hashtable_hash_table_clear_int, 1},
-    {"_hashtable_hash_table_copy_int", (DL_FUNC) &_hashtable_hash_table_copy_int, 1},
-    {"_hashtable_hash_table_create_double", (DL_FUNC) &_hashtable_hash_table_create_double, 2},
-    {"_hashtable_hash_table_get_values_double", (DL_FUNC) &_hashtable_hash_table_get_values_double, 2},
-    {"_hashtable_hash_table_exists_double", (DL_FUNC) &_hashtable_hash_table_exists_double, 2},
-    {"_hashtable_hash_table_set_values_double", (DL_FUNC) &_hashtable_hash_table_set_values_double, 3},
-    {"_hashtable_hash_table_delete_pairs_double", (DL_FUNC) &_hashtable_hash_table_delete_pairs_double, 2},
-    {"_hashtable_hash_table_size_double", (DL_FUNC) &_hashtable_hash_table_size_double, 1},
-    {"_hashtable_hash_table_get_all_keys_double", (DL_FUNC) &_hashtable_hash_table_get_all_keys_double, 1},
-    {"_hashtable_hash_table_get_all_values_double", (DL_FUNC) &_hashtable_hash_table_get_all_values_double, 1},
-    {"_hashtable_hash_table_clear_double", (DL_FUNC) &_hashtable_hash_table_clear_double, 1},
-    {"_hashtable_hash_table_copy_double", (DL_FUNC) &_hashtable_hash_table_copy_double, 1},
-    {"_hashtable_hash_table_create_string", (DL_FUNC) &_hashtable_hash_table_create_string, 2},
-    {"_hashtable_hash_table_get_values_string", (DL_FUNC) &_hashtable_hash_table_get_values_string, 2},
-    {"_hashtable_hash_table_exists_string", (DL_FUNC) &_hashtable_hash_table_exists_string, 2},
-    {"_hashtable_hash_table_set_values_string", (DL_FUNC) &_hashtable_hash_table_set_values_string, 3},
-    {"_hashtable_hash_table_delete_pairs_string", (DL_FUNC) &_hashtable_hash_table_delete_pairs_string, 2},
-    {"_hashtable_hash_table_size_string", (DL_FUNC) &_hashtable_hash_table_size_string, 1},
-    {"_hashtable_hash_table_get_all_keys_string", (DL_FUNC) &_hashtable_hash_table_get_all_keys_string, 1},
-    {"_hashtable_hash_table_get_all_values_string", (DL_FUNC) &_hashtable_hash_table_get_all_values_string, 1},
-    {"_hashtable_hash_table_clear_string", (DL_FUNC) &_hashtable_hash_table_clear_string, 1},
-    {"_hashtable_hash_table_copy_string", (DL_FUNC) &_hashtable_hash_table_copy_string, 1},
-    {"_hashtable_hash_table_create_bool", (DL_FUNC) &_hashtable_hash_table_create_bool, 2},
-    {"_hashtable_hash_table_get_values_bool", (DL_FUNC) &_hashtable_hash_table_get_values_bool, 2},
-    {"_hashtable_hash_table_exists_bool", (DL_FUNC) &_hashtable_hash_table_exists_bool, 2},
-    {"_hashtable_hash_table_set_values_bool", (DL_FUNC) &_hashtable_hash_table_set_values_bool, 3},
-    {"_hashtable_hash_table_delete_pairs_bool", (DL_FUNC) &_hashtable_hash_table_delete_pairs_bool, 2},
-    {"_hashtable_hash_table_size_bool", (DL_FUNC) &_hashtable_hash_table_size_bool, 1},
-    {"_hashtable_hash_table_get_all_keys_bool", (DL_FUNC) &_hashtable_hash_table_get_all_keys_bool, 1},
-    {"_hashtable_hash_table_get_all_values_bool", (DL_FUNC) &_hashtable_hash_table_get_all_values_bool, 1},
-    {"_hashtable_hash_table_clear_bool", (DL_FUNC) &_hashtable_hash_table_clear_bool, 1},
-    {"_hashtable_hash_table_copy_bool", (DL_FUNC) &_hashtable_hash_table_copy_bool, 1},
-    {"_hashtable_hash_table_create_date", (DL_FUNC) &_hashtable_hash_table_create_date, 2},
-    {"_hashtable_hash_table_get_values_date", (DL_FUNC) &_hashtable_hash_table_get_values_date, 2},
-    {"_hashtable_hash_table_exists_date", (DL_FUNC) &_hashtable_hash_table_exists_date, 2},
-    {"_hashtable_hash_table_set_values_date", (DL_FUNC) &_hashtable_hash_table_set_values_date, 3},
-    {"_hashtable_hash_table_delete_pairs_date", (DL_FUNC) &_hashtable_hash_table_delete_pairs_date, 2},
-    {"_hashtable_hash_table_size_date", (DL_FUNC) &_hashtable_hash_table_size_date, 1},
-    {"_hashtable_hash_table_get_all_keys_date", (DL_FUNC) &_hashtable_hash_table_get_all_keys_date, 1},
-    {"_hashtable_hash_table_get_all_values_date", (DL_FUNC) &_hashtable_hash_table_get_all_values_date, 1},
-    {"_hashtable_hash_table_clear_date", (DL_FUNC) &_hashtable_hash_table_clear_date, 1},
-    {"_hashtable_hash_table_copy_date", (DL_FUNC) &_hashtable_hash_table_copy_date, 1},
-    {"_hashtable_hash_table_create_time", (DL_FUNC) &_hashtable_hash_table_create_time, 2},
-    {"_hashtable_hash_table_get_values_time", (DL_FUNC) &_hashtable_hash_table_get_values_time, 2},
-    {"_hashtable_hash_table_exists_time", (DL_FUNC) &_hashtable_hash_table_exists_time, 2},
-    {"_hashtable_hash_table_set_values_time", (DL_FUNC) &_hashtable_hash_table_set_values_time, 3},
-    {"_hashtable_hash_table_delete_pairs_time", (DL_FUNC) &_hashtable_hash_table_delete_pairs_time, 2},
-    {"_hashtable_hash_table_size_time", (DL_FUNC) &_hashtable_hash_table_size_time, 1},
-    {"_hashtable_hash_table_get_all_keys_time", (DL_FUNC) &_hashtable_hash_table_get_all_keys_time, 1},
-    {"_hashtable_hash_table_get_all_values_time", (DL_FUNC) &_hashtable_hash_table_get_all_values_time, 1},
-    {"_hashtable_hash_table_clear_time", (DL_FUNC) &_hashtable_hash_table_clear_time, 1},
-    {"_hashtable_hash_table_copy_time", (DL_FUNC) &_hashtable_hash_table_copy_time, 1},
-    {"_hashtable_hash_table_create_list", (DL_FUNC) &_hashtable_hash_table_create_list, 2},
-    {"_hashtable_hash_table_get_values_list", (DL_FUNC) &_hashtable_hash_table_get_values_list, 2},
-    {"_hashtable_hash_table_exists_list", (DL_FUNC) &_hashtable_hash_table_exists_list, 2},
-    {"_hashtable_hash_table_set_values_list", (DL_FUNC) &_hashtable_hash_table_set_values_list, 3},
-    {"_hashtable_hash_table_delete_pairs_list", (DL_FUNC) &_hashtable_hash_table_delete_pairs_list, 2},
-    {"_hashtable_hash_table_size_list", (DL_FUNC) &_hashtable_hash_table_size_list, 1},
-    {"_hashtable_hash_table_get_all_keys_list", (DL_FUNC) &_hashtable_hash_table_get_all_keys_list, 1},
-    {"_hashtable_hash_table_get_all_values_list", (DL_FUNC) &_hashtable_hash_table_get_all_values_list, 1},
-    {"_hashtable_hash_table_clear_list", (DL_FUNC) &_hashtable_hash_table_clear_list, 1},
-    {"_hashtable_hash_table_copy_list", (DL_FUNC) &_hashtable_hash_table_copy_list, 1},
-    {"_hashtable_update_vector_elements", (DL_FUNC) &_hashtable_update_vector_elements, 3},
+    {"_hashtable_cpp_hash_env_table_create_int", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_int, 2},
+    {"_hashtable_cpp_hash_env_table_create_double", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_double, 2},
+    {"_hashtable_cpp_hash_env_table_create_bool", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_bool, 2},
+    {"_hashtable_cpp_hash_env_table_create_string", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_string, 2},
+    {"_hashtable_cpp_hash_env_table_create_date", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_date, 2},
+    {"_hashtable_cpp_hash_env_table_create_datetime", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_datetime, 2},
+    {"_hashtable_cpp_hash_env_table_create_list", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_list, 2},
+    {"_hashtable_cpp_hash_env_set_create", (DL_FUNC) &_hashtable_cpp_hash_env_set_create, 1},
+    {"_hashtable_cpp_hash_env_table_insert_int", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_int, 3},
+    {"_hashtable_cpp_hash_env_table_insert_double", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_double, 3},
+    {"_hashtable_cpp_hash_env_table_insert_bool", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_bool, 3},
+    {"_hashtable_cpp_hash_env_table_insert_string", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_string, 3},
+    {"_hashtable_cpp_hash_env_table_insert_date", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_date, 3},
+    {"_hashtable_cpp_hash_env_table_insert_datetime", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_datetime, 3},
+    {"_hashtable_cpp_hash_env_table_insert_list", (DL_FUNC) &_hashtable_cpp_hash_env_table_insert_list, 3},
+    {"_hashtable_cpp_hash_env_exists", (DL_FUNC) &_hashtable_cpp_hash_env_exists, 2},
+    {"_hashtable_cpp_hash_env_size", (DL_FUNC) &_hashtable_cpp_hash_env_size, 1},
+    {"_hashtable_cpp_hash_env_clear", (DL_FUNC) &_hashtable_cpp_hash_env_clear, 1},
+    {"_hashtable_cpp_hash_env_delete", (DL_FUNC) &_hashtable_cpp_hash_env_delete, 2},
+    {"_hashtable_cpp_hash_env_copy", (DL_FUNC) &_hashtable_cpp_hash_env_copy, 1},
+    {"_hashtable_cpp_hash_env_keys", (DL_FUNC) &_hashtable_cpp_hash_env_keys, 1},
+    {"_hashtable_cpp_hash_env_table_all_values_int", (DL_FUNC) &_hashtable_cpp_hash_env_table_all_values_int, 1},
+    {"_hashtable_cpp_hash_env_table_all_values_double", (DL_FUNC) &_hashtable_cpp_hash_env_table_all_values_double, 1},
+    {"_hashtable_cpp_hash_env_table_all_values_string", (DL_FUNC) &_hashtable_cpp_hash_env_table_all_values_string, 1},
+    {"_hashtable_cpp_hash_env_table_all_values_bool", (DL_FUNC) &_hashtable_cpp_hash_env_table_all_values_bool, 1},
+    {"_hashtable_cpp_hash_env_table_all_values_list", (DL_FUNC) &_hashtable_cpp_hash_env_table_all_values_list, 1},
+    {"_hashtable_cpp_hash_env_table_values_int", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_int, 2},
+    {"_hashtable_cpp_hash_env_table_values_double", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_double, 2},
+    {"_hashtable_cpp_hash_env_table_values_string", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_string, 2},
+    {"_hashtable_cpp_hash_env_table_values_bool", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_bool, 2},
+    {"_hashtable_cpp_hash_env_table_values_date", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_date, 2},
+    {"_hashtable_cpp_hash_env_table_values_time", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_time, 2},
+    {"_hashtable_cpp_hash_env_table_values_list", (DL_FUNC) &_hashtable_cpp_hash_env_table_values_list, 2},
+    {"_hashtable_cpp_update_vector_elements", (DL_FUNC) &_hashtable_cpp_update_vector_elements, 3},
+    {"_hashtable_cpp_hash_set_create", (DL_FUNC) &_hashtable_cpp_hash_set_create, 1},
+    {"_hashtable_cpp_hash_set_exists", (DL_FUNC) &_hashtable_cpp_hash_set_exists, 2},
+    {"_hashtable_cpp_hash_set_insert", (DL_FUNC) &_hashtable_cpp_hash_set_insert, 2},
+    {"_hashtable_cpp_hash_set_size", (DL_FUNC) &_hashtable_cpp_hash_set_size, 1},
+    {"_hashtable_cpp_hash_set_copy", (DL_FUNC) &_hashtable_cpp_hash_set_copy, 1},
+    {"_hashtable_cpp_hash_set_all_keys", (DL_FUNC) &_hashtable_cpp_hash_set_all_keys, 1},
+    {"_hashtable_cpp_hash_set_clear", (DL_FUNC) &_hashtable_cpp_hash_set_clear, 1},
+    {"_hashtable_cpp_hash_set_delete", (DL_FUNC) &_hashtable_cpp_hash_set_delete, 2},
+    {"_hashtable_cpp_hash_table_create_int", (DL_FUNC) &_hashtable_cpp_hash_table_create_int, 2},
+    {"_hashtable_cpp_hash_table_exists_int", (DL_FUNC) &_hashtable_cpp_hash_table_exists_int, 2},
+    {"_hashtable_cpp_hash_table_values_int", (DL_FUNC) &_hashtable_cpp_hash_table_values_int, 2},
+    {"_hashtable_cpp_hash_table_insert_int", (DL_FUNC) &_hashtable_cpp_hash_table_insert_int, 3},
+    {"_hashtable_cpp_hash_table_size_int", (DL_FUNC) &_hashtable_cpp_hash_table_size_int, 1},
+    {"_hashtable_cpp_hash_table_copy_int", (DL_FUNC) &_hashtable_cpp_hash_table_copy_int, 1},
+    {"_hashtable_cpp_hash_table_all_keys_int", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_int, 1},
+    {"_hashtable_cpp_hash_table_all_values_int", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_int, 1},
+    {"_hashtable_cpp_hash_table_clear_int", (DL_FUNC) &_hashtable_cpp_hash_table_clear_int, 1},
+    {"_hashtable_cpp_hash_table_delete_int", (DL_FUNC) &_hashtable_cpp_hash_table_delete_int, 2},
+    {"_hashtable_cpp_hash_table_create_double", (DL_FUNC) &_hashtable_cpp_hash_table_create_double, 2},
+    {"_hashtable_cpp_hash_table_exists_double", (DL_FUNC) &_hashtable_cpp_hash_table_exists_double, 2},
+    {"_hashtable_cpp_hash_table_values_double", (DL_FUNC) &_hashtable_cpp_hash_table_values_double, 2},
+    {"_hashtable_cpp_hash_table_insert_double", (DL_FUNC) &_hashtable_cpp_hash_table_insert_double, 3},
+    {"_hashtable_cpp_hash_table_size_double", (DL_FUNC) &_hashtable_cpp_hash_table_size_double, 1},
+    {"_hashtable_cpp_hash_table_copy_double", (DL_FUNC) &_hashtable_cpp_hash_table_copy_double, 1},
+    {"_hashtable_cpp_hash_table_all_keys_double", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_double, 1},
+    {"_hashtable_cpp_hash_table_all_values_double", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_double, 1},
+    {"_hashtable_cpp_hash_table_clear_double", (DL_FUNC) &_hashtable_cpp_hash_table_clear_double, 1},
+    {"_hashtable_cpp_hash_table_delete_double", (DL_FUNC) &_hashtable_cpp_hash_table_delete_double, 2},
+    {"_hashtable_cpp_hash_table_create_string", (DL_FUNC) &_hashtable_cpp_hash_table_create_string, 2},
+    {"_hashtable_cpp_hash_table_exists_string", (DL_FUNC) &_hashtable_cpp_hash_table_exists_string, 2},
+    {"_hashtable_cpp_hash_table_values_string", (DL_FUNC) &_hashtable_cpp_hash_table_values_string, 2},
+    {"_hashtable_cpp_hash_table_insert_string", (DL_FUNC) &_hashtable_cpp_hash_table_insert_string, 3},
+    {"_hashtable_cpp_hash_table_size_string", (DL_FUNC) &_hashtable_cpp_hash_table_size_string, 1},
+    {"_hashtable_cpp_hash_table_copy_string", (DL_FUNC) &_hashtable_cpp_hash_table_copy_string, 1},
+    {"_hashtable_cpp_hash_table_all_keys_string", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_string, 1},
+    {"_hashtable_cpp_hash_table_all_values_string", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_string, 1},
+    {"_hashtable_cpp_hash_table_clear_string", (DL_FUNC) &_hashtable_cpp_hash_table_clear_string, 1},
+    {"_hashtable_cpp_hash_table_delete_string", (DL_FUNC) &_hashtable_cpp_hash_table_delete_string, 2},
+    {"_hashtable_cpp_hash_table_create_bool", (DL_FUNC) &_hashtable_cpp_hash_table_create_bool, 2},
+    {"_hashtable_cpp_hash_table_exists_bool", (DL_FUNC) &_hashtable_cpp_hash_table_exists_bool, 2},
+    {"_hashtable_cpp_hash_table_values_bool", (DL_FUNC) &_hashtable_cpp_hash_table_values_bool, 2},
+    {"_hashtable_cpp_hash_table_insert_bool", (DL_FUNC) &_hashtable_cpp_hash_table_insert_bool, 3},
+    {"_hashtable_cpp_hash_table_size_bool", (DL_FUNC) &_hashtable_cpp_hash_table_size_bool, 1},
+    {"_hashtable_cpp_hash_table_copy_bool", (DL_FUNC) &_hashtable_cpp_hash_table_copy_bool, 1},
+    {"_hashtable_cpp_hash_table_all_keys_bool", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_bool, 1},
+    {"_hashtable_cpp_hash_table_all_values_bool", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_bool, 1},
+    {"_hashtable_cpp_hash_table_clear_bool", (DL_FUNC) &_hashtable_cpp_hash_table_clear_bool, 1},
+    {"_hashtable_cpp_hash_table_delete_bool", (DL_FUNC) &_hashtable_cpp_hash_table_delete_bool, 2},
+    {"_hashtable_cpp_hash_table_create_date", (DL_FUNC) &_hashtable_cpp_hash_table_create_date, 2},
+    {"_hashtable_cpp_hash_table_exists_date", (DL_FUNC) &_hashtable_cpp_hash_table_exists_date, 2},
+    {"_hashtable_cpp_hash_table_values_date", (DL_FUNC) &_hashtable_cpp_hash_table_values_date, 2},
+    {"_hashtable_cpp_hash_table_insert_date", (DL_FUNC) &_hashtable_cpp_hash_table_insert_date, 3},
+    {"_hashtable_cpp_hash_table_size_date", (DL_FUNC) &_hashtable_cpp_hash_table_size_date, 1},
+    {"_hashtable_cpp_hash_table_copy_date", (DL_FUNC) &_hashtable_cpp_hash_table_copy_date, 1},
+    {"_hashtable_cpp_hash_table_all_keys_date", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_date, 1},
+    {"_hashtable_cpp_hash_table_all_values_date", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_date, 1},
+    {"_hashtable_cpp_hash_table_clear_date", (DL_FUNC) &_hashtable_cpp_hash_table_clear_date, 1},
+    {"_hashtable_cpp_hash_table_delete_date", (DL_FUNC) &_hashtable_cpp_hash_table_delete_date, 2},
+    {"_hashtable_cpp_hash_table_create_time", (DL_FUNC) &_hashtable_cpp_hash_table_create_time, 2},
+    {"_hashtable_cpp_hash_table_exists_time", (DL_FUNC) &_hashtable_cpp_hash_table_exists_time, 2},
+    {"_hashtable_cpp_hash_table_values_time", (DL_FUNC) &_hashtable_cpp_hash_table_values_time, 2},
+    {"_hashtable_cpp_hash_table_insert_time", (DL_FUNC) &_hashtable_cpp_hash_table_insert_time, 3},
+    {"_hashtable_cpp_hash_table_size_time", (DL_FUNC) &_hashtable_cpp_hash_table_size_time, 1},
+    {"_hashtable_cpp_hash_table_copy_time", (DL_FUNC) &_hashtable_cpp_hash_table_copy_time, 1},
+    {"_hashtable_cpp_hash_table_all_keys_time", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_time, 1},
+    {"_hashtable_cpp_hash_table_all_values_time", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_time, 1},
+    {"_hashtable_cpp_hash_table_clear_time", (DL_FUNC) &_hashtable_cpp_hash_table_clear_time, 1},
+    {"_hashtable_cpp_hash_table_delete_time", (DL_FUNC) &_hashtable_cpp_hash_table_delete_time, 2},
+    {"_hashtable_cpp_hash_table_create_list", (DL_FUNC) &_hashtable_cpp_hash_table_create_list, 2},
+    {"_hashtable_cpp_hash_table_exists_list", (DL_FUNC) &_hashtable_cpp_hash_table_exists_list, 2},
+    {"_hashtable_cpp_hash_table_values_list", (DL_FUNC) &_hashtable_cpp_hash_table_values_list, 2},
+    {"_hashtable_cpp_hash_table_insert_list", (DL_FUNC) &_hashtable_cpp_hash_table_insert_list, 3},
+    {"_hashtable_cpp_hash_table_size_list", (DL_FUNC) &_hashtable_cpp_hash_table_size_list, 1},
+    {"_hashtable_cpp_hash_table_copy_list", (DL_FUNC) &_hashtable_cpp_hash_table_copy_list, 1},
+    {"_hashtable_cpp_hash_table_all_keys_list", (DL_FUNC) &_hashtable_cpp_hash_table_all_keys_list, 1},
+    {"_hashtable_cpp_hash_table_all_values_list", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_list, 1},
+    {"_hashtable_cpp_hash_table_clear_list", (DL_FUNC) &_hashtable_cpp_hash_table_clear_list, 1},
+    {"_hashtable_cpp_hash_table_delete_list", (DL_FUNC) &_hashtable_cpp_hash_table_delete_list, 2},
     {NULL, NULL, 0}
 };
 

@@ -29,8 +29,6 @@ setClass("hash_env_table", contains = "hash_env")
 #' hash_exists(h, "a")
 hash_env_table = function(keys, values) {
 	
-	h = new("hash_env_table")
-
 	if(is.null(keys)) {
 		stop("`keys` cannot be NULL.")
 	}
@@ -46,36 +44,29 @@ hash_env_table = function(keys, values) {
 	if(any(duplicated(keys))) {
 		stop("`keys` should not be duplicated.")
 	}
-
-	if(is.list(values)) {
-		lt = values
-		names(lt) = keys
-	} else {
-		lt = split(values, keys)
-	}
-	e = list2env(lt, hash = TRUE, parent = emptyenv())
 	
-	h@envir = e
+	h = new("hash_env_table")
+	cl = class(values)[1]
+	h@value_class = cl
 	h@is_atomic = is.atomic(values)
-	h@value_class = class(values)[1]
-	
+	h@envir = switch(cl, 
+		"integer"   = cpp_hash_env_table_create_int(keys, values),
+		"logical"   = cpp_hash_env_table_create_bool(keys, values),
+		"numeric"   = cpp_hash_env_table_create_double(keys, values),
+		"character" = cpp_hash_env_table_create_string(keys, values),
+		"Date"      = cpp_hash_env_table_create_date(keys, values),
+		"POSIXct"   = cpp_hash_env_table_create_time(keys, values),
+		"list"      = cpp_hash_env_table_create_list(keys, values),
+		stop("Data type of `values` ('", cl, "') is not supported.")
+	)
 	h
 }
 
 #' @export
 #' @rdname hash_env
 hash_env_set = function(keys) {
-	if(is.null(keys)) {
-		stop("`keys` cannot be NULL.")
-	}
-	if(any(duplicated(keys))) {
-		stop("Keys should not be duplicated.")
-	}
 	h = new("hash_env_set")
-	e = hash_env_hash_set_create(keys)
-
-	h@envir = e
-	
+	h@envir = cpp_hash_env_table_create_bool(keys, rep(TRUE, length(keys)))
 	h
 }
 
@@ -84,14 +75,14 @@ hash_env_set = function(keys) {
 #' @param h,x,object A `hash_env_table` returned by `hash_env_table()` or a `hash_env_set` object returned by `hash_env_set()`.
 setMethod("hash_exists", signature = "hash_env",
 	definition = function(h, keys) {
-	internal_hash_env_exists(h@envir, keys)
+	cpp_hash_env_exists(h@envir, keys)
 })
 
 #' @export
 #' @rdname hash_env
 setMethod("hash_delete", signature = "hash_env",
 	definition = function(h, keys) {
-	invisible(internal_hash_env_delete(h@envir, keys))
+	invisible(cpp_hash_env_delete(h@envir, keys))
 })
 
 #' @export
@@ -99,32 +90,21 @@ setMethod("hash_delete", signature = "hash_env",
 setMethod("hash_insert", signature = "hash_env_table",
 	definition = function(h, keys, values) {
 	
-	if(h@is_atomic) {
-		if(!inherits(values, h@value_class)) {
-			stop("`values` should be ", h@value_class, ".")
-		}
-
-		switch(h@value_class,
-			"logical" = internal_hash_env_set_values_logical(h@envir, keys, values),
-			"integer" = internal_hash_env_set_values_integer(h@envir, keys, values),
-			"numeric" = internal_hash_env_set_values_numeric(h@envir, keys, values),
-			"character" = internal_hash_env_set_values_character(h@envir, keys, values),
-			"Date" = internal_hash_env_set_values_date(h@envir, keys, values),
-			"POSIXct" = internal_hash_env_set_values_time(h@envir, keys, values)
-		)
-
-	} else {
-		if(is.list(values)) {
-			if(length(keys) == 1) {
-				assign(keys, values[[1]], envir = h$envir)
-			} else {
-				internal_hash_env_set_values_list(h@envir, keys, values)
-			}
-		} else {
-			stop("if `values` is not atomics, it should be a list.")
-		}
+	cl = h@value_class
+	clv = class(values)[1]
+	if(clv != cl) {
+		stop("Data type of `values` (", clv, ") is not compatible with the hash table (", cl, ").")
 	}
-	
+
+	switch(cl, 
+		"integer"   = cpp_hash_env_table_insert_int(h@envir, keys, values),
+		"logical"   = cpp_hash_env_table_insert_bool(h@envir, keys, values),
+		"numeric"   = cpp_hash_env_table_insert_double(h@envir, keys, values),
+		"character" = cpp_hash_env_table_insert_string(h@envir, keys, values),
+		"Date"      = cpp_hash_env_table_insert_date(h@envir, keys, values),
+		"POSIXct"   = cpp_hash_env_table_insert_time(h@envir, keys, values),
+		"list"      = cpp_hash_env_table_insert_list(h@envir, keys, values)
+	)
 	invisible(h)
 })
 
@@ -132,7 +112,12 @@ setMethod("hash_insert", signature = "hash_env_table",
 #' @rdname hash_env
 setMethod("hash_insert", signature = "hash_env_set",
 	definition = function(h, keys) {
-	internal_hash_env_set_values_null(h@envir, keys)
+
+	n = length(keys)
+	values = rep(list(NULL), n)
+
+	cpp_hash_env_table_insert_list(h@envir, keys, values)
+	
 	invisible(h)
 })
 
@@ -141,7 +126,7 @@ setMethod("hash_insert", signature = "hash_env_set",
 #' @rdname hash_env
 setMethod("hash_size", signature = "hash_env",
 	definition = function(h) {
-	internal_hash_env_size(h@envir)
+	cpp_hash_env_size(h@envir)
 })
 
 #' @export
@@ -154,7 +139,7 @@ length.hash_env = function(x) {
 #' @rdname hash_env
 setMethod("hash_keys", signature = "hash_env",
 	definition = function(h) {
-	ls(envir = h@envir, all.names = TRUE, sorted = FALSE)
+	cpp_hash_env_keys(h@envir)
 })
 
 #' @export
@@ -162,24 +147,27 @@ setMethod("hash_keys", signature = "hash_env",
 setMethod("hash_values", signature = "hash_env_table",
 	definition = function(h, keys = NULL) {
 
+	cl = h@value_class
 	if(is.null(keys)) {
-		keys = hash_keys(h)
-	}
-	if(length(keys) == 1) {
-		get(keys, envir = h@envir, inherits = FALSE)
+		switch(cl, 
+			"integer"   = cpp_hash_env_table_all_values_int(h@envir),
+			"logical"   = cpp_hash_env_table_all_values_bool(h@envir),
+			"numeric"   = cpp_hash_env_table_all_values_double(h@envir),
+			"character" = cpp_hash_env_table_all_values_string(h@envir),
+			"Date"      = cpp_hash_env_table_all_values_date(h@envir),
+			"POSIXct"   = cpp_hash_env_table_all_values_time(h@envir),
+			"list"      = cpp_hash_env_table_all_values_list(h@envir)
+		)
 	} else {
-		if(h@is_atomic) {
-			switch(h@value_class,
-				"logical" = internal_hash_env_values_logical(h@envir, keys),
-				"integer" = internal_hash_env_values_integer(h@envir, keys),
-				"numeric" = internal_hash_env_values_numeric(h@envir, keys),
-				"character" = internal_hash_env_values_character(h@envir, keys),
-				"Date" = internal_hash_env_values_date(h@envir, keys),
-				"POSIXct" = internal_hash_env_values_time(h@envir, keys)
-			)
-		} else {
-			unname(mget(keys, envir = h@envir, inherits = FALSE))
-		}
+		switch(cl, 
+			"integer"   = cpp_hash_env_table_values_int(h@envir, keys),
+			"logical"   = cpp_hash_env_table_values_bool(h@envir, keys),
+			"numeric"   = cpp_hash_env_table_values_double(h@envir, keys),
+			"character" = cpp_hash_env_table_values_string(h@envir, keys),
+			"Date"      = cpp_hash_env_table_values_date(h@envir, keys),
+			"POSIXct"   = cpp_hash_env_table_values_time(h@envir, keys),
+			"list"      = cpp_hash_env_table_values_list(h@envir, keys)
+		)
 	}
 })
 
@@ -195,7 +183,7 @@ setMethod("hash_values", signature = "hash_env_set",
 setMethod("hash_copy", signature = "hash_env",
 	definition = function(h) {
 	h2 = h
-	h2@env = hash_env_copy(h@envir)
+	h2@env = cpp_hash_env_copy(h@envir)
 	h2
 })
 
@@ -355,9 +343,7 @@ setMethod("show", signature = "hash_env_table",
 
 	cat("A hash table [hash_env_table] with ", n, " key-value (", cl, ") pair", ifelse(n > 1, "s", ""), "\n", sep = "")
 
-	are_values_atomic = object@is_atomic
-
-	print_key_value_pairs(object, are_values_atomic)
+	print_key_value_pairs(object, object@is_atomic)
 })
 
 #' @export

@@ -102,7 +102,7 @@ test_that("Test subset functions", {
 	expect_true(h["a"])
 	expect_true(h[["a"]])
 	expect_true(h$a)
-	expect_no_error(h["a"] <- 1)
+	expect_error(h["a"] <- 1)
 
 	h = hash_env_table(letters, as.list(1:26))
 	expect_equal(h["a"], list(1))
