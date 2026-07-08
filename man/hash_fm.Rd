@@ -13,12 +13,17 @@
 \alias{hash_insert,hash_fm_table-method}
 \alias{hash_insert,hash_fm_set-method}
 \alias{hash_copy,hash_fm-method}
-\alias{[[.hash_fm}
-\alias{[[<-.hash_fm}
-\alias{[.hash_fm}
-\alias{[<-.hash_fm}
+\alias{[[.hash_fm_table}
+\alias{[[.hash_fm_set}
+\alias{[[<-.hash_fm_table}
+\alias{[.hash_fm_table}
+\alias{[.hash_fm_set}
+\alias{[<-.hash_fm_table}
 \alias{$.hash_fm}
-\alias{$<-.hash_fm}
+\alias{$<-.hash_fm_table}
+\alias{[[<-.hash_fm_set}
+\alias{[<-.hash_fm_set}
+\alias{$<-.hash_fm_set}
 \alias{as.hash_fm}
 \alias{as.hash_fm.default}
 \alias{as.vector.hash_fm_set}
@@ -51,17 +56,27 @@ hash_fm_set(keys)
 
 \S4method{hash_copy}{hash_fm}(h)
 
-\method{[[}{hash_fm}(x, i)
+\method{[[}{hash_fm_table}(x, i)
 
-\method{[[}{hash_fm}(x, i) <- value
+\method{[[}{hash_fm_set}(x, i)
 
-\method{[}{hash_fm}(x, i)
+\method{[[}{hash_fm_table}(x, i) <- value
 
-\method{[}{hash_fm}(x, i) <- value
+\method{[}{hash_fm_table}(x, i)
+
+\method{[}{hash_fm_set}(x, i)
+
+\method{[}{hash_fm_table}(x, i) <- value
 
 \method{$}{hash_fm}(x, name)
 
-\method{$}{hash_fm}(x, i) <- value
+\method{$}{hash_fm_table}(x, i) <- value
+
+\method{[[}{hash_fm_set}(x, i) <- value
+
+\method{[}{hash_fm_set}(x, i) <- value
+
+\method{$}{hash_fm_set}(x, name) <- value
 
 as.hash_fm(x)
 
@@ -76,7 +91,7 @@ as.hash_fm(x)
 \S4method{show}{hash_fm_set}(object)
 }
 \arguments{
-\item{keys}{A character vector.}
+\item{keys}{A character vector. Keys should have no duplicates.}
 
 \item{values}{An atomic vector or a list.}
 
@@ -86,10 +101,20 @@ as.hash_fm(x)
 
 \item{mode}{Please ignore.}
 }
+\value{
+\code{hash_fm_table()} returns a \code{hash_fm_table} object. \code{hash_fm_set()} returns a \code{hash_fm_set} object.
+\code{hash_fm_delete()}, \code{hash_fm_insert()}, \code{hash_fm_copy()} return a \code{hash_fm_table} object
+or a \code{hash_fm_set} object. \code{hash_exists()} returns a logical vector. \code{hash_size()} returns an integer. \code{hash_keys()} returns
+a character vector. \code{hash_values()} on the \code{hash_fm_table} object returns a vector of a list which has the same format as in the
+constructor function. \code{hash_values()} on the \code{hash_fm_set} object throws an error.
+}
 \description{
 Hash table and hash set implemented by fastmatch
 }
 \details{
+\code{hash_values()} and \code{[} methods on the \code{hash_fm_table} object preserve the original format of \code{values}, which means, if \code{values}
+was specified as an atomic vector, the two functions also returns atomic vectors.
+
 Once the hash table or the hash set is created, it is not allowed to modify.
 }
 \examples{

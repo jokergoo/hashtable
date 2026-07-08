@@ -7,7 +7,7 @@ load_ns <- function() {
     cpp_files = list.files(path = "src", pattern = "cpp$", full.names = TRUE)
     cpp_files = cpp_files[!grepl("RcppExports.cpp", cpp_files)]
 
-    sapply(cpp_files, sourceCpp)
+    sapply(cpp_files, Rcpp::sourceCpp)
 
     lines = readLines("src/RcppExports.cpp")
     i = which(lines == "#include <Rcpp.h>")

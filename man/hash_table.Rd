@@ -74,8 +74,18 @@ as.hash_table(x)
 
 \item{mode, ...}{Please ignore.}
 }
+\value{
+\code{hash_table()}, \code{hash_insert()}, \code{hash_delete()}, \code{hash_copy()} returns a \code{hash_unordered_map} object.
+\code{hash_exists()} returns a logical vector. \code{hash_size()} returns an integer. \code{hash_keys()} returns
+a character vector. \code{hash_values()} returns a vector of a list which has the same format as in the
+constructor function.
+}
 \description{
 Hash table implemented by std::unordered_map
+}
+\details{
+\code{hash_values()} and \code{[} methods preserve the original format of \code{values}, which means, if \code{values}
+was specified as an atomic vector, the two functions also returns atomic vectors.
 }
 \examples{
 hash_table(c("a", "b"), 1:2L)

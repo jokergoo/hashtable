@@ -9,10 +9,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The **hashtable** packages provides two implementations of hash tables and hash maps:
+The **hashtable** packages provides three implementations of hash tables and hash maps:
 
 1. using `std::unordered_map` and `std::unordered_set` from C++, in functions `hash_table()` and `hash_set()`,
-2. using the **fastmatch** package, in functions `hash_fm_table()` and `hash_fm_set()`.
+2. using the **fastmatch** package, in functions `hash_fm_table()` and `hash_fm_set()`,
+3. using environment, in functions `hash_env_table()` and `hash_env_set()`.
+
 
 They share the same user interface.
 
@@ -25,8 +27,10 @@ Three ways to create hash tables:
 library(hashtable)
 h1 = hash_table(letters, 1:26)
 h2 = hash_fm_table(letters, 1:26)
+h3 = hash_env_table(letters, 1:26)
 h1
 h2
+h3
 ```
 
 The user interfaces for the two methods are the same. We only demonstrate using `h1`.
@@ -121,6 +125,7 @@ Hash sets are hash tables with no value associated. There are also three ways to
 ```{r}
 h1 = hash_set(letters)
 h2 = hash_fm_set(letters)
+h3 = hash_env_set(letters)
 h1
 ```
 
@@ -209,10 +214,6 @@ h = hash_fm_set(letters)
 h$a = FALSE
 h$foo = TRUE
 ```
-
-## Benchmark
-
-See https://jokergoo.github.io/hashtable/articles/benchmark.html.
 
 ## Session info
 

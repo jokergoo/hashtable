@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hashtable</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@
 
 
 <dl><dt id="arg-keys">keys<a class="anchor" aria-label="anchor" href="#arg-keys"></a></dt>
-<dd><p>Normally a character vector, but <code>hash_set()</code> also allows to use an integer vector as keys.</p></dd>
+<dd><p>A character vector. Keys should have no duplicates.</p></dd>
 
 
 <dt id="arg-h-x-object">h, x, object<a class="anchor" aria-label="anchor" href="#arg-h-x-object"></a></dt>
@@ -116,6 +116,17 @@
 <dd><p>Please ignore.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>hash_set()</code>, <code><a href="generic.html">hash_insert()</a></code>, <code><a href="generic.html">hash_delete()</a></code>, <code><a href="generic.html">hash_copy()</a></code> returns a <code>hash_unordered_set</code> object.
+<code><a href="generic.html">hash_exists()</a></code> returns a logical vector. <code><a href="generic.html">hash_size()</a></code> returns an integer. <code><a href="generic.html">hash_keys()</a></code> returns
+a character vector. <code><a href="generic.html">hash_values()</a></code> throws an error.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Hash set has no values associated.</p>
+<p><code>$</code>, <code>[[</code> and <code>[</code> return logical vectors. <code>$&lt;-</code>, <code>[[&lt;-</code> and <code>[&lt;-</code> insert or delete keys.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

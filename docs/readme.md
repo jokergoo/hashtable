@@ -1,6 +1,6 @@
 # Hash Table and Hash Set
 
-The **hashtable** packages provides two implementations of hash tables
+The **hashtable** packages provides three implementations of hash tables
 and hash maps:
 
 1.  using `std::unordered_map` and `std::unordered_set` from C++, in
@@ -8,7 +8,10 @@ and hash maps:
     [`hash_set()`](reference/hash_set.md),
 2.  using the **fastmatch** package, in functions
     [`hash_fm_table()`](reference/hash_fm.md) and
-    [`hash_fm_set()`](reference/hash_fm.md).
+    [`hash_fm_set()`](reference/hash_fm.md),
+3.  using environment, in functions
+    [`hash_env_table()`](reference/hash_env.md) and
+    [`hash_env_set()`](reference/hash_env.md).
 
 They share the same user interface.
 
@@ -27,6 +30,7 @@ install_github("jokergoo/hashtable")
     library(hashtable)
     h1 = hash_table(letters, 1:26)
     h2 = hash_fm_table(letters, 1:26)
+    h3 = hash_env_table(letters, 1:26)
     h1
     ## A hash table [hash_unordered_map] with 26 key-value (integer) pairs
     ##   v => 22
@@ -41,6 +45,7 @@ install_github("jokergoo/hashtable")
 
     h1 = hash_set(letters)
     h2 = hash_fm_set(letters)
+    h3 = hash_env_set(letters)
     h1
     ## A hash set [hash_unordered_set] with 26 keys (character)
 

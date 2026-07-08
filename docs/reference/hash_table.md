@@ -86,6 +86,22 @@ as.list(x, ...)
 
   Please ignore.
 
+## Value
+
+`hash_table()`, [`hash_insert()`](generic.md),
+[`hash_delete()`](generic.md), [`hash_copy()`](generic.md) returns a
+`hash_unordered_map` object. [`hash_exists()`](generic.md) returns a
+logical vector. [`hash_size()`](generic.md) returns an integer.
+[`hash_keys()`](generic.md) returns a character vector.
+[`hash_values()`](generic.md) returns a vector of a list which has the
+same format as in the constructor function.
+
+## Details
+
+[`hash_values()`](generic.md) and `[` methods preserve the original
+format of `values`, which means, if `values` was specified as an atomic
+vector, the two functions also returns atomic vectors.
+
 ## Examples
 
 ``` r
@@ -120,21 +136,21 @@ hash_table(c("a", "b"), list(1:10, letters))
 
 h = hash_table(letters, 1:26)
 hash_keys(h)
-#>  [1] "y" "w" "v" "x" "u" "t" "s" "r" "p" "q" "o" "n" "m" "z" "l" "k" "i" "h" "g"
-#> [20] "f" "e" "j" "d" "c" "b" "a"
+#>  [1] "z" "y" "w" "x" "s" "r" "v" "q" "o" "t" "m" "k" "p" "j" "i" "n" "h" "g" "f"
+#> [20] "e" "d" "u" "c" "b" "l" "a"
 hash_values(h)
-#>  [1] 25 23 22 24 21 20 19 18 16 17 15 14 13 26 12 11  9  8  7  6  5 10  4  3  2
+#>  [1] 26 25 23 24 19 18 22 17 15 20 13 11 16 10  9 14  8  7  6  5  4 21  3  2 12
 #> [26]  1
 hash_exists(h, c("a", "b", "foo"))
 #> [1]  TRUE  TRUE FALSE
 hash_delete(h, letters[1:20]); h
 #> A hash table [hash_unordered_map] with 6 key-value (integer) pairs
+#>   z => 26
 #>   y => 25
 #>   w => 23
-#>   v => 22
 #>   x => 24
+#>   v => 22
 #>   u => 21
-#>   z => 26
 hash_insert(h, "foo", 100L) 
 
 h = hash_table(letters, 1:26)
@@ -146,26 +162,20 @@ h[c("a", "b")]
 #> [1] 1 2
 
 as.vector(h)
-#>  y  w  v  x  u  t  s  r  p  q  o  n  m  z  l  k  i  h  g  f  e  j  d  c  b  a 
-#> 25 23 22 24 21 20 19 18 16 17 15 14 13 26 12 11  9  8  7  6  5 10  4  3  2  1 
+#>  z  y  w  x  s  r  v  q  o  t  m  k  p  j  i  n  h  g  f  e  d  u  c  b  l  a 
+#> 26 25 23 24 19 18 22 17 15 20 13 11 16 10  9 14  8  7  6  5  4 21  3  2 12  1 
 as.list(h)
+#> $z
+#> [1] 26
+#> 
 #> $y
 #> [1] 25
 #> 
 #> $w
 #> [1] 23
 #> 
-#> $v
-#> [1] 22
-#> 
 #> $x
 #> [1] 24
-#> 
-#> $u
-#> [1] 21
-#> 
-#> $t
-#> [1] 20
 #> 
 #> $s
 #> [1] 19
@@ -173,8 +183,8 @@ as.list(h)
 #> $r
 #> [1] 18
 #> 
-#> $p
-#> [1] 16
+#> $v
+#> [1] 22
 #> 
 #> $q
 #> [1] 17
@@ -182,23 +192,26 @@ as.list(h)
 #> $o
 #> [1] 15
 #> 
-#> $n
-#> [1] 14
+#> $t
+#> [1] 20
 #> 
 #> $m
 #> [1] 13
 #> 
-#> $z
-#> [1] 26
-#> 
-#> $l
-#> [1] 12
-#> 
 #> $k
 #> [1] 11
 #> 
+#> $p
+#> [1] 16
+#> 
+#> $j
+#> [1] 10
+#> 
 #> $i
 #> [1] 9
+#> 
+#> $n
+#> [1] 14
 #> 
 #> $h
 #> [1] 8
@@ -212,17 +225,20 @@ as.list(h)
 #> $e
 #> [1] 5
 #> 
-#> $j
-#> [1] 10
-#> 
 #> $d
 #> [1] 4
+#> 
+#> $u
+#> [1] 21
 #> 
 #> $c
 #> [1] 3
 #> 
 #> $b
 #> [1] 2
+#> 
+#> $l
+#> [1] 12
 #> 
 #> $a
 #> [1] 1

@@ -39,23 +39,38 @@ hash_insert(h, keys, values)
 # S4 method for class 'hash_fm'
 hash_copy(h)
 
-# S3 method for class 'hash_fm'
+# S3 method for class 'hash_fm_table'
 x[[i]]
 
-# S3 method for class 'hash_fm'
+# S3 method for class 'hash_fm_set'
+x[[i]]
+
+# S3 method for class 'hash_fm_table'
 x[[i]] <- value
 
-# S3 method for class 'hash_fm'
+# S3 method for class 'hash_fm_table'
 x[i]
 
-# S3 method for class 'hash_fm'
+# S3 method for class 'hash_fm_set'
+x[i]
+
+# S3 method for class 'hash_fm_table'
 x[i] <- value
 
 # S3 method for class 'hash_fm'
 x$name
 
-# S3 method for class 'hash_fm'
+# S3 method for class 'hash_fm_table'
 x$i <- value
+
+# S3 method for class 'hash_fm_set'
+x[[i]] <- value
+
+# S3 method for class 'hash_fm_set'
+x[i] <- value
+
+# S3 method for class 'hash_fm_set'
+x$name <- value
 
 as.hash_fm(x)
 
@@ -79,7 +94,7 @@ show(object)
 
 - keys:
 
-  A character vector.
+  A character vector. Keys should have no duplicates.
 
 - values:
 
@@ -98,7 +113,25 @@ show(object)
 
   Please ignore.
 
+## Value
+
+`hash_fm_table()` returns a `hash_fm_table` object. `hash_fm_set()`
+returns a `hash_fm_set` object. `hash_fm_delete()`, `hash_fm_insert()`,
+`hash_fm_copy()` return a `hash_fm_table` object or a `hash_fm_set`
+object. [`hash_exists()`](generic.md) returns a logical vector.
+[`hash_size()`](generic.md) returns an integer.
+[`hash_keys()`](generic.md) returns a character vector.
+[`hash_values()`](generic.md) on the `hash_fm_table` object returns a
+vector of a list which has the same format as in the constructor
+function. [`hash_values()`](generic.md) on the `hash_fm_set` object
+throws an error.
+
 ## Details
+
+[`hash_values()`](generic.md) and `[` methods on the `hash_fm_table`
+object preserve the original format of `values`, which means, if
+`values` was specified as an atomic vector, the two functions also
+returns atomic vectors.
 
 Once the hash table or the hash set is created, it is not allowed to
 modify.

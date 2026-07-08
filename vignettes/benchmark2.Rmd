@@ -1,0 +1,12 @@
+---
+title: "Benchmark"
+author: "Zuguang Gu ( guzuguang@suat-sz.edu.cn )"
+date: '`r Sys.Date()`'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Benchmark}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+See https://jokergoo.github.io/hashtable/articles/benchmark.html.

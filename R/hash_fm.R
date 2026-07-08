@@ -10,7 +10,7 @@ setClass("hash_fm_table", contains = "hash_fm")
 #' Hash table and hash set implemented by fastmatch
 #' 
 #' @export
-#' @param keys A character vector.
+#' @param keys A character vector. Keys should have no duplicates.
 #' @param values An atomic vector or a list.
 #' @rdname hash_fm
 #' @import fastmatch
@@ -20,6 +20,13 @@ setClass("hash_fm_table", contains = "hash_fm")
 #' was specified as an atomic vector, the two functions also returns atomic vectors.
 #' 
 #' Once the hash table or the hash set is created, it is not allowed to modify.
+#' 
+#' @return
+#' `hash_fm_table()` returns a `hash_fm_table` object. `hash_fm_set()` returns a `hash_fm_set` object.
+#' `hash_fm_delete()`, `hash_fm_insert()`, `hash_fm_copy()` return a `hash_fm_table` object
+#' or a `hash_fm_set` object. `hash_exists()` returns a logical vector. `hash_size()` returns an integer. `hash_keys()` returns 
+#' a character vector. `hash_values()` on the `hash_fm_table` object returns a vector of a list which has the same format as in the
+#' constructor function. `hash_values()` on the `hash_fm_set` object throws an error.
 #' 
 #' @examples
 #' h = hash_fm_table(letters, 1:26)
@@ -141,7 +148,7 @@ setMethod("hash_values", signature = "hash_fm_table",
 #' @rdname hash_fm
 setMethod("hash_values", signature = "hash_fm_set",
 	definition = function(h, keys = NULL) {
-	hash_exists(h, keys)
+	stop("hash_fm_set has no values.")
 })
 
 #' @export
@@ -178,7 +185,7 @@ setMethod("hash_copy", signature = "hash_fm",
 #' @export
 #' @rdname hash_fm
 #' @param i,name,value Keys and values.
-"[[.hash_fm" = function(x, i) {
+"[[.hash_fm_table" = function(x, i) {
 	if(length(i) != 1) {
 		stop("length of the index should be 1.")
 	}
@@ -187,7 +194,17 @@ setMethod("hash_copy", signature = "hash_fm",
 
 #' @export
 #' @rdname hash_fm
-"[[<-.hash_fm" = function(x, i, value) {
+#' @param i,name,value Keys and values.
+"[[.hash_fm_set" = function(x, i) {
+	if(length(i) != 1) {
+		stop("length of the index should be 1.")
+	}
+	hash_exists(x, i)
+}
+
+#' @export
+#' @rdname hash_fm
+"[[<-.hash_fm_table" = function(x, i, value) {
 	if(length(i) != 1) {
 		stop("length of the index should be 1.")
 	}
@@ -201,13 +218,20 @@ setMethod("hash_copy", signature = "hash_fm",
 
 #' @export
 #' @rdname hash_fm
-"[.hash_fm" = function(x, i) {
+"[.hash_fm_table" = function(x, i) {
 	hash_values(x, i)
 }
 
 #' @export
 #' @rdname hash_fm
-"[<-.hash_fm" = function(x, i, value) {
+"[.hash_fm_set" = function(x, i) {
+	hash_exists(x, i)
+}
+
+
+#' @export
+#' @rdname hash_fm
+"[<-.hash_fm_table" = function(x, i, value) {
 	hash_insert(x, i, value)
 	x
 }
@@ -220,10 +244,63 @@ setMethod("hash_copy", signature = "hash_fm",
 
 #' @export
 #' @rdname hash_fm
-"$<-.hash_fm" = function(x, i, value) {
+"$<-.hash_fm_table" = function(x, i, value) {
 	x[[i]] <- value
 	x
 }
+
+#' @rdname hash_fm
+#' @export
+"[[<-.hash_fm_set" = function(x, i, value) {
+	if(is.null(value)) value = FALSE
+	if(length(i) != 1) {
+		stop("Length of index should only be one.")
+	}
+
+	if(is.logical(value)) {
+		if(value) {
+			hash_insert(x, i)
+		} else {
+			hash_delete(x, i)
+		}
+	} else {
+		stop("`value` should be logical.")
+	}
+	x
+}
+
+#' @rdname hash_fm
+#' @export
+"[<-.hash_fm_set" = function(x, i, value) {
+	if(is.null(value)) value = FALSE
+	if(is.logical(value)) {
+		if(length(value) == 1) {
+			if(value) {
+				hash_insert(x, i)
+			} else {
+				hash_delete(x, i)
+			}
+		} else {
+			if(any(value)) {
+				hash_insert(x, i[value])
+			}
+			if(any(!value)) {
+				hash_delete(x, i[!value])
+			}
+		}
+	} else {
+		stop("`value` should be logical.")
+	}
+	x
+}
+
+#' @rdname hash_fm
+#' @export
+"$<-.hash_fm_set" = function(x, name, value) {
+	x[[name]] = value
+	x
+}
+
 
 #' @export
 #' @rdname hash_fm

@@ -61,7 +61,7 @@ as.hash_set(x)
 \method{as.vector}{hash_unordered_set}(x, mode = "any")
 }
 \arguments{
-\item{keys}{Normally a character vector, but \code{hash_set()} also allows to use an integer vector as keys.}
+\item{keys}{A character vector. Keys should have no duplicates.}
 
 \item{h, x, object}{A \code{hash_unordered_set} object returned by \code{hash_set()}.}
 
@@ -69,8 +69,18 @@ as.hash_set(x)
 
 \item{mode}{Please ignore.}
 }
+\value{
+\code{hash_set()}, \code{hash_insert()}, \code{hash_delete()}, \code{hash_copy()} returns a \code{hash_unordered_set} object.
+\code{hash_exists()} returns a logical vector. \code{hash_size()} returns an integer. \code{hash_keys()} returns
+a character vector. \code{hash_values()} throws an error.
+}
 \description{
 Hash set implemented by std::unordered_set
+}
+\details{
+Hash set has no values associated.
+
+\code{$}, \code{[[} and \code{[} return logical vectors. \verb{$<-}, \verb{[[<-} and \verb{[<-} insert or delete keys.
 }
 \examples{
 h = hash_set(letters)

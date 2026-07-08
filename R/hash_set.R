@@ -6,8 +6,18 @@ setClass("hash_unordered_set",
 #' Hash set implemented by std::unordered_set
 #' 
 #' @export
-#' @param keys Normally a character vector.
+#' @param keys A character vector. Keys should have no duplicates.
 #' @rdname hash_set
+#' @details
+#' Hash set has no values associated.
+#' 
+#' `$`, `[[` and `[` return logical vectors. `$<-`, `[[<-` and `[<-` insert or delete keys.
+#' 
+#' @return
+#' `hash_set()`, `hash_insert()`, `hash_delete()`, `hash_copy()` returns a `hash_unordered_set` object.
+#' `hash_exists()` returns a logical vector. `hash_size()` returns an integer. `hash_keys()` returns 
+#' a character vector. `hash_values()` throws an error.
+#' 
 #' @examples
 #' h = hash_set(letters)
 #' hash_exists(h, c("a", "b", "foo"))

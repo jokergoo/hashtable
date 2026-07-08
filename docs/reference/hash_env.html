@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hashtable</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,13 +74,19 @@
 <span><span class="co"># S4 method for class 'hash_env'</span></span>
 <span><span class="fu"><a href="generic.html">hash_copy</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'hash_env'</span></span>
+<span><span class="co"># S3 method for class 'hash_env_table'</span></span>
+<span><span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'hash_env_set'</span></span>
 <span><span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'hash_env_table'</span></span>
 <span><span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'hash_env'</span></span>
+<span><span class="co"># S3 method for class 'hash_env_table'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'hash_env_set'</span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'hash_env_table'</span></span>
@@ -127,7 +133,7 @@
 
 
 <dl><dt id="arg-keys">keys<a class="anchor" aria-label="anchor" href="#arg-keys"></a></dt>
-<dd><p>A character vector.</p></dd>
+<dd><p>A character vector. Keys should have no duplicates.</p></dd>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
@@ -146,6 +152,19 @@
 <dd><p>Please ignore.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>hash_env_table()</code> returns a <code>hash_env_table</code> object. <code>hash_env_set()</code> returns a <code>hash_env_set</code> object.
+<code>hash_env_delete()</code>, <code>hash_env_insert()</code>, <code>hash_env_copy()</code> return a <code>hash_env_table</code> object
+or a <code>hash_env_set</code> object. <code><a href="generic.html">hash_exists()</a></code> returns a logical vector. <code><a href="generic.html">hash_size()</a></code> returns an integer. <code><a href="generic.html">hash_keys()</a></code> returns
+a character vector. <code><a href="generic.html">hash_values()</a></code> on the <code>hash_env_table</code> object returns a vector of a list which has the same format as in the
+constructor function. <code><a href="generic.html">hash_values()</a></code> on the <code>hash_env_set</code> object throws an error.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code><a href="generic.html">hash_values()</a></code> and <code>[</code> methods on the <code>hash_env_table</code> object preserve the original format of <code>values</code>, which means, if <code>values</code>
+was specified as an atomic vector, the two functions also returns atomic vectors.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

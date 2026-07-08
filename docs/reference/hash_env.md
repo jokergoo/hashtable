@@ -39,13 +39,19 @@ hash_values(h, keys = NULL)
 # S4 method for class 'hash_env'
 hash_copy(h)
 
-# S3 method for class 'hash_env'
+# S3 method for class 'hash_env_table'
+x[[i]]
+
+# S3 method for class 'hash_env_set'
 x[[i]]
 
 # S3 method for class 'hash_env_table'
 x[[i]] <- value
 
-# S3 method for class 'hash_env'
+# S3 method for class 'hash_env_table'
+x[i]
+
+# S3 method for class 'hash_env_set'
 x[i]
 
 # S3 method for class 'hash_env_table'
@@ -91,7 +97,7 @@ show(object)
 
 - keys:
 
-  A character vector.
+  A character vector. Keys should have no duplicates.
 
 - values:
 
@@ -109,6 +115,26 @@ show(object)
 - mode, ...:
 
   Please ignore.
+
+## Value
+
+`hash_env_table()` returns a `hash_env_table` object. `hash_env_set()`
+returns a `hash_env_set` object. `hash_env_delete()`,
+`hash_env_insert()`, `hash_env_copy()` return a `hash_env_table` object
+or a `hash_env_set` object. [`hash_exists()`](generic.md) returns a
+logical vector. [`hash_size()`](generic.md) returns an integer.
+[`hash_keys()`](generic.md) returns a character vector.
+[`hash_values()`](generic.md) on the `hash_env_table` object returns a
+vector of a list which has the same format as in the constructor
+function. [`hash_values()`](generic.md) on the `hash_env_set` object
+throws an error.
+
+## Details
+
+[`hash_values()`](generic.md) and `[` methods on the `hash_env_table`
+object preserve the original format of `values`, which means, if
+`values` was specified as an atomic vector, the two functions also
+returns atomic vectors.
 
 ## Examples
 

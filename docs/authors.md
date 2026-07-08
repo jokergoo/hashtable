@@ -11,12 +11,12 @@ Source:
 [`DESCRIPTION`](https://github.com/jokergoo/hashtable/blob/HEAD/DESCRIPTION)
 
 Gu Z (2026). *hashtable: Hash Table and Hash Set*. R package version
-0.99.0, <https://github.com/jokergoo/hashtable>.
+1.0.0, <https://github.com/jokergoo/hashtable>.
 
     @Manual{,
       title = {hashtable: Hash Table and Hash Set},
       author = {Zuguang Gu},
       year = {2026},
-      note = {R package version 0.99.0},
+      note = {R package version 1.0.0},
       url = {https://github.com/jokergoo/hashtable},
     }

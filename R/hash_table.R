@@ -19,6 +19,12 @@ setClass("hash_unordered_map",
 #' `hash_values()` and `[` methods preserve the original format of `values`, which means, if `values`
 #' was specified as an atomic vector, the two functions also returns atomic vectors.
 #' 
+#' @return
+#' `hash_table()`, `hash_insert()`, `hash_delete()`, `hash_copy()` returns a `hash_unordered_map` object.
+#' `hash_exists()` returns a logical vector. `hash_size()` returns an integer. `hash_keys()` returns 
+#' a character vector. `hash_values()` returns a vector of a list which has the same format as in the
+#' constructor function.
+#' 
 #' @examples
 #' hash_table(c("a", "b"), 1:2L)
 #' hash_table(c("a", "b"), c(TRUE, FALSE))

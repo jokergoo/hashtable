@@ -10,7 +10,7 @@ void cpp_update_vector_elements(SEXP x, Rcpp::IntegerVector ind, SEXP values) {
     }
     
     for(int i = 0; i < n; i++) {
-        int idx = ind[i] - 1;  // R索引从1开始
+        int idx = ind[i] - 1;
         if(idx < 0 || idx >= Rf_length(x)) {
             Rcpp::stop("Index out of bounds: %d", idx + 1);
         }

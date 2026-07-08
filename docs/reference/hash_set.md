@@ -65,8 +65,7 @@ as.vector(x, mode = "any")
 
 - keys:
 
-  Normally a character vector, but `hash_set()` also allows to use an
-  integer vector as keys.
+  A character vector. Keys should have no duplicates.
 
 - h, x, object:
 
@@ -79,6 +78,22 @@ as.vector(x, mode = "any")
 - mode:
 
   Please ignore.
+
+## Value
+
+`hash_set()`, [`hash_insert()`](generic.md),
+[`hash_delete()`](generic.md), [`hash_copy()`](generic.md) returns a
+`hash_unordered_set` object. [`hash_exists()`](generic.md) returns a
+logical vector. [`hash_size()`](generic.md) returns an integer.
+[`hash_keys()`](generic.md) returns a character vector.
+[`hash_values()`](generic.md) throws an error.
+
+## Details
+
+Hash set has no values associated.
+
+`$`, `[[` and `[` return logical vectors. `$<-`, `[[<-` and `[<-` insert
+or delete keys.
 
 ## Examples
 

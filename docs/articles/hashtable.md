@@ -1,6 +1,6 @@
 # Hash Table and Hash Set
 
-The **hashtable** packages provides two implementations of hash tables
+The **hashtable** packages provides three implementations of hash tables
 and hash maps:
 
 1.  using `std::unordered_map` and `std::unordered_set` from C++, in
@@ -8,7 +8,10 @@ and hash maps:
     [`hash_set()`](../reference/hash_set.md),
 2.  using the **fastmatch** package, in functions
     [`hash_fm_table()`](../reference/hash_fm.md) and
-    [`hash_fm_set()`](../reference/hash_fm.md).
+    [`hash_fm_set()`](../reference/hash_fm.md),
+3.  using environment, in functions
+    [`hash_env_table()`](../reference/hash_env.md) and
+    [`hash_env_set()`](../reference/hash_env.md).
 
 They share the same user interface.
 
@@ -21,16 +24,17 @@ Three ways to create hash tables:
 library(hashtable)
 h1 = hash_table(letters, 1:26)
 h2 = hash_fm_table(letters, 1:26)
+h3 = hash_env_table(letters, 1:26)
 h1
 ```
 
     ## A hash table [hash_unordered_map] with 26 key-value (integer) pairs
-    ##   z => 26
     ##   y => 25
+    ##   x => 24
     ##   w => 23
     ##   ......
+    ##   l => 12
     ##   b => 2
-    ##   g => 7
     ##   a => 1
 
 ``` r
@@ -47,6 +51,20 @@ h2
     ##   y => 25
     ##   z => 26
 
+``` r
+
+h3
+```
+
+    ## A hash table [hash_env_table] with 26 key-value (integer) pairs
+    ##   i => 9
+    ##   j => 10
+    ##   k => 11
+    ##   ......
+    ##   f => 6
+    ##   g => 7
+    ##   h => 8
+
 The user interfaces for the two methods are the same. We only
 demonstrate using `h1`.
 
@@ -57,8 +75,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
-    ## [20] "f" "e" "d" "c" "b" "g" "a"
+    ##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"
+    ## [20] "d" "p" "o" "c" "l" "b" "a"
 
 Get all values:
 
@@ -67,7 +85,7 @@ Get all values:
 hash_values(h1)
 ```
 
-    ##  [1] 26 25 23 21 20 18 17 16 14 24 19 13 12 11 10 15  9 22  8  6  5  4  3  2  7
+    ##  [1] 25 24 23 21 20 19 18 17 14 13 11 22 10  9 26  8  7  6  5  4 16 15  3 12  2
     ## [26]  1
 
 Get a subset of values by specifying keys:
@@ -190,8 +208,8 @@ h1
 
     ## A hash table [hash_unordered_map] with 4 key-value (list) pairs
     ##   d => complex value (lm)
-    ##   c => numeric [1] 3.14
     ##   b => character [1] text
+    ##   c => numeric [1] 3.14
     ##   a => integer [1] 1
 
 Convert between hash table and named vector or list:
@@ -246,6 +264,7 @@ ways to create hash sets.
 
 h1 = hash_set(letters)
 h2 = hash_fm_set(letters)
+h3 = hash_env_set(letters)
 h1
 ```
 
@@ -258,8 +277,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
-    ## [20] "f" "e" "d" "c" "b" "g" "a"
+    ##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"
+    ## [20] "d" "p" "o" "c" "l" "b" "a"
 
 Hash set has no value associated, so calling `hash_value()` throws an
 error.
@@ -359,9 +378,9 @@ Convert between vectors (where elements are unique) and hash sets:
 as.vector(h1)
 ```
 
-    ##  [1] "z"   "y"   "w"   "u"   "t"   "r"   "q"   "foo" "p"   "n"   "x"   "s"  
-    ## [13] "m"   "l"   "k"   "j"   "o"   "i"   "v"   "h"   "f"   "e"   "d"   "c"  
-    ## [25] "b"   "g"
+    ##  [1] "foo" "y"   "x"   "w"   "u"   "t"   "s"   "r"   "q"   "n"   "m"   "k"  
+    ## [13] "v"   "j"   "i"   "z"   "h"   "g"   "f"   "e"   "d"   "p"   "o"   "c"  
+    ## [25] "l"   "b"
 
 ``` r
 
@@ -409,8 +428,8 @@ h = hash_fm_set(letters)
 h$a = FALSE
 ```
 
-    ## Error in `.local()`:
-    ## ! hash_fm_set is not allowed to modify.
+    ## Error in `hash_delete()`:
+    ## ! hash_fm is not allowed to modify.
 
 ``` r
 
@@ -419,10 +438,6 @@ h$foo = TRUE
 
     ## Error in `.local()`:
     ## ! hash_fm_set is not allowed to modify.
-
-## Benchmark
-
-See <https://jokergoo.github.io/hashtable/articles/benchmark.html>.
 
 ## Session info
 
@@ -449,7 +464,7 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] hashtable_0.99.0
+    ## [1] hashtable_1.0.0
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] vctrs_0.7.3       cli_3.6.6         knitr_1.51        rlang_1.2.0      
