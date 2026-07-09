@@ -83,6 +83,9 @@ as.vector(x, mode = "any")
 # S3 method for class 'hash_fm_table'
 as.vector(x, mode = "any")
 
+# S3 method for class 'hash_fm_table'
+as.list(x, ...)
+
 # S4 method for class 'hash_fm_table'
 show(object)
 
@@ -109,7 +112,7 @@ show(object)
 
   Keys and values.
 
-- mode:
+- mode, ...:
 
   Please ignore.
 

@@ -4,6 +4,8 @@ test_that("Test errors", {
 	expect_error(hash_table("a", 1:2))
 	expect_error(hash_table(c("a", "b"), 1))
 	expect_error(hash_table())
+	expect_error(hash_table(c("a", "a"), 1:2))
+	expect_error(hash_table(c("a", NA), 1:2))
 })
 
 

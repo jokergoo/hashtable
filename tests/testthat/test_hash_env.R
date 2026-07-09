@@ -4,6 +4,13 @@ test_that("Test constructor", {
 	expect_error(hash_env_table("a", 1:2))
 	expect_error(hash_env_table(c("a","a"), 1:2))
 	expect_error(hash_env_table(letters))
+
+	expect_error(hash_env_table(c("a", "a"), 1:2))
+	expect_error(hash_env_table(c("a", NA), 1:2))
+	expect_error(hash_env_table(c("a", ""), 1:2))
+	expect_error(hash_env_set(c("a", "a")))
+	expect_error(hash_env_set(c("a", NA)))
+	expect_error(hash_env_set(c("a", "")))
 })
 
 h = hash_env_table(letters, 1:26)

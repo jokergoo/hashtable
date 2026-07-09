@@ -54,9 +54,7 @@ hash_fm_table = function(keys, values) {
 		stop("`keys` and `values` should have the same length.")
 	}
 
-	if(any(duplicated(keys))) {
-		stop("`keys` should not be duplicated.")
-	}
+	validate_keys(keys, TRUE, FALSE, TRUE)
 	
 	h@values = values
 	
@@ -73,9 +71,9 @@ hash_fm_set = function(keys) {
 	if(is.null(keys)) {
 		stop("`keys` cannot be NULL.")
 	}
-	if(any(duplicated(keys))) {
-		stop("Keys should not be duplicated.")
-	}
+
+	validate_keys(keys, TRUE, FALSE, TRUE)
+
 	h@table = fmatch.hash("", keys)
 	h
 }
@@ -85,6 +83,8 @@ hash_fm_set = function(keys) {
 #' @param h,x,object A `hash_fm_table` object returned by `hash_fm_table()` or a `hash_fm_set` object returned by `hash_fm_set()`.
 setMethod("hash_exists", signature = "hash_fm",
 	definition = function(h, keys) {
+
+	validate_keys(keys, TRUE, FALSE, FALSE)
 	keys %fin% h@table
 })
 
@@ -135,6 +135,7 @@ setMethod("hash_values", signature = "hash_fm_table",
 			}
 			h@values[keys]
 		} else {
+			validate_keys(keys, TRUE, FALSE, FALSE)
 			ind = fmatch(keys, h@table)
 			if(any(is.na(ind))) {
 				stop("Some keys do not exist.")
@@ -159,6 +160,7 @@ setMethod("hash_insert", signature = "hash_fm_table",
 	if(is.integer(keys)) {
 		cpp_update_vector_elements(h@values, keys, values);
 	} else {
+		validate_keys(keys, TRUE, FALSE, TRUE)
 		ind = fmatch(keys, h@table)
 		if(any(is.na(ind))) {
 			stop("hash_fm_table is not allowed to insert new keys.")
@@ -325,7 +327,7 @@ as.hash_fm.default = function(x) {
 
 #' @export
 #' @rdname hash_fm
-#' @param mode Please ignore.
+#' @param mode,... Please ignore.
 as.vector.hash_fm_set = function(x, mode = "any") {
 	x@table
 }
@@ -334,6 +336,16 @@ as.vector.hash_fm_set = function(x, mode = "any") {
 #' @rdname hash_fm
 as.vector.hash_fm_table = function(x, mode = "any") {
 	structure(x@value, names = x@table)
+}
+
+#' @export
+#' @rdname hash_fm
+as.list.hash_fm_table = function(x, ...) {
+	if(x@is_atomic) {
+		structure(as.list(hash_values(x)), names = hash_keys(x))
+	} else {
+		structure(hash_values(x), names = hash_keys(x))
+	}
 }
 
 #' @export

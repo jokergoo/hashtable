@@ -3,5 +3,6 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   benchmark: benchmark.html
+  benchmark2: benchmark2.html
   hashtable: hashtable.html
-last_built: 2026-07-08T08:55Z
+last_built: 2026-07-09T02:08Z

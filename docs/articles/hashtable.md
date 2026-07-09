@@ -29,12 +29,12 @@ h1
 ```
 
     ## A hash table [hash_unordered_map] with 26 key-value (integer) pairs
+    ##   z => 26
     ##   y => 25
-    ##   x => 24
     ##   w => 23
     ##   ......
-    ##   l => 12
     ##   b => 2
+    ##   g => 7
     ##   a => 1
 
 ``` r
@@ -75,8 +75,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"
-    ## [20] "d" "p" "o" "c" "l" "b" "a"
+    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
+    ## [20] "f" "e" "d" "c" "b" "g" "a"
 
 Get all values:
 
@@ -85,7 +85,7 @@ Get all values:
 hash_values(h1)
 ```
 
-    ##  [1] 25 24 23 21 20 19 18 17 14 13 11 22 10  9 26  8  7  6  5  4 16 15  3 12  2
+    ##  [1] 26 25 23 21 20 18 17 16 14 24 19 13 12 11 10 15  9 22  8  6  5  4  3  2  7
     ## [26]  1
 
 Get a subset of values by specifying keys:
@@ -208,8 +208,8 @@ h1
 
     ## A hash table [hash_unordered_map] with 4 key-value (list) pairs
     ##   d => complex value (lm)
-    ##   b => character [1] text
     ##   c => numeric [1] 3.14
+    ##   b => character [1] text
     ##   a => integer [1] 1
 
 Convert between hash table and named vector or list:
@@ -277,8 +277,8 @@ Get all keys:
 hash_keys(h1)
 ```
 
-    ##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"
-    ## [20] "d" "p" "o" "c" "l" "b" "a"
+    ##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"
+    ## [20] "f" "e" "d" "c" "b" "g" "a"
 
 Hash set has no value associated, so calling `hash_value()` throws an
 error.
@@ -378,9 +378,9 @@ Convert between vectors (where elements are unique) and hash sets:
 as.vector(h1)
 ```
 
-    ##  [1] "foo" "y"   "x"   "w"   "u"   "t"   "s"   "r"   "q"   "n"   "m"   "k"  
-    ## [13] "v"   "j"   "i"   "z"   "h"   "g"   "f"   "e"   "d"   "p"   "o"   "c"  
-    ## [25] "l"   "b"
+    ##  [1] "z"   "y"   "w"   "u"   "t"   "r"   "q"   "foo" "p"   "n"   "x"   "s"  
+    ## [13] "m"   "l"   "k"   "j"   "o"   "i"   "v"   "h"   "f"   "e"   "d"   "c"  
+    ## [25] "b"   "g"
 
 ``` r
 

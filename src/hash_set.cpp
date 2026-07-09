@@ -2,11 +2,14 @@
 #include <unordered_set>
 
 #include "hash.h"
+#include "utils.h"
 
 // [[Rcpp::export]]
 Rcpp::XPtr<CharSXPSet> cpp_hash_set_create(Rcpp::CharacterVector keys) {
     CharSXPSet* set = new CharSXPSet();
     set->max_load_factor(0.7);
+
+    validate_keys(keys, true, false, true);
     
     int n = keys.size();
     if(n > 0) {
@@ -14,11 +17,7 @@ Rcpp::XPtr<CharSXPSet> cpp_hash_set_create(Rcpp::CharacterVector keys) {
         
         for(int i = 0; i < n; i++) {
             SEXP key = STRING_ELT(keys, i);
-            auto result = set->emplace(key);
-            if(!result.second) {
-                std::string duplicate_key = CHAR(key);
-                Rcpp::stop("Duplicate key found: " + duplicate_key);
-            }
+            set->emplace(key);
         }
     }
     
@@ -34,6 +33,8 @@ Rcpp::LogicalVector cpp_hash_set_exists(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::Charac
     CharSXPSet* set = ptr.get();
     int n = keys.size();
     Rcpp::LogicalVector result(n);
+
+    validate_keys(keys, true, false, false);
     
     for(int i = 0; i < n; i++) {
         SEXP key = STRING_ELT(keys, i);
@@ -46,12 +47,14 @@ Rcpp::LogicalVector cpp_hash_set_exists(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::Charac
 
 // [[Rcpp::export]]
 void cpp_hash_set_insert(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::CharacterVector keys) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
     CharSXPSet* set = ptr.get();
     int n = keys.size();
+
+    validate_keys(keys, true, false, true);
     
     if(n > 0) {
         set->reserve(set->size() + n);
@@ -90,7 +93,7 @@ Rcpp::XPtr<CharSXPSet> cpp_hash_set_copy(Rcpp::XPtr<CharSXPSet> ptr) {
 
 // [[Rcpp::export]]
 Rcpp::CharacterVector cpp_hash_set_all_keys(Rcpp::XPtr<CharSXPSet> ptr) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
@@ -124,6 +127,8 @@ void cpp_hash_set_delete(Rcpp::XPtr<CharSXPSet> ptr, Rcpp::CharacterVector keys)
     
     CharSXPSet* set = ptr.get();
     int n = keys.size();
+
+    validate_keys(keys, true, false, true);
     
     for(int i = 0; i < n; i++) {
         SEXP key = STRING_ELT(keys, i);

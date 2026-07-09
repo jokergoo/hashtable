@@ -61,6 +61,7 @@
   [`as.hash_fm()`](hash_fm.md)
   [`as.vector(`*`<hash_fm_set>`*`)`](hash_fm.md)
   [`as.vector(`*`<hash_fm_table>`*`)`](hash_fm.md)
+  [`as.list(`*`<hash_fm_table>`*`)`](hash_fm.md)
   [`show(`*`<hash_fm_table>`*`)`](hash_fm.md)
   [`show(`*`<hash_fm_set>`*`)`](hash_fm.md) : Hash table and hash set
   implemented by fastmatch

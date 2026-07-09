@@ -62,11 +62,6 @@ hash_table = function(keys, values) {
 		stop("`keys` and `values` should have the same length.")
 	}
 
-	if(any(duplicated(keys))) {
-		stop("`keys` should not be duplicated.")
-	}
-	
-
 	h = new("hash_unordered_map")
 	cl = class(values)[1]
 	h@value_class = cl

@@ -3,6 +3,8 @@ context("Test `hash_set`")
 test_that("Test errors", {
 	expect_error(hash_set(c(TRUE, FALSE)))
 	expect_error(hash_set(c(0.1, 0.2)))
+	expect_error(hash_set("a", NA))
+	expect_error(hash_set("a", "a"))
 })
 
 

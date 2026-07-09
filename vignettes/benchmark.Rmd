@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 ## Prepare
 
 The function `unique_strings()` generates a vector of unique strings. It simply uses **digest** package
-to generate MD5 hashes of R objects.
+to generate MD5 hashes of R objects (in the following example, hashed R objects are integers).
 
 ```{r}
 library(hashtable)
@@ -37,7 +37,7 @@ unique_strings(2)
 
 ```{r}
 bm = function(...) {
-	mean(microbenchmark(..., times = 25)$time)
+	mean(microbenchmark(..., times = 50)$time)
 }
 ```
 
@@ -58,7 +58,7 @@ of **hashtable** and other methods.
 
 ## Create hash tables
 
-There are two implementations of hash tables in **hashtable**:
+There are three implementations of hash tables in **hashtable**:
 
 - `hash_table()`, using C++ library `std::unordered_map`,
 - `hash_fm_table()`, using **fastmatch**,
@@ -71,7 +71,7 @@ size = seq(10000L, 100000L, by = 10000L)
 ```
 
 `list2env()` expects the input as a named list. `hashmapR::hashmap()` expects keys and values
-all specified as lists. `r2r::hashmap()` creates the hash table in two steps: create an empty
+both specified as lists. `r2r::hashmap()` creates the hash table in two steps: create an empty
 object then fill key-value pairs. Note format preparation is not included in estimating runtime
 of benchmarking functions.
 
@@ -96,8 +96,7 @@ for(i in seq_along(size)) {
 	t3[i] = bm(hash_env_table(keys = keys, values = values))
 	
 	lt = split(values, keys)
-	parent_env = emptyenv()
-	t4[i] = bm(list2env(lt, hash = TRUE, parent = parent_env))
+	t4[i] = bm(list2env(lt, hash = TRUE, parent = emptyenv()))
 	t5[i] = bm(hash::hash(keys = keys, values = values))
 
 	lt_keys = split(keys, keys)
@@ -185,18 +184,19 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
 		h7 = r2r::hashmap()
 		h7[keys] = values
 
-		t1[i] = bm(h1[sample(keys, round(p*size[i]))])
-		t2[i] = bm(h2[sample(keys, round(p*size[i]))])
-		t3[i] = bm(h3[sample(keys, round(p*size[i]))])
-		t4[i] = bm(mget(sample(keys, round(p*size[i])), h4))
-		t5[i] = bm(h5[sample(keys, round(p*size[i]))])
-		t6[i] = bm(h6$get(sample(keys, round(p*size[i]))))
-		t7[i] = bm(h7[sample(keys, round(p*size[i]))])
+		nk = round(p*size[i])
+		t1[i] = bm(h1[sample(keys, nk)])
+		t2[i] = bm(h2[sample(keys, nk)])
+		t3[i] = bm(h3[sample(keys, nk)])
+		t4[i] = bm(mget(sample(keys, nk), h4))
+		t5[i] = bm(h5[sample(keys, nk)])
+		t6[i] = bm(h6$get(sample(keys, nk)))
+		t7[i] = bm(h7[sample(keys, nk)])
 	}
 	matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-		lty = 1, col = 1:6, pch = 16, cex = 0.5, 
+		lty = 1, col = 1:7, pch = 16, cex = 0.5, 
 		xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-	legend("topleft", lty = 1, col = 1:6, 
+	legend("topleft", lty = 1, col = 1:7, 
 		legend = c("hash_table", "hash_fm_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
 }
 ```
@@ -213,6 +213,8 @@ legend("topleft", lty = 1, col = c(1:2, 6),
 	legend = c("hash_table", "hash_fm_table", "hashmapR"))
 ```
 
+`hash_table()`, `hash_fm_table()` and **hashmapR** only have very small difference.
+
 ## Insertion
 
 Except **hashmapR**, all hash table objects created by various methods
@@ -220,7 +222,7 @@ support `[[<-` to set a single value. Note `hash_fm_table()` is not incluced
 because it does not allow to insert new keys.
 
 Note `unique_strings()` is based on MD5 hashes of integers, `rnorm(1)` generates
-nuemric values, so `digest(rnorm(1))` generate new keys.
+numeric values, so `digest(rnorm(1))` generates new keys.
 
 ```{r}
 t1 = t3 = t4 = t5 = t6 = t7 = numeric(length(size))
@@ -295,7 +297,8 @@ legend("left", lty = 1, col = c(1, 3:7),
 	legend = c("hash_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
 ```
 
-`list2env()` performs obviously bad.
+`list2env()` performs obviously bad. Note for environment, we did not use `h4[[key]] = NULL` because
+it just assign `NULL` to `key` but the key still exists. 
 
 ## Compare to match-family functions
 
@@ -323,13 +326,24 @@ There are following match-family functions:
 
 - `pmatch()`, used in `names()`, `$`, `[[`, `[`,
 - `match()`, used in `%in%`, `intersect()`, `unique()`, `duplicated()`,
-- `fastmatch::fastmatch()`, a faster version of `match()`, synonyms functions are `fmatch()` and `%fin%`,
+- **fastmatch**, a faster version of `match()`, synonyms functions are `fmatch()` and `%fin%`,
 - `data.table::chmatch()`, also a faster version of `match()`, synonyms functions are `chmatch()` and `%chin%`.
 
 `pmatch()` means partial matching. It matches elements if substrings can be uniquely mapped.
 
-In **hashtable**, the function `hash_fm_table()` is internally implemented with `fastmatch::fastmatch()`, 
-but providing a more convenient interface. 
+`match()`, **fastmatch** and `chmatch()` do the complete matching. They have the same interface：
+
+```
+function(x, table, ...)
+```
+
+where `x` is the query vector, i.e. the keys, and `table` is the data vector, i.e. all keys.
+First, all of `match()`, **fastmatch** and `chmatch()` internally generate hash tables for fast matching.
+The difference is `match()` and `chmatch()` generate hash tables in every function call, which means, 
+even `table` is the same, multiple calls to `match()` or `chmatch()`, the internal hash table needs to 
+be rebuilt, while **fastmatch** directly attaches the hash table to `table` as an internal attribute,
+so in afterward repeated calls of `fastmatch::fmatch()`, the hash table can be directly reused.
+
 
 ```{r}
 library(fastmatch)
@@ -361,11 +375,13 @@ matplot(size, cbind(t1, t2, t3, t6, t4, t5, t7, t8)/1000, type = "o",
 	lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
 	xlab = "size", ylab = "microseconds", main = "Query a single key, match-family")
 legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-	legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fmatch", "chmatch"))
+	legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 ```
 
-We can see hash-family functions have time complexity of $O(1)$, 
-`pmatch()`, `match()` and `chmatch()` have $O(n)$.
+We can see hash-family functions have time complexity of $O(1)$ to the hash
+table size once the hash table is already created.
+**fastmatch** is also fast because the hash table only needs to be calculated once.
+`pmatch()`, `match()` and `chmatch()` have linear complexity to the size of "the data vector".
 
 Next query multiple keys with match-family functions. 
 
@@ -400,18 +416,22 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
 		lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
 		xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
 	legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-		legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+		legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 }
 ```
 
-Remove `hash_env_table()` and remake the last plot.new
+Now the match-family functions have good performance when querying multiple keys. As has been explained,
+for multiple calls,  match-family functions performs bad because the internal hash tables have to be rebuilt,
+but for multiple key queries in a single call, keys can be directly queried from the internal hash table.
+
+Remove `hash_env_table()` and remake the last plot.
 
 ```{r}
 matplot(size, cbind(t1, t2, t6, t4, t5, t7, t8)/1000, type = "o", 
-	lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+	lty = 1, col = c(1:2, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
 	xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
-legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-	legend = c("hash_table", "hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+legend("topleft", lty = 1, col = c(1:2, 6, 4, 5, 7, 8), 
+	legend = c("hash_table", "hash_fm_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 ```
 
 
@@ -449,7 +469,7 @@ legend("topleft", lty = 1, col = c(1:3, 7, 4:6),
 	legend = c("hash_set", "hash_fm_set", "hash_env_set", "r2r", "match", "fastmatch", "chmatch"))
 ```
 
-`match()` and `chmatch()` are not hash-functions. We remove them and remake the last plot.
+We remove `match()` and `chmatch()` and remake the last plot.
 
 ```{r}
 matplot(size, cbind(t1, t2, t3, t7, t5)/1000, type = "o", 
@@ -547,7 +567,7 @@ tables are changable, then `hash_table()` and **hashmapR** can be considered as 
 
 For inserting new keys, all hash-functions are similar.
 
-For deleting keys, `list2env()` (which uses `rm()`) is relatively slow, other functions are similar.
+For deleting keys, `list2env()` (which uses `rm()`) is relatively slow. Other functions are similar.
 
 
 ```{r}

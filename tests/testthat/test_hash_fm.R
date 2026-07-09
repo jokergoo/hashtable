@@ -6,6 +6,11 @@ test_that("Test constructor", {
 	expect_error(hash_fm_table(letters))
 	expect_error(hash_fm_table())
 	expect_error(hash_fm_set())
+
+	expect_error(hash_fm_table(c("a", "a"), 1:2))
+	expect_error(hash_fm_table(c("a", NA), 1:2))
+	expect_error(hash_fm_set(c("a", "a")))
+	expect_error(hash_fm_set(c("a", NA)))
 })
 
 

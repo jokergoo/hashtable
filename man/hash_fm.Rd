@@ -28,6 +28,7 @@
 \alias{as.hash_fm.default}
 \alias{as.vector.hash_fm_set}
 \alias{as.vector.hash_fm_table}
+\alias{as.list.hash_fm_table}
 \alias{show,hash_fm_table-method}
 \alias{show,hash_fm_set-method}
 \title{Hash table and hash set implemented by fastmatch}
@@ -86,6 +87,8 @@ as.hash_fm(x)
 
 \method{as.vector}{hash_fm_table}(x, mode = "any")
 
+\method{as.list}{hash_fm_table}(x, ...)
+
 \S4method{show}{hash_fm_table}(object)
 
 \S4method{show}{hash_fm_set}(object)
@@ -99,7 +102,7 @@ as.hash_fm(x)
 
 \item{i, name, value}{Keys and values.}
 
-\item{mode}{Please ignore.}
+\item{mode, ...}{Please ignore.}
 }
 \value{
 \code{hash_fm_table()} returns a \code{hash_fm_table} object. \code{hash_fm_set()} returns a \code{hash_fm_set} object.

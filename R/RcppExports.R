@@ -457,3 +457,7 @@ cpp_hash_table_delete_list <- function(ptr, keys) {
     invisible(.Call(`_hashtable_cpp_hash_table_delete_list`, ptr, keys))
 }
 
+validate_keys <- function(keys, check_na, check_empty, check_duplicate) {
+    invisible(.Call(`_hashtable_validate_keys`, keys, check_na, check_empty, check_duplicate))
+}
+

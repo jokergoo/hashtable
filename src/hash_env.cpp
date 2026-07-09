@@ -5,6 +5,7 @@
 #include <Rversion.h>
 
 #include "hash_env.h"
+#include "utils.h"
 
 SEXP create_integer_value(int value) {
     return Rf_ScalarInteger(value);
@@ -133,8 +134,10 @@ Rcpp::LogicalVector cpp_hash_env_exists(Rcpp::Environment env, Rcpp::CharacterVe
     SEXP env_sexp = env;
     int n = keys.size();
     Rcpp::LogicalVector result(n);
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         const char* key_str = CHAR(STRING_ELT(keys, i));
         SEXP symbol = Rf_install(key_str);
         
@@ -160,7 +163,7 @@ int cpp_hash_env_size(Rcpp::Environment env) {
 // [[Rcpp::export]]
 void cpp_hash_env_clear(Rcpp::Environment env) {
     Rcpp::CharacterVector keys = env.ls(false);
-    for (int i = 0; i < keys.size(); i++) {
+    for(int i = 0; i < keys.size(); i++) {
         env.remove(Rcpp::as<std::string>(keys[i]));
     }
 }
@@ -168,11 +171,13 @@ void cpp_hash_env_clear(Rcpp::Environment env) {
 // [[Rcpp::export]]
 void cpp_hash_env_delete(Rcpp::Environment env, Rcpp::CharacterVector keys) {
     int n = keys.size();
-    if (n == 0) return;
+    if(n == 0) return;
+
+    validate_keys(keys, true, true, true);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         Rcpp::String key = keys[i];
-        if (!env.exists(key)) {
+        if(!env.exists(key)) {
             Rcpp::stop("Key not found at position %d: '%s'", i + 1, key.get_cstring());
         }
         env.remove(key);
@@ -219,7 +224,7 @@ Rcpp::IntegerVector cpp_hash_env_table_all_values_int(Rcpp::Environment env) {
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::IntegerVector();
     }
     
@@ -227,7 +232,7 @@ Rcpp::IntegerVector cpp_hash_env_table_all_values_int(Rcpp::Environment env) {
     Rcpp::IntegerVector result(n);
     int* result_ptr = &result[0];
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
@@ -244,7 +249,7 @@ Rcpp::NumericVector cpp_hash_env_table_all_values_double(Rcpp::Environment env) 
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::NumericVector();
     }
     
@@ -252,7 +257,7 @@ Rcpp::NumericVector cpp_hash_env_table_all_values_double(Rcpp::Environment env) 
     Rcpp::NumericVector result(n);
     double* result_ptr = &result[0];
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
@@ -269,14 +274,14 @@ Rcpp::CharacterVector cpp_hash_env_table_all_values_string(Rcpp::Environment env
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::CharacterVector();
     }
     
     int n = Rf_length(names);
     Rcpp::CharacterVector result(n);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
@@ -293,7 +298,7 @@ Rcpp::LogicalVector cpp_hash_env_table_all_values_bool(Rcpp::Environment env) {
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::LogicalVector();
     }
     
@@ -301,7 +306,7 @@ Rcpp::LogicalVector cpp_hash_env_table_all_values_bool(Rcpp::Environment env) {
     Rcpp::LogicalVector result(n);
     int* result_ptr = &result[0];
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
@@ -318,7 +323,7 @@ Rcpp::DateVector cpp_hash_env_table_all_values_date(Rcpp::Environment env) {
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::DateVector(0);
     }
     
@@ -326,7 +331,7 @@ Rcpp::DateVector cpp_hash_env_table_all_values_date(Rcpp::Environment env) {
     Rcpp::DateVector result(n);
     double* result_ptr = &result[0];
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         if (name == R_NilValue || LENGTH(name) == 0) {
             result_ptr[i] = NA_INTEGER;
@@ -347,7 +352,7 @@ Rcpp::DatetimeVector cpp_hash_env_table_all_values_time(Rcpp::Environment env) {
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::DatetimeVector(0);
     }
     
@@ -355,7 +360,7 @@ Rcpp::DatetimeVector cpp_hash_env_table_all_values_time(Rcpp::Environment env) {
     Rcpp::DatetimeVector result(n);
     double* result_ptr = &result[0];
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         if (name == R_NilValue || LENGTH(name) == 0) {
             result_ptr[i] = NA_INTEGER;
@@ -377,14 +382,14 @@ Rcpp::List cpp_hash_env_table_all_values_list(Rcpp::Environment env) {
     
     SEXP names = get_env_keys(env_sexp);
     
-    if (names == R_NilValue) {
+    if(names == R_NilValue) {
         return Rcpp::List(0);
     }
     
     int n = Rf_length(names);
     Rcpp::List result(n);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(names, i);
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
@@ -404,17 +409,19 @@ Rcpp::IntegerVector cpp_hash_env_table_values_int(Rcpp::Environment env, Rcpp::C
     Rcpp::IntegerVector result(n);
     int* result_ptr = &result[0];
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result_ptr[i] = INTEGER(value)[0];
@@ -430,17 +437,19 @@ Rcpp::NumericVector cpp_hash_env_table_values_double(Rcpp::Environment env, Rcpp
     Rcpp::NumericVector result(n);
     double* result_ptr = &result[0];
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result_ptr[i] = REAL(value)[0];
@@ -455,17 +464,19 @@ Rcpp::CharacterVector cpp_hash_env_table_values_string(Rcpp::Environment env, Rc
     int n = keys.size();
     Rcpp::CharacterVector result(n);
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result[i] = STRING_ELT(value, 0);
@@ -481,17 +492,19 @@ Rcpp::LogicalVector cpp_hash_env_table_values_bool(Rcpp::Environment env, Rcpp::
     Rcpp::LogicalVector result(n);
     int* result_ptr = &result[0];
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result_ptr[i] = LOGICAL(value)[0];
@@ -507,17 +520,19 @@ Rcpp::DateVector cpp_hash_env_table_values_date(Rcpp::Environment env, Rcpp::Cha
     Rcpp::DateVector result(n);
     double* result_ptr = &result[0];
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result_ptr[i] = REAL(value)[0];
@@ -533,17 +548,19 @@ Rcpp::DatetimeVector cpp_hash_env_table_values_time(Rcpp::Environment env, Rcpp:
     Rcpp::DatetimeVector result(n);
     double* result_ptr = &result[0];
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result_ptr[i] = REAL(value)[0];
@@ -558,17 +575,19 @@ Rcpp::List cpp_hash_env_table_values_list(Rcpp::Environment env, Rcpp::Character
     int n = keys.size();
     Rcpp::List result(n);
     SEXP env_sexp = env;
+
+    validate_keys(keys, true, true, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP name = STRING_ELT(keys, i);
-        if (name == R_NilValue || LENGTH(name) == 0) {
+        if(name == R_NilValue || LENGTH(name) == 0) {
             Rf_error("Invalid key at position %d: empty string", i + 1);
         }
         
         SEXP symbol = Rf_install(CHAR(name));
         SEXP value = R_getVarEx(symbol, env_sexp, TRUE, R_NilValue);
         
-        if (value == R_NilValue) {
+        if(value == R_NilValue) {
             Rf_error("Key not found: %s", CHAR(name));
         } else {
             result[i] = value;

@@ -3,7 +3,8 @@
 ## Prepare
 
 The function `unique_strings()` generates a vector of unique strings. It
-simply uses **digest** package to generate MD5 hashes of R objects.
+simply uses **digest** package to generate MD5 hashes of R objects (in
+the following example, hashed R objects are integers).
 
 ``` r
 
@@ -23,7 +24,7 @@ unique_strings(2)
 ``` r
 
 bm = function(...) {
-    mean(microbenchmark(..., times = 25)$time)
+    mean(microbenchmark(..., times = 50)$time)
 }
 ```
 
@@ -45,7 +46,7 @@ keys of **hashtable** and other methods.
 
 ## Create hash tables
 
-There are two implementations of hash tables in **hashtable**:
+There are three implementations of hash tables in **hashtable**:
 
 - [`hash_table()`](../reference/hash_table.md), using C++ library
   `std::unordered_map`,
@@ -62,7 +63,7 @@ size = seq(10000L, 100000L, by = 10000L)
 [`list2env()`](https://rdrr.io/r/base/list2env.html) expects the input
 as a named list.
 [`hashmapR::hashmap()`](https://rdrr.io/pkg/hashmapR/man/hashmap.html)
-expects keys and values all specified as lists.
+expects keys and values both specified as lists.
 [`r2r::hashmap()`](https://rdrr.io/pkg/r2r/man/hashtable.html) creates
 the hash table in two steps: create an empty object then fill key-value
 pairs. Note format preparation is not included in estimating runtime of
@@ -80,8 +81,7 @@ for(i in seq_along(size)) {
     t3[i] = bm(hash_env_table(keys = keys, values = values))
     
     lt = split(values, keys)
-    parent_env = emptyenv()
-    t4[i] = bm(list2env(lt, hash = TRUE, parent = parent_env))
+    t4[i] = bm(list2env(lt, hash = TRUE, parent = emptyenv()))
     t5[i] = bm(hash::hash(keys = keys, values = values))
 
     lt_keys = split(keys, keys)
@@ -177,18 +177,19 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
         h7 = r2r::hashmap()
         h7[keys] = values
 
-        t1[i] = bm(h1[sample(keys, round(p*size[i]))])
-        t2[i] = bm(h2[sample(keys, round(p*size[i]))])
-        t3[i] = bm(h3[sample(keys, round(p*size[i]))])
-        t4[i] = bm(mget(sample(keys, round(p*size[i])), h4))
-        t5[i] = bm(h5[sample(keys, round(p*size[i]))])
-        t6[i] = bm(h6$get(sample(keys, round(p*size[i]))))
-        t7[i] = bm(h7[sample(keys, round(p*size[i]))])
+        nk = round(p*size[i])
+        t1[i] = bm(h1[sample(keys, nk)])
+        t2[i] = bm(h2[sample(keys, nk)])
+        t3[i] = bm(h3[sample(keys, nk)])
+        t4[i] = bm(mget(sample(keys, nk), h4))
+        t5[i] = bm(h5[sample(keys, nk)])
+        t6[i] = bm(h6$get(sample(keys, nk)))
+        t7[i] = bm(h7[sample(keys, nk)])
     }
     matplot(size, cbind(t1, t2, t3, t4, t5, t6, t7)/1000, type = "o", 
-        lty = 1, col = 1:6, pch = 16, cex = 0.5, 
+        lty = 1, col = 1:7, pch = 16, cex = 0.5, 
         xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, ", p*100, "%"))
-    legend("topleft", lty = 1, col = 1:6, 
+    legend("topleft", lty = 1, col = 1:7, 
         legend = c("hash_table", "hash_fm_table", "hash_env_table", "list2env", "hash", "hashmapR", "r2r"))
 }
 ```
@@ -212,6 +213,10 @@ legend("topleft", lty = 1, col = c(1:2, 6),
 
 ![](benchmark_files/figure-html/unnamed-chunk-9-1.png)
 
+[`hash_table()`](../reference/hash_table.md),
+[`hash_fm_table()`](../reference/hash_fm.md) and **hashmapR** only have
+very small difference.
+
 ## Insertion
 
 Except **hashmapR**, all hash table objects created by various methods
@@ -220,7 +225,7 @@ support `[[<-` to set a single value. Note
 does not allow to insert new keys.
 
 Note `unique_strings()` is based on MD5 hashes of integers, `rnorm(1)`
-generates nuemric values, so `digest(rnorm(1))` generate new keys.
+generates numeric values, so `digest(rnorm(1))` generates new keys.
 
 ``` r
 
@@ -303,7 +308,8 @@ legend("left", lty = 1, col = c(1, 3:7),
 ![](benchmark_files/figure-html/unnamed-chunk-11-1.png)
 
 [`list2env()`](https://rdrr.io/r/base/list2env.html) performs obviously
-bad.
+bad. Note for environment, we did not use `h4[[key]] = NULL` because it
+just assign `NULL` to `key` but the key still exists.
 
 ## Compare to match-family functions
 
@@ -363,9 +369,8 @@ There are following match-family functions:
   [`intersect()`](https://rdrr.io/r/base/sets.html),
   [`unique()`](https://rdrr.io/r/base/unique.html),
   [`duplicated()`](https://rdrr.io/r/base/duplicated.html),
-- [`fastmatch::fastmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html),
-  a faster version of [`match()`](https://rdrr.io/r/base/match.html),
-  synonyms functions are
+- **fastmatch**, a faster version of
+  [`match()`](https://rdrr.io/r/base/match.html), synonyms functions are
   [`fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html) and
   `%fin%`,
 - [`data.table::chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html),
@@ -377,11 +382,27 @@ There are following match-family functions:
 [`pmatch()`](https://rdrr.io/r/base/pmatch.html) means partial matching.
 It matches elements if substrings can be uniquely mapped.
 
-In **hashtable**, the function
-[`hash_fm_table()`](../reference/hash_fm.md) is internally implemented
-with
-[`fastmatch::fastmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html),
-but providing a more convenient interface.
+[`match()`](https://rdrr.io/r/base/match.html), **fastmatch** and
+[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) do the
+complete matching. They have the same interface：
+
+    function(x, table, ...)
+
+where `x` is the query vector, i.e. the keys, and `table` is the data
+vector, i.e. all keys. First, all of
+[`match()`](https://rdrr.io/r/base/match.html), **fastmatch** and
+[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html)
+internally generate hash tables for fast matching. The difference is
+[`match()`](https://rdrr.io/r/base/match.html) and
+[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) generate
+hash tables in every function call, which means, even `table` is the
+same, multiple calls to [`match()`](https://rdrr.io/r/base/match.html)
+or [`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html), the
+internal hash table needs to be rebuilt, while **fastmatch** directly
+attaches the hash table to `table` as an internal attribute, so in
+afterward repeated calls of
+[`fastmatch::fmatch()`](https://rdrr.io/pkg/fastmatch/man/fmatch.html),
+the hash table can be directly reused.
 
 ``` r
 
@@ -414,16 +435,18 @@ matplot(size, cbind(t1, t2, t3, t6, t4, t5, t7, t8)/1000, type = "o",
     lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = "Query a single key, match-family")
 legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-    legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fmatch", "chmatch"))
+    legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 ```
 
 ![](benchmark_files/figure-html/unnamed-chunk-14-1.png)
 
-We can see hash-family functions have time complexity of $`O(1)`$,
+We can see hash-family functions have time complexity of $`O(1)`$ to the
+hash table size once the hash table is already created. **fastmatch** is
+also fast because the hash table only needs to be calculated once.
 [`pmatch()`](https://rdrr.io/r/base/pmatch.html),
 [`match()`](https://rdrr.io/r/base/match.html) and
 [`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) have
-$`O(n)`$.
+linear complexity to the size of “the data vector”.
 
 Next query multiple keys with match-family functions.
 
@@ -459,22 +482,28 @@ for(p in c(0.01, 0.1, 0.25, 0.5)) {
         lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
         xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
     legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-        legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+        legend = c("hash_table", "hash_fm_table", "hash_env_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 }
 ```
 
 ![](benchmark_files/figure-html/unnamed-chunk-15-1.png)
 
+Now the match-family functions have good performance when querying
+multiple keys. As has been explained, for multiple calls, match-family
+functions performs bad because the internal hash tables have to be
+rebuilt, but for multiple key queries in a single call, keys can be
+directly queried from the internal hash table.
+
 Remove [`hash_env_table()`](../reference/hash_env.md) and remake the
-last plot.new
+last plot.
 
 ``` r
 
 matplot(size, cbind(t1, t2, t6, t4, t5, t7, t8)/1000, type = "o", 
-    lty = 1, col = c(1:3, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
+    lty = 1, col = c(1:2, 6, 4, 5, 7, 8), pch = 16, cex = 0.5, 
     xlab = "size", ylab = "microseconds", main = paste0("Query multiple keys, match-family, ", p*100, "%"))
-legend("topleft", lty = 1, col = c(1:3, 6, 4, 5, 7, 8), 
-    legend = c("hash_table", "hash_fm_table", "hashmapR", "names/pmatch", "match", "fmatch", "chmatch"))
+legend("topleft", lty = 1, col = c(1:2, 6, 4, 5, 7, 8), 
+    legend = c("hash_table", "hash_fm_table", "hashmapR", "pmatch/names", "match", "fastmatch", "chmatch"))
 ```
 
 ![](benchmark_files/figure-html/unnamed-chunk-16-1.png)
@@ -517,9 +546,9 @@ legend("topleft", lty = 1, col = c(1:3, 7, 4:6),
 
 ![](benchmark_files/figure-html/unnamed-chunk-17-1.png)
 
-[`match()`](https://rdrr.io/r/base/match.html) and
-[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) are not
-hash-functions. We remove them and remake the last plot.
+We remove [`match()`](https://rdrr.io/r/base/match.html) and
+[`chmatch()`](https://rdrr.io/pkg/data.table/man/chmatch.html) and
+remake the last plot.
 
 ``` r
 
@@ -638,7 +667,7 @@ For inserting new keys, all hash-functions are similar.
 
 For deleting keys, [`list2env()`](https://rdrr.io/r/base/list2env.html)
 (which uses [`rm()`](https://rdrr.io/r/base/rm.html)) is relatively
-slow, other functions are similar.
+slow. Other functions are similar.
 
 ``` r
 

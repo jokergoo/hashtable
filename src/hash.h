@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include <unordered_map>
 #include <unordered_set>
+#include "utils.h"
 
 #ifdef Rf_hash
     struct CHARSXPHash {
@@ -42,17 +43,15 @@ Rcpp::XPtr<CharSXPTMap> t_hash_table_create(Rcpp::CharacterVector keys, TRcppVec
     CharSXPTMap* map = new CharSXPTMap();
     map->max_load_factor(0.7);
     
+    validate_keys(keys, true, false, true);
+
     int n = keys.size();
     if(n > 0) {
         map->reserve(n);
         
         for(int i = 0; i < n; i++) {
             SEXP key = STRING_ELT(keys, i);
-            auto result = map->emplace(key, values[i]);
-            if(!result.second) {
-                std::string duplicate_key = CHAR(key);
-                Rcpp::stop("Duplicate key found: " + duplicate_key);
-            }
+            map->emplace(key, values[i]);
         }
     }
     
@@ -69,6 +68,8 @@ Rcpp::LogicalVector t_hash_table_exists(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::Chara
     CharSXPTMap* map = ptr.get();
     int n = keys.size();
     Rcpp::LogicalVector result(n);
+
+    validate_keys(keys, true, false, false);
     
     for(int i = 0; i < n; i++) {
         SEXP key = STRING_ELT(keys, i);
@@ -81,18 +82,20 @@ Rcpp::LogicalVector t_hash_table_exists(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::Chara
 
 template <typename CharSXPTMap, typename TRcppVector>
 TRcppVector t_hash_table_values(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::CharacterVector keys) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
     CharSXPTMap* map = ptr.get();
     int n = keys.size();
     TRcppVector result(n);
+
+    validate_keys(keys, true, false, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         SEXP key = STRING_ELT(keys, i);
         auto it = map->find(key);
-        if (it == map->end()) {
+        if(it == map->end()) {
             std::string key_str = CHAR(key);
             Rcpp::stop("Key not found: " + key_str);
         }
@@ -104,12 +107,14 @@ TRcppVector t_hash_table_values(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::CharacterVect
 
 template <typename CharSXPTMap, typename TRcppVector>
 void t_hash_table_insert(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::CharacterVector keys, TRcppVector values) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
     CharSXPTMap* map = ptr.get();
     int n = keys.size();
+
+    validate_keys(keys, true, false, true);
     
     if(n > 0) {
         map->reserve(map->size() + n);
@@ -147,7 +152,7 @@ Rcpp::XPtr<CharSXPTMap> t_hash_table_copy(Rcpp::XPtr<CharSXPTMap> ptr) {
 
 template <typename CharSXPTMap>
 Rcpp::CharacterVector t_hash_table_all_keys(Rcpp::XPtr<CharSXPTMap> ptr) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
@@ -167,7 +172,7 @@ Rcpp::CharacterVector t_hash_table_all_keys(Rcpp::XPtr<CharSXPTMap> ptr) {
 
 template <typename CharSXPTMap, typename TRcppVector>
 TRcppVector t_hash_table_all_values(Rcpp::XPtr<CharSXPTMap> ptr) {
-    if (!ptr) {
+    if(!ptr) {
         Rcpp::stop("Invalid external pointer.");
     }
     
@@ -177,7 +182,7 @@ TRcppVector t_hash_table_all_values(Rcpp::XPtr<CharSXPTMap> ptr) {
     TRcppVector result(n);
     
     size_t i = 0;
-    for (const auto& pair : *map) {
+    for(const auto& pair : *map) {
         result[i] = pair.second;
         i++;
     }
@@ -202,17 +207,20 @@ void t_hash_table_delete(Rcpp::XPtr<CharSXPTMap> ptr, Rcpp::CharacterVector keys
     
     CharSXPTMap* map = ptr.get();
     int n = keys.size();
+
+    validate_keys(keys, true, false, false);
     
     for(int i = 0; i < n; i++) {
         SEXP key = STRING_ELT(keys, i);
         size_t erased = map->erase(key);
-        if (erased == 0) {
+        if(erased == 0) {
             std::string key_str = CHAR(key);
             Rcpp::stop("Key not found: " + key_str);
         }
     }
     
 }
+
 
 #endif
 

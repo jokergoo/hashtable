@@ -54,7 +54,7 @@
       <h1>Hash Table and Hash Set</h1>
                         <h4 data-toc-skip class="author">Zuguang Gu ( <a href="mailto:guzuguang@suat-sz.edu.cn" class="email">guzuguang@suat-sz.edu.cn</a> )</h4>
             
-            <h4 data-toc-skip class="date">2026-07-08</h4>
+            <h4 data-toc-skip class="date">2026-07-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jokergoo/hashtable/blob/HEAD/vignettes/hashtable.Rmd" class="external-link"><code>vignettes/hashtable.Rmd</code></a></small>
       <div class="d-none name"><code>hashtable.Rmd</code></div>
@@ -85,12 +85,12 @@ implementations of hash tables and hash maps:</p>
 <span><span class="va">h3</span> <span class="op">=</span> <span class="fu"><a href="../reference/hash_env.html">hash_env_table</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
 <span><span class="va">h1</span></span></code></pre></div>
 <pre><code><span><span class="co">## A hash table [hash_unordered_map] with 26 key-value (integer) pairs</span></span>
+<span><span class="co">##   z =&gt; 26</span></span>
 <span><span class="co">##   y =&gt; 25</span></span>
-<span><span class="co">##   x =&gt; 24</span></span>
 <span><span class="co">##   w =&gt; 23</span></span>
 <span><span class="co">##   ......</span></span>
-<span><span class="co">##   l =&gt; 12</span></span>
 <span><span class="co">##   b =&gt; 2</span></span>
+<span><span class="co">##   g =&gt; 7</span></span>
 <span><span class="co">##   a =&gt; 1</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h2</span></span></code></pre></div>
@@ -117,12 +117,12 @@ demonstrate using <code>h1</code>.</p>
 <p>Get all keys:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/generic.html">hash_keys</a></span><span class="op">(</span><span class="va">h1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"</span></span>
-<span><span class="co">## [20] "d" "p" "o" "c" "l" "b" "a"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"</span></span>
+<span><span class="co">## [20] "f" "e" "d" "c" "b" "g" "a"</span></span></code></pre>
 <p>Get all values:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/generic.html">hash_values</a></span><span class="op">(</span><span class="va">h1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] 25 24 23 21 20 19 18 17 14 13 11 22 10  9 26  8  7  6  5  4 16 15  3 12  2</span></span>
+<pre><code><span><span class="co">##  [1] 26 25 23 21 20 18 17 16 14 24 19 13 12 11 10 15  9 22  8  6  5  4  3  2  7</span></span>
 <span><span class="co">## [26]  1</span></span></code></pre>
 <p>Get a subset of values by specifying keys:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -184,8 +184,8 @@ same if values are more general list.</p>
 <span><span class="va">h1</span></span></code></pre></div>
 <pre><code><span><span class="co">## A hash table [hash_unordered_map] with 4 key-value (list) pairs</span></span>
 <span><span class="co">##   d =&gt; complex value (lm)</span></span>
-<span><span class="co">##   b =&gt; character [1] text</span></span>
 <span><span class="co">##   c =&gt; numeric [1] 3.14</span></span>
+<span><span class="co">##   b =&gt; character [1] text</span></span>
 <span><span class="co">##   a =&gt; integer [1] 1</span></span></code></pre>
 <p>Convert between hash table and named vector or list:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
@@ -228,8 +228,8 @@ three ways to create hash sets.</p>
 <p>Get all keys:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/generic.html">hash_keys</a></span><span class="op">(</span><span class="va">h1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "y" "x" "w" "u" "t" "s" "r" "q" "n" "m" "k" "v" "j" "i" "z" "h" "g" "f" "e"</span></span>
-<span><span class="co">## [20] "d" "p" "o" "c" "l" "b" "a"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "z" "y" "w" "u" "t" "r" "q" "p" "n" "x" "s" "m" "l" "k" "j" "o" "i" "v" "h"</span></span>
+<span><span class="co">## [20] "f" "e" "d" "c" "b" "g" "a"</span></span></code></pre>
 <p>Hash set has no value associated, so calling
 <code>hash_value()</code> throws an error.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
@@ -281,9 +281,9 @@ corresponding keys are deleted.</p>
 sets:</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">h1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "foo" "y"   "x"   "w"   "u"   "t"   "s"   "r"   "q"   "n"   "m"   "k"  </span></span>
-<span><span class="co">## [13] "v"   "j"   "i"   "z"   "h"   "g"   "f"   "e"   "d"   "p"   "o"   "c"  </span></span>
-<span><span class="co">## [25] "l"   "b"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "z"   "y"   "w"   "u"   "t"   "r"   "q"   "foo" "p"   "n"   "x"   "s"  </span></span>
+<span><span class="co">## [13] "m"   "l"   "k"   "j"   "o"   "i"   "v"   "h"   "f"   "e"   "d"   "c"  </span></span>
+<span><span class="co">## [25] "b"   "g"</span></span></code></pre>
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hash_set.html">as.hash_set</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## A hash set [hash_unordered_set] with 26 keys</span></span></code></pre>

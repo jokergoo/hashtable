@@ -48,9 +48,6 @@ hash_env_table = function(keys, values) {
 	if(length(keys) != length(values)) {
 		stop("`keys` and `values` should have the same length.")
 	}
-	if(any(duplicated(keys))) {
-		stop("`keys` should not be duplicated.")
-	}
 	
 	h = new("hash_env_table")
 	cl = class(values)[1]

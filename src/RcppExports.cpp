@@ -1309,6 +1309,19 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// validate_keys
+void validate_keys(Rcpp::CharacterVector keys, bool check_na, bool check_empty, bool check_duplicate);
+RcppExport SEXP _hashtable_validate_keys(SEXP keysSEXP, SEXP check_naSEXP, SEXP check_emptySEXP, SEXP check_duplicateSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type keys(keysSEXP);
+    Rcpp::traits::input_parameter< bool >::type check_na(check_naSEXP);
+    Rcpp::traits::input_parameter< bool >::type check_empty(check_emptySEXP);
+    Rcpp::traits::input_parameter< bool >::type check_duplicate(check_duplicateSEXP);
+    validate_keys(keys, check_na, check_empty, check_duplicate);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_hashtable_cpp_hash_env_table_create_int", (DL_FUNC) &_hashtable_cpp_hash_env_table_create_int, 2},
@@ -1425,6 +1438,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hashtable_cpp_hash_table_all_values_list", (DL_FUNC) &_hashtable_cpp_hash_table_all_values_list, 1},
     {"_hashtable_cpp_hash_table_clear_list", (DL_FUNC) &_hashtable_cpp_hash_table_clear_list, 1},
     {"_hashtable_cpp_hash_table_delete_list", (DL_FUNC) &_hashtable_cpp_hash_table_delete_list, 2},
+    {"_hashtable_validate_keys", (DL_FUNC) &_hashtable_validate_keys, 4},
     {NULL, NULL, 0}
 };
 
